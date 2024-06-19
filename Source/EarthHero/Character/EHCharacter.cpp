@@ -18,7 +18,8 @@ AEHCharacter::AEHCharacter()
 	// 이동하는 방향으로 몸이 회전할 것인지? 속도는?
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f);
-	
+
+	// 일단은 테스트 위해 3인칭으로 설정해두었음
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(GetMesh());
 	CameraBoom->TargetArmLength = 600.f;
