@@ -19,6 +19,9 @@
 # Fortran module files
 *.mod
 
+# Rider
+*.pdb
+
 # Compiled Static libraries
 *.lai
 *.la
