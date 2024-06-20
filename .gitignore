@@ -72,6 +72,19 @@ Saved/*
 # Compiled source files for the engine to use
 Intermediate/*
 Plugins/*/Intermediate/*
+Plugins/Developer/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# Ignore all files in Plugins/Developer
+Plugins/Developer/*
+Plugins/Developer/**/*
+Plugins/Developer/RiderLink/Binaries/Win64/UnrealEditor.modules
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/UnrealEditor/Development/RD/Definitions.h
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/UnrealEditor/Development/RiderBlueprint/Definitions.h
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/UnrealEditor/Development/RiderGameControl/Definitions.h
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/UnrealEditor/Development/RiderLC/Definitions.h
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/UnrealEditor/Development/RiderLink/Definitions.h
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/UnrealEditor/Development/RiderLogging/Definitions.h
+Plugins/Developer/RiderLink/Intermediate/Build/Win64/UnrealEditor/Development/RiderShaderInfo/Definitions.h
