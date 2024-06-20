@@ -8,8 +8,156 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4591bad7-fd9f-4860-903f-8700cd913377" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Content/Assets/LevelPrototyping/ForceField/BP_ForceField.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Assets/LevelPrototyping/ForceField/FC_ExpansionCurve.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Assets/LevelPrototyping/ForceField/M_ForceField.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Maps/ForceFieldTestMap.umap" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/Maps/ForceFieldTestMap_HLOD0_Instancing.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/0/42/HZM4QJ9SAT4SZACHMN478Y.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/0/5K/RKI41Z78J3SV4BA693QO12.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/0/6P/KB18SPYY1IWBLJ1SQMPIAD.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/0/E7/TN11DRKMFC9W28NITB6DVJ.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/0/HH/R7DXQ1LV5ZJJUYXCY2OU9A.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/0/J7/HG05A9NBM3WBZVB5KHXA5K.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/0/KP/Z539TXLYWQIH1WTE7QK2YL.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/0/QZ/D2L8ASFN19QB1GWMKJ31VI.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/0/UE/CZ3WC5388KYEVS0KY4DZXH.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/0/VA/DTE47AELFZZW5M16L0J3E5.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/0/Z6/VVKV27RD1WCDYHSPNRA2TX.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/1/1R/RSU3ZKG79QK5NDAKEFHM7I.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/1/27/BD1ZIKSHK4EMD65QD4IX5J.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/1/RK/ADE9FOMT3D6QJAATFGDKPK.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/1/WZ/MOMEWH5GED6Z75Y9R0RZOY.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/2/2K/6E4ILTQ0JXE0WX0FLSEJ1Q.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/2/86/XK5QTO72U1A3FHEVMQ56HC.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/2/ED/67BLYGAIZ5O6YP4LZGVOFV.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/2/LG/KZ89B3J8LJB1WZ86XDS2AV.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/2/LK/EK08LZLD08YLQW414CTPUZ.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/2/Q9/I0NRXE374MDPAVWL6T24L4.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/2/RM/70C4L60YN4T9STOSX8AN1B.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/2/SM/7ZH8T1GC09HKM5X1V3P5XX.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/2/SR/CH2J9315Q4CTNF9ZZ9ESLY.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/2/V1/7SI5VJ1A59YGZU2HY0QJ6Q.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/2/W8/53YD329H24ZQEYI50NSGOB.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/2/X7/RQD2N42KQT3QSJHIKP2376.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/2/YQ/ED5GJBHCD2I2ODKP2MVFAI.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/3/0L/MERACU4Q6200H1E31QGWQT.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/3/49/9DO2IDPVFKZ8OSZL8X0I4H.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/3/4D/11TLLAPGA64JU7YSQTAYZD.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/3/7U/7JOZZ3AJK1WO0U84XIUFS5.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/3/8N/HWY2G9AREJEW9RKOKM5R8H.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/3/D6/YRGHVIELHH479YPS8AG3EA.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/3/GD/NMP4LR67WCSID9EX6KFUWE.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/3/P5/JCCK7LEDCAELWOU1I1TMQX.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/3/PG/C9VRDZVK1QR1M4IS5NRI54.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/3/RH/2DO52QS47YQ6TDCUVT58XK.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/4/8K/5Q3RB0Q96DPGU5G5FVLDYG.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/4/CN/5748BIQ7N64FYQHHQ5HEZ2.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/4/H5/NSZCO31ICRVEWYJ6202SY5.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/4/HT/ESPBEHDWYB02M4U7X08KVS.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/4/HY/ZSJQCHDZZ1D5RLRFC6838I.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/4/XP/MY3TWX6LTFHULTF52RHLU8.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/4/YH/F2TKBO46S24R2TU7306LX6.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/4/ZF/U10UE17UM6VZ6SJA0AMQHP.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/5/4B/3J6YDC7HW5FX1R1B570974.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/5/5H/KJC2YJXXWHNRGR06SM9000.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/5/AG/VW6NS4RFBYHDDDUA85D1M2.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/5/BY/M4W85YC7LG2K8SD6NELEMR.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/5/JJ/QT22DB9TQK9V1KL6JUC79Q.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/5/MY/GU7UJ3VROE7CMVAOFXBF9K.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/5/UU/R7IBOLO80FCIQLKQNIL8GF.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/5/VE/XVJ0RMRVWKO23JFZUMSXES.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/5/XY/LXOOP3OXKD8IV4G90P3M42.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/5/ZA/CHQNLWLT4TKCMI4SLEVIG4.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/6/2Q/UDJBLITHTKEZQSB6G98KF8.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/6/6S/0RUFP660MD7ICQJAYEFD1T.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/6/7R/S36VI4UQROGU4BRVGN5F53.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/6/FO/S3A51FWEMZRV16EVTMS0RL.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/6/JC/PL42TE94TKJ13VTPXQKMJO.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/6/MA/J5RAF274XRJMQPHTBCPDXF.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/6/VN/OZB4Z40CDUTWJJE08GD2RK.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/7/2N/J0P8LDX5F71END9ELVQW96.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/7/82/IHDQ4LVXPKR4YTJPNKXXHR.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/7/92/XQTKLV2AT1ROGW6PZEY9ZQ.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/7/CQ/C4T4ONAFTGPUIHW5CZZMZP.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/7/GZ/GL3UMVOK5ICZ8GUBM1VCV5.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/7/IX/31SI68BXO1SS740HXO7KLT.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/7/J4/YDLIRJ3U55NDPB655DNB9X.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/7/K8/DEH4DHKACIQ6OE3N6Y2OT4.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/7/PX/AG85DQT2VJVI5HU8JVAB1C.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/7/QF/J7Q11IM4318RECDVFSV7J5.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/7/T9/D03VVT0HG7FUDMJQASHVUH.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/7/YP/C9RVV6MUSOGBXAE5993VN8.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/8/0W/RCMYC04SWB9UA6VAH6SROD.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/8/2J/7FGQ7COFISHLA1P63EKB5K.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/8/3A/P5MARX00HKJNP39OV8E9NC.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/8/3Y/4LFO8SY6G1VE1PMBLOAQQJ.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/8/52/X2UWAKEN6MXC4JAJCAS5GA.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/8/5G/MMNX6I6KC0QRZXBEPFYNSQ.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/8/QJ/A5U02L8GMW9GEK0YSSV2PJ.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/8/R0/WO8MKGBV4Y664L89HTVI5O.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/8/SZ/OAF56S6YOXAFY1NN6T3INW.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/9/07/4GLJ9UQ0I3EKSCLJF14BEQ.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/9/A9/7VJ2TPVLVXYZHDRLQ5FV8A.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/9/FM/LBS6IFY9LB2EBYPNXE669Z.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/9/N1/02SPH0A71DRGNC0MBI2HBT.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/9/N2/4417YBF5OKN8C0BTW11TP9.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/9/PD/19FNFXSMZXFECVYKP15FQ5.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/9/WR/32QOM93GCW74W5C0121RHT.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/A/0O/UKMCNLI1RH92U915SPGYAL.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/A/2C/SV0AQUVRIF37FYSNDSXGRV.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/A/30/7G75HUXXPH1WB3NGVDJ4WY.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/A/86/BQBHX73FPYXC8TR7GN1BSY.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/A/AX/IP9F6SD3H54JALCJL7ZW8R.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/A/DI/T510KO8QALM4VSSGZE5DHS.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/A/G1/K8VU8PZ0DH7PWVKJCZUWQN.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/A/GL/BCSW4M1O8H570YKKTT21MQ.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/A/P3/VZDJOUNDBFN8VFHDHGAZOS.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/A/RC/XFZDCGRY6OC89764TSG2C6.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/A/U1/TW3DSJS0Y2K2KLF49JXMGL.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/A/X2/KAOHR0XH5OI88PI6X2WTSG.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/A/XZ/QXOMG9O31WIKHXDIXNDSRD.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/B/6J/O03AURI7DMCBHAFQAUK0N1.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/B/98/H6DWZ52G66P80Y74UNGZNE.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/B/HQ/3LT011JK8XNGNX7BTIZKSD.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/B/O7/TRX56EWX4G96OI8HY1Y51B.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/B/RB/IOBEG5LPR5F4E5H886Y4X7.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/C/3G/8STSMSJ0W4ITF2VAE2NXCW.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/C/BE/P6G5UJKTNH8Q3CEAV4C6UP.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/C/QA/93FNT80O4NWPTZ33OEFBWD.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/C/VW/ESCY8DSZAAYCMRDIDMQV9R.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/C/ZV/3IQDBYRWPRVEMEHDVYBMFY.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/D/10/0F5FQA32DQNRVMD0EYVGQV.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/D/2P/UG1507855PAY8VJMQ4DXP3.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/D/9Y/NFCEVCQ4X216SAOX6SJO0P.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/D/CW/1LHOJUIHDWI46UAW2WOPG9.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/D/DH/3UT12F7KJGDPFPC3V0RVD4.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/D/EN/ZVX8UTVQWCKMOPOWO8FYTE.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/D/FK/8QI9M5GCI9JOFYYR4RIO0S.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/D/MC/0KOC7GISK8B9THRMLVT4U8.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/D/MT/BF4LEKDO2059DQB0ZE0WHR.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/D/N4/86F21P7YI31K7AHMTV348V.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/D/PO/35D74RF2DQEV6CXD84R0TO.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/D/QM/TL4P0WMK6XIEX1G2EK1D1W.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/D/TO/HXPF56C6MQOYS1VQQNOH2L.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/D/X5/YH7J6FWFW2WHLUTCGY3ZTQ.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/D/XA/TZ5IMXUQXQ9F16TTFIBIND.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/E/AW/7SPTGK4KOSXDC877TR0YKG.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/E/EP/YOB3DEP6M0IEC94H8PFXNR.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/E/EU/WNE7E6Q6MJOX12JGR34FFH.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/E/FR/3MVB4EHA0OI0UZ7FDD5W6L.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/E/M4/Z1FB9X5GJB1MGLJBJHBKBT.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/E/NJ/L1E4D0HBI1HE61PMDEB7QT.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/E/OX/MFVHDI6K3T6SRV7RVO09IV.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/E/YV/2XGP2JFHVRDZEYKGG1Z26M.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/F/44/9ZZATHQ9RANHDNVGURHGKC.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalObjects__/Maps/ForceFieldTestMap/2/7U/JJ0PWJ0D4DX1H5ZUZME1L2.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalObjects__/Maps/ForceFieldTestMap/3/XG/0J96GS6HY4QZLSWV4QHUY7.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalObjects__/Maps/ForceFieldTestMap/7/ZG/ABDHM6X8XXQ3QRFNE3CJZE.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalObjects__/Maps/ForceFieldTestMap/A/GW/N3KSV37T2MX08L3C4E36XF.uasset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/__ExternalObjects__/Maps/ForceFieldTestMap/B/PR/ONWS2VFG64HQUVZ5N7XFMH.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.EarthHero/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.EarthHero/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/EarthHero/Character/EHCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EarthHero/Character/EHCharacter.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,8 +186,10 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
+    "C++ Project.EarthHero.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
@@ -51,9 +201,9 @@
   },
   "keyToStringList": {
     "rider.external.source.directories": [
-      "C:\\Users\\doban\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
-      "C:\\Users\\doban\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
-      "C:\\Users\\doban\\AppData\\Local\\Symbols\\src"
+      "C:\\Users\\paran\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\paran\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\paran\\AppData\\Local\\Symbols\\src"
     ]
   }
 }]]></component>
@@ -119,6 +269,18 @@
         <option name="USE_EXTERNAL_CONSOLE" value="0" />
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="FORCE_CONSOLE" />
       </configuration_5>
+      <configuration_6>
+        <option name="CONFIGURATION" value="" />
+        <option name="PLATFORM" value="" />
+        <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Intermediate/ProjectFiles/EarthHero.vcxproj" />
+        <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
+        <option name="EXE_PATH" value="$(TargetPath)" />
+        <option name="PROGRAM_PARAMETERS" value="" />
+        <option name="WORKING_DIRECTORY" value="$(ProjectDir)" />
+        <option name="PASS_PARENT_ENVS" value="1" />
+        <option name="USE_EXTERNAL_CONSOLE" value="0" />
+        <option name="TERMINAL_INTERACTION_BEHAVIOR" value="AUTO_DETECT" />
+      </configuration_6>
       <option name="DEFAULT_PROJECT_PATH" value="$PROJECT_DIR$/Intermediate/ProjectFiles/EarthHero.vcxproj" />
       <option name="AUTO_SELECT_PRIORITY" value="0" />
       <method v="2">
@@ -136,6 +298,8 @@
       <updated>1718792395770</updated>
       <workItem from="1718792398255" duration="128000" />
       <workItem from="1718811500904" duration="1204000" />
+      <workItem from="1718866187590" duration="1191000" />
+      <workItem from="1718868028106" duration="2547000" />
     </task>
     <servers />
   </component>
