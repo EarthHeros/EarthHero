@@ -1,61 +1,86 @@
 #include "ForceField.h"
 #include "Components/StaticMeshComponent.h"
-#include "Kismet/KismetMathLibrary.h"
 #include "UObject/ConstructorHelpers.h"
-#include "Engine/StaticMesh.h"
-#include "Materials/Material.h"
+#include "Materials/MaterialInstanceDynamic.h"
+#include "EarthHero/Character/EHCharacter.h"
 
 AForceField::AForceField()
 {
-	PrimaryActorTick.bCanEverTick = true;
+    PrimaryActorTick.bCanEverTick = true;
 
-	ForceFieldMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ForceFieldMesh"));
-	RootComponent = ForceFieldMesh;
+    ForceFieldMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ForceFieldMesh"));
+    RootComponent = ForceFieldMesh;
+    
+    /*** Change Here for Time and Scale of Force Field ***/
+    ExpansionDuration = 20.0f;  // Set Duration
+    InitialScale = FVector(0.1f, 0.1f, 1.0f);  // Starting scale
+    TargetScale = FVector(100.0f, 100.0f, 100.0f);  // Target scale
 
-	/*
-	// Find and set the static mesh
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAsset(TEXT("/Game/Path/To/Your/Mesh"));
-	if (MeshAsset.Succeeded())
-	{
-		ForceFieldMesh->SetStaticMesh(MeshAsset.Object);
-	}
+    static ConstructorHelpers::FObjectFinder<UCurveFloat> Curve(TEXT("/Game/Assets/LevelPrototyping/ForceField/FC_ExpansionCurve.FC_ExpansionCurve"));
+    if (Curve.Succeeded())
+    {
+        ExpansionCurve = Curve.Object;  // Assign directly to the class member
 
-	// Find and set the material
-	static ConstructorHelpers::FObjectFinder<UMaterial> MaterialAsset(TEXT("/Game/Path/To/Your/Material"));
-	if (MaterialAsset.Succeeded())
-	{
-		ForceFieldMesh->SetMaterial(0, MaterialAsset.Object);
-	}
-	*/
+        // Check if the curve has any keys
+        if (ExpansionCurve && ExpansionCurve->FloatCurve.Keys.Num() > 0)
+        {
+            ExpansionCurve->FloatCurve.Keys[0].Time = 0.0f; // Set the time of the first key to 0.0
+            ExpansionCurve->FloatCurve.Keys[0].Value = 0.0f; // Set the value of the first key to 0.0
 
-	ExpansionDuration = 2000.0f;  // Example duration, increase to slow down the expansion
-	InitialScale = FVector(0.1f, 0.1f, 1.0f);  // Starting scale
-	TargetScale = FVector(100.0f, 100.0f, 100.0f);  // Target scale
+            ExpansionCurve->FloatCurve.Keys[1].Time = 20.0f; // Set the time of the second key to 20.0
+            ExpansionCurve->FloatCurve.Keys[1].Value = 1.0f; // Set the value of the second key to 1.0
+        }
+    }
 }
+
 
 void AForceField::BeginPlay()
 {
-	Super::BeginPlay();
+    Super::BeginPlay();
 
-	if (ExpansionCurve)
-	{
-		FOnTimelineFloat ProgressFunction;
-		ProgressFunction.BindUFunction(this, FName("HandleTimelineProgress"));
-		ForceFieldTimeline.AddInterpFloat(ExpansionCurve, ProgressFunction);
-		ForceFieldTimeline.SetTimelineLength(ExpansionDuration);
-		ForceFieldTimeline.SetLooping(false);
-		ForceFieldTimeline.PlayFromStart();
-	}
+    if (ExpansionCurve)
+    {
+        FOnTimelineFloat ProgressFunction;
+        ProgressFunction.BindUFunction(this, FName("HandleTimelineProgress"));
+        ForceFieldTimeline.AddInterpFloat(ExpansionCurve, ProgressFunction);
+        ForceFieldTimeline.SetLooping(false);
+        ForceFieldTimeline.PlayFromStart();
+    }
+
+    OnActorBeginOverlap.AddDynamic(this, &AForceField::OnOverlapBegin);
+    OnActorEndOverlap.AddDynamic(this, &AForceField::OnOverlapEnd);
 }
 
 void AForceField::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
-	ForceFieldTimeline.TickTimeline(DeltaTime);
+    Super::Tick(DeltaTime);
+    ForceFieldTimeline.TickTimeline(DeltaTime);
 }
 
 void AForceField::HandleTimelineProgress(float Value)
 {
-	FVector NewScale = FMath::Lerp(InitialScale, TargetScale, Value);
-	ForceFieldMesh->SetWorldScale3D(NewScale);
+    FVector NewScale = FMath::Lerp(InitialScale, TargetScale, Value);
+    ForceFieldMesh->SetWorldScale3D(NewScale);
+}
+
+void AForceField::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
+{
+    if (OtherActor && OtherActor != this)
+    {
+        if (AEHCharacter* Character = Cast<AEHCharacter>(OtherActor))
+        {
+            Character->EnableForceFieldEffect();
+        }
+    }
+}
+
+void AForceField::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor)
+{
+    if (OtherActor && OtherActor != this)
+    {
+        if (AEHCharacter* Character = Cast<AEHCharacter>(OtherActor))
+        {
+            Character->DisableForceFieldEffect();
+        }
+    }
 }

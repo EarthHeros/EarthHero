@@ -7,6 +7,10 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
+#include "Components/PostProcessComponent.h"
+#include "Materials/MaterialInstanceDynamic.h"
+#include "UObject/ConstructorHelpers.h"
+
 AEHCharacter::AEHCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -31,6 +35,18 @@ AEHCharacter::AEHCharacter()
 
 	OverheadWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("OverheadWidget"));
 	OverheadWidget->SetupAttachment(RootComponent);
+
+	// Create sub-object for force field effect; the post process while inside force field.
+	ForceFieldPostProcessComponent = CreateDefaultSubobject<UPostProcessComponent>(TEXT("ForceFieldPostProcessComponent"));
+	ForceFieldPostProcessComponent->bEnabled = false; // Initially disabled
+	ForceFieldPostProcessComponent->SetupAttachment(RootComponent);
+
+	static ConstructorHelpers::FObjectFinder<UMaterial> PostProcessMaterial(TEXT("/Game/Blueprints/HUD/PP_ForceField_Damage.PP_ForceField_Damage"));
+	if (PostProcessMaterial.Succeeded())
+	{
+		ForceFieldPostProcessMaterial = PostProcessMaterial.Object;
+		ForceFieldPostProcessComponent->Settings.AddBlendable(ForceFieldPostProcessMaterial, 1.0f);
+	}
 }
 
 void AEHCharacter::Tick(float DeltaSeconds)
@@ -46,4 +62,20 @@ void AEHCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLife
 void AEHCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void AEHCharacter::EnableForceFieldEffect() const
+{
+	if (IsLocallyControlled() && ForceFieldPostProcessComponent)
+	{
+		ForceFieldPostProcessComponent->bEnabled = true;
+	}
+}
+
+void AEHCharacter::DisableForceFieldEffect() const
+{
+	if (IsLocallyControlled() && ForceFieldPostProcessComponent)
+	{
+		ForceFieldPostProcessComponent->bEnabled = false;
+	}
 }

@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "EHCharacterBase.h"
+#include "Components/PostProcessComponent.h"
 #include "EHCharacter.generated.h"
 
 class UWidgetComponent;
@@ -19,6 +20,9 @@ public:
 	virtual void Tick(float DeltaSeconds) override;;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
+	void EnableForceFieldEffect() const;
+	void DisableForceFieldEffect() const;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -31,4 +35,10 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	UWidgetComponent* OverheadWidget;
+
+	UPROPERTY(EditAnywhere, Category = "ForceField")
+	UPostProcessComponent* ForceFieldPostProcessComponent;
+
+	UPROPERTY()
+	UMaterialInterface* ForceFieldPostProcessMaterial;
 };

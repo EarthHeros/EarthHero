@@ -10,13 +10,13 @@ class EARTHHERO_API AForceField : public AActor
 {
 	GENERATED_BODY()
     
-public:	
+public:    
 	AForceField();
 
 protected:
 	virtual void BeginPlay() override;
 
-public:	
+public:    
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
@@ -33,13 +33,11 @@ public:
 	UFUNCTION()
 	void HandleTimelineProgress(float Value);
 
-	/*
 	UFUNCTION()
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor);
 
 	UFUNCTION()
-	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-	*/
+	void OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor);
 
 private:
 	FVector InitialScale;
