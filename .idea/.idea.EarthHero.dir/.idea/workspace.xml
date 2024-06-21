@@ -9,12 +9,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0cbbd613-fc41-47be-bbe4-1434fbbd246c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.EarthHero.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.EarthHero.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Character/Shooter/Animation/ABP_Shooter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Character/Shooter/Animation/ABP_Shooter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Character/Shooter/Animation/BS_ShooterWalk.uasset" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Blueprints/Character/Shooter/BP_Shooter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Character/Shooter/BP_Shooter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Maps/TestMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/TestMap.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/EarthHero/Character/EHShooter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EarthHero/Character/EHShooter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/EarthHero/Character/EHShooter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EarthHero/Character/EHShooter.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/EarthHero/Character/EHShooterAnimInstance.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EarthHero/Character/EHShooterAnimInstance.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/EarthHero/Character/EHShooterAnimInstance.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EarthHero/Character/EHShooterAnimInstance.h" afterDir="false" />
     </list>
@@ -131,7 +126,7 @@
       <workItem from="1718812428145" duration="966000" />
       <workItem from="1718864773438" duration="425000" />
       <workItem from="1718895757919" duration="1808000" />
-      <workItem from="1718943763792" duration="1513000" />
+      <workItem from="1718943763792" duration="3239000" />
     </task>
     <servers />
   </component>
