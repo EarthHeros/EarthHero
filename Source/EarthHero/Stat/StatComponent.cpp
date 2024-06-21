@@ -20,6 +20,8 @@ void UStatComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
+	Health = MaxHealth;
+	GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UStatComponent::DamageTaken);
 	
 }
 
@@ -30,5 +32,23 @@ void UStatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+}
+
+void UStatComponent::DamageTaken(AActor* DamagedActor, float InDamage, const UDamageType* DamageType,
+	AController* Instigator, AActor* DamageCausor)
+{
+	// 입력된 데미지가 0이하이면 무시한다.
+	if (InDamage <= 0.f)
+	{
+		return ;
+	}
+
+	//데미지 받는 함수 만들어야 한다.
+	Health = Health - InDamage;
+	UE_LOG(LogTemp, Warning, TEXT("Health : %f"), Health);
+	if (Health <= 0.f)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Health : %f, Character Died."), Health);
+	}
 }
 
