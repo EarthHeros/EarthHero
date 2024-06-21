@@ -5,6 +5,7 @@
 
 #include "EHShooter.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 void UEHShooterAnimInstance::NativeInitializeAnimation()
 {
@@ -33,4 +34,10 @@ void UEHShooterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 	// GetBaseAimRotation : 현재 PlayerController가 조준중인 월드 로테이션을 반환한다.
 	FRotator AimRotation = Shooter->GetBaseAimRotation();
+
+	FRotator ActorRotation = Shooter->GetActorRotation();
+	FRotator VelocityRotation = UKismetMathLibrary::MakeRotFromX(Velocity);
+	FRotator DeltaRotation = UKismetMathLibrary::NormalizedDeltaRotator(ActorRotation, VelocityRotation);
+	Direction = DeltaRotation.Yaw * (-1.f);
+	
 }

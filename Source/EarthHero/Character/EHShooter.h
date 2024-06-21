@@ -11,5 +11,12 @@ UCLASS()
 class EARTHHERO_API AEHShooter : public AEHCharacter
 {
 	GENERATED_BODY()
+
+public:
+	AEHShooter();
+	virtual void Tick(float DeltaSeconds) override;
 	
+private:
+	virtual void BeginPlay() override;
+	virtual void PostInitializeComponents() override;
 };
