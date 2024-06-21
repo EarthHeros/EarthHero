@@ -41,4 +41,8 @@ private:
 
 	UPROPERTY()
 	UMaterialInterface* ForceFieldPostProcessMaterial;
+
+	//승언 : StatComponent 붙이기
+	UPROPERTY(VisibleAnywhere, Category="Component")
+	class UStatComponent *StatComponent;
 };

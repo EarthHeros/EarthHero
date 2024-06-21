@@ -12,3 +12,8 @@ UEHGameInstance::UEHGameInstance()
 		CharacterStatDataTable = DT_GameTable.Object;
 	}
 }
+
+FStatStructure* UEHGameInstance::GetStatStructure(FName HeroName) const
+{
+	return CharacterStatDataTable->FindRow<FStatStructure>(HeroName, TEXT(""));
+}
