@@ -20,8 +20,19 @@
       <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/A/AB/WBW9YD1T2I2SR2WO1M1ADL.uasset" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/D/HD/9433UPUA99SL9LSAXBTMZJ.uasset" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/E/9M/UBBNCY1BB1QEYADD7JVR4S.uasset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/EarthHero/ForceField/BossZone.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Source/EarthHero/ForceField/BossZone.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.EarthHero/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.EarthHero/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/LevelPrototyping/ForceField/BP_ForceField.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/LevelPrototyping/ForceField/FC_ExpansionCurve.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/LevelPrototyping/ForceField/M_ForceField.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/UIMaterialLab/Widgets/Components/WBP_Applications_Button_3.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/UIMaterialLab/Widgets/Components/WBP_Applications_Button_3.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/UIMaterialLab/Widgets/Components/WBP_HalftoneMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/UIMaterialLab/Widgets/Components/WBP_HalftoneMenu.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Menu/WB_MainMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Menu/WB_MainMenu.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/StartupMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/StartupMap.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/B/98/H6DWZ52G66P80Y74UNGZNE.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/__ExternalActors__/Maps/ForceFieldTestMap/B/98/H6DWZ52G66P80Y74UNGZNE.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/EarthHero/Character/EHCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EarthHero/Character/EHCharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/EarthHero/Character/EHCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EarthHero/Character/EHCharacter.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/EarthHero/ForceField/ForceField.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EarthHero/ForceField/ForceField.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/EarthHero/ForceField/ForceField.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EarthHero/ForceField/ForceField.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,6 +164,13 @@
       <workItem from="1718866187590" duration="1191000" />
       <workItem from="1718868028106" duration="2547000" />
       <workItem from="1718885816188" duration="9514000" />
+      <workItem from="1718946554717" duration="3072000" />
+      <workItem from="1718954563159" duration="1403000" />
+      <workItem from="1718957323473" duration="1547000" />
+      <workItem from="1718974279377" duration="1194000" />
+      <workItem from="1718975746401" duration="94000" />
+      <workItem from="1718975918638" duration="55000" />
+      <workItem from="1718976067925" duration="5373000" />
     </task>
     <servers />
   </component>
