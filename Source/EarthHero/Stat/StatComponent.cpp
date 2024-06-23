@@ -76,7 +76,7 @@ void UStatComponent::DamageTaken_Implementation(AActor* DamagedActor, float InDa
 	GEngine->AddOnScreenDebugMessage(-1, 1233223.f, FColor::Green, Message);
 	if (HeroStat.Health <= 0.f)
 	{
-		FString Message = FString::Printf(TEXT("Health : %f"), HeroStat.Health);
+		Message = FString::Printf(TEXT("Health : %f"), HeroStat.Health);
 		GEngine->AddOnScreenDebugMessage(-1, 1233223.f, FColor::Green, Message);
 	}
 }

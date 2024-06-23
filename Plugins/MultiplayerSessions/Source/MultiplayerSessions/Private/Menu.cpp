@@ -6,6 +6,8 @@
 #include "MultiplayerSessionsSubsystem.h"
 #include "OnlineSessionSettings.h"
 #include "OnlineSubsystem.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 void UMenu::MenuSetup(int32 NumberOfPublicConnections, FString TypeOfMatch, FString LobbyPath)
 {
@@ -53,13 +55,17 @@ bool UMenu::Initialize()
 		return false;
 	}
 
-	if (HostButton)
+	if (Play_Btn)
 	{
-		HostButton->OnClicked.AddDynamic(this, &ThisClass::HostButtonClicked);
+		Play_Btn->OnClicked.AddDynamic(this, &ThisClass::Play_BtnClicked);
 	}
-	if (JoinButton)
+	if (Join_Btn)
 	{
-		JoinButton->OnClicked.AddDynamic(this, &ThisClass::JoinButtonClicked);
+		Join_Btn->OnClicked.AddDynamic(this, &ThisClass::Join_BtnClicked);
+	}
+	if (Exit_Btn)
+	{
+		Exit_Btn->OnClicked.AddDynamic(this, &ThisClass::Exit_BtnClicked);
 	}
 
 	return true;
@@ -69,6 +75,7 @@ void UMenu::OnCreateSession(bool bWasSuccessful)
 {
 	if (bWasSuccessful)
 	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Created session, entering game!"));
 		UWorld* World = GetWorld();
 		if (World)
 		{
@@ -86,7 +93,7 @@ void UMenu::OnCreateSession(bool bWasSuccessful)
 				FString(TEXT("Failed to create session!"))
 			);
 		}
-		HostButton->SetIsEnabled(true);
+		Play_Btn->SetIsEnabled(true);
 	}
 }
 
@@ -109,7 +116,8 @@ void UMenu::OnFindSessions(const TArray<FOnlineSessionSearchResult>& SessionResu
 	}
 	if (!bWasSuccessful || SessionResults.Num() == 0)
 	{
-		JoinButton->SetIsEnabled(true);
+		Join_Btn->SetIsEnabled(true);
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("No Session Found!"));
 	}
 }
 
@@ -141,21 +149,34 @@ void UMenu::OnStartSession(bool bWasSuccessful)
 {
 }
 
-void UMenu::HostButtonClicked()
+void UMenu::Play_BtnClicked()
 {
-	HostButton->SetIsEnabled(false);
+	Play_Btn->SetIsEnabled(false);
 	if (MultiplayerSessionsSubsystem)
 	{
 		MultiplayerSessionsSubsystem->CreateSession(NumPublicConnections, MatchType);
 	}
 }
 
-void UMenu::JoinButtonClicked()
+void UMenu::Join_BtnClicked()
 {
-	JoinButton->SetIsEnabled(false);
+	Join_Btn->SetIsEnabled(false);
 	if (MultiplayerSessionsSubsystem)
 	{
 		MultiplayerSessionsSubsystem->FindSessions(10000);
+	}
+}
+
+void UMenu::Exit_BtnClicked()
+{
+	// Get the current player controller
+	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+    
+	// Ensure the PlayerController is valid
+	if (PlayerController)
+	{
+		// Call the QuitGame function from the UKismetSystemLibrary
+		UKismetSystemLibrary::QuitGame(GetWorld(), PlayerController, EQuitPreference::Quit, false);
 	}
 }
 
