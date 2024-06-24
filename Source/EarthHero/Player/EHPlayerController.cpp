@@ -5,6 +5,8 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Camera/CameraComponent.h"
+#include "EarthHero/Character/EHCharacter.h"
 #include "GameFramework/Character.h"
 
 AEHPlayerController::AEHPlayerController()
@@ -44,6 +46,12 @@ void AEHPlayerController::SetupInputComponent()
 
 	// Looking
 	EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ThisClass::Look);
+
+	// Shoot
+	EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Started, this, &ThisClass::Shoot);
+
+	// Change Cam
+	EnhancedInputComponent->BindAction(CamAction, ETriggerEvent::Started, this, &ThisClass::ChangeCam);
 }
 
 void AEHPlayerController::Jump()
@@ -51,6 +59,30 @@ void AEHPlayerController::Jump()
 	if(ControlledCharacter)
 	{
 		ControlledCharacter->Jump();
+	}
+}
+
+void AEHPlayerController::Shoot()
+{
+}
+
+void AEHPlayerController::ChangeCam()
+{
+	AEHCharacter* EHCharacter = Cast<AEHCharacter>(GetPawn());
+	if(!EHCharacter) return;
+
+	// If is thirdperson camera -> change to firstperson camera
+	if(!EHCharacter->bIsFirstPersonCam)
+	{
+		EHCharacter->bIsFirstPersonCam = true;
+		//EHCharacter->FollowCamera->SetActive(false);
+		EHCharacter->FPSCamera->SetActive(true);
+	}
+	else
+	{
+		EHCharacter->bIsFirstPersonCam = false;
+		EHCharacter->FPSCamera->SetActive(false);
+		//EHCharacter->FollowCamera->SetActive(true);
 	}
 }
 
@@ -78,7 +110,7 @@ void AEHPlayerController::Move(const FInputActionValue& Value)
 
 void AEHPlayerController::Look(const FInputActionValue& Value)
 {
-	const FVector2D LookVector = Value.Get<FVector2D>();
+	const FVector2D LookVector = Value.Get<FVector2D>() * 0.5f;
 
 	AddYawInput(LookVector.X);
 	AddPitchInput(-LookVector.Y);

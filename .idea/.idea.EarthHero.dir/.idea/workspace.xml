@@ -9,9 +9,18 @@
   <component name="ChangeListManager">
     <list default="true" id="0cbbd613-fc41-47be-bbe4-1434fbbd246c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.EarthHero.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.EarthHero.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/ParagonMurdock/Characters/Heroes/Murdock/Meshes/Murdock_Skeleton.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/ParagonMurdock/Characters/Heroes/Murdock/Meshes/Murdock_Skeleton.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Character/Shooter/Animation/ABP_Shooter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Character/Shooter/Animation/ABP_Shooter.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Character/Shooter/Animation/BS_ShooterLocomotion.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Character/Shooter/Animation/BS_ShooterLocomotion.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/Blueprints/Character/Shooter/BP_Shooter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Character/Shooter/BP_Shooter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/EarthHero/Character/EHShooterAnimInstance.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EarthHero/Character/EHShooterAnimInstance.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/EarthHero/Character/EHShooterAnimInstance.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EarthHero/Character/EHShooterAnimInstance.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Input/IMC_EHContext.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Input/IMC_EHContext.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Player/BP_EHPlayerController.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Player/BP_EHPlayerController.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/TestMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/TestMap.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/EarthHero/Character/EHCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EarthHero/Character/EHCharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/EarthHero/Character/EHCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EarthHero/Character/EHCharacter.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/EarthHero/Player/EHPlayerController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EarthHero/Player/EHPlayerController.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/EarthHero/Player/EHPlayerController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EarthHero/Player/EHPlayerController.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/EarthHero/Stat/StatComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/EarthHero/Stat/StatComponent.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,6 +136,10 @@
       <workItem from="1718864773438" duration="425000" />
       <workItem from="1718895757919" duration="1808000" />
       <workItem from="1718943763792" duration="3239000" />
+      <workItem from="1718983865104" duration="115000" />
+      <workItem from="1719069653313" duration="697000" />
+      <workItem from="1719141943976" duration="7910000" />
+      <workItem from="1719152990470" duration="1538000" />
     </task>
     <servers />
   </component>

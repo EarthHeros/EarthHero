@@ -17,18 +17,11 @@ AEHCharacter::AEHCharacter()
     bUseControllerRotationPitch = false;
     bUseControllerRotationYaw = false;
     bUseControllerRotationRoll = false;
-    
-    GetCharacterMovement()->bOrientRotationToMovement = true;
-    GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f);
 
-    CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-    CameraBoom->SetupAttachment(GetMesh());
-    CameraBoom->TargetArmLength = 600.f;
-    CameraBoom->bUsePawnControlRotation = true;
-    
-    FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-    FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
-    FollowCamera->bUsePawnControlRotation = false;
+    FPSCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FPS Camera"));
+    FPSCamera->SetupAttachment(GetMesh(), FName("FPSCamSocket"));
+    FPSCamera->bUsePawnControlRotation = true;
+    FPSCamera->bUsePawnControlRotation = true;
 
     OverheadWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("OverheadWidget"));
     OverheadWidget->SetupAttachment(RootComponent);
@@ -50,11 +43,19 @@ AEHCharacter::AEHCharacter()
     BossZone = nullptr;
     bIsInBossZone = false;
     bIsInForceField = false;
+
+    GetCharacterMovement()->MaxWalkSpeed = 500.f;
 }
 
 void AEHCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+
+    if(FPSCamera)
+    {
+        FRotator NewCameraRotation = FRotator(0.f, 90.f, 0.f);
+        FPSCamera->SetWorldRotation(NewCameraRotation);
+    }
 }
 
 void AEHCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

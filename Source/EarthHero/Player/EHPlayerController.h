@@ -33,11 +33,17 @@ private:
 	TObjectPtr<UInputAction> MoveAction;
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> LookAction;
-
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TObjectPtr<UInputAction> ShootAction;
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TObjectPtr<UInputAction> CamAction;
+	
 	TObjectPtr<ACharacter> ControlledCharacter;
 
 protected:
 	void Jump();
+	void Shoot();
+	void ChangeCam();
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
 };

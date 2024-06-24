@@ -15,6 +15,7 @@ class EARTHHERO_API AEHCharacter : public AEHCharacterBase
 {
     GENERATED_BODY()
 
+    friend class AEHPlayerController;
 public:
     AEHCharacter();
     virtual void Tick(float DeltaSeconds) override;
@@ -34,10 +35,7 @@ protected:
 
 private:
     UPROPERTY(VisibleAnywhere, Category = "Camera")
-    USpringArmComponent* CameraBoom;
-
-    UPROPERTY(VisibleAnywhere, Category = "Camera")
-    UCameraComponent* FollowCamera;
+    UCameraComponent* FPSCamera;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
     UWidgetComponent* OverheadWidget;
@@ -59,4 +57,6 @@ private:
 
     UPROPERTY()
     bool bIsInForceField;
+
+    bool bIsFirstPersonCam;
 };
