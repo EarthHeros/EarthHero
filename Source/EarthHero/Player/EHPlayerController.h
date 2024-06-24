@@ -43,7 +43,6 @@ private:
 protected:
 	void Jump();
 	void Shoot();
-	void ChangeCam();
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
 };

@@ -33,10 +33,10 @@ public:
 protected:
     virtual void BeginPlay() override;
 
-private:
     UPROPERTY(VisibleAnywhere, Category = "Camera")
     UCameraComponent* FPSCamera;
 
+private:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
     UWidgetComponent* OverheadWidget;
 

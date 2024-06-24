@@ -49,9 +49,6 @@ void AEHPlayerController::SetupInputComponent()
 
 	// Shoot
 	EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Started, this, &ThisClass::Shoot);
-
-	// Change Cam
-	EnhancedInputComponent->BindAction(CamAction, ETriggerEvent::Started, this, &ThisClass::ChangeCam);
 }
 
 void AEHPlayerController::Jump()
@@ -64,26 +61,6 @@ void AEHPlayerController::Jump()
 
 void AEHPlayerController::Shoot()
 {
-}
-
-void AEHPlayerController::ChangeCam()
-{
-	AEHCharacter* EHCharacter = Cast<AEHCharacter>(GetPawn());
-	if(!EHCharacter) return;
-
-	// If is thirdperson camera -> change to firstperson camera
-	if(!EHCharacter->bIsFirstPersonCam)
-	{
-		EHCharacter->bIsFirstPersonCam = true;
-		//EHCharacter->FollowCamera->SetActive(false);
-		EHCharacter->FPSCamera->SetActive(true);
-	}
-	else
-	{
-		EHCharacter->bIsFirstPersonCam = false;
-		EHCharacter->FPSCamera->SetActive(false);
-		//EHCharacter->FollowCamera->SetActive(true);
-	}
 }
 
 void AEHPlayerController::Move(const FInputActionValue& Value)

@@ -51,11 +51,11 @@ void AEHCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
 
-    if(FPSCamera)
-    {
-        FRotator NewCameraRotation = FRotator(0.f, 90.f, 0.f);
-        FPSCamera->SetWorldRotation(NewCameraRotation);
-    }
+    // if(FPSCamera)
+    // {
+    //     FRotator NewCameraRotation = FRotator(0.f, 90.f, 0.f);
+    //     FPSCamera->SetWorldRotation(NewCameraRotation);
+    // }
 }
 
 void AEHCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
