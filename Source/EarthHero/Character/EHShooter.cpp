@@ -3,8 +3,6 @@
 
 #include "EHShooter.h"
 
-#include "Camera/CameraComponent.h"
-#include "EarthHero/Player/EHPlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 AEHShooter::AEHShooter()

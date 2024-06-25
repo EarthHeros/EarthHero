@@ -2,7 +2,6 @@
 #include "Camera/CameraComponent.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/SpringArmComponent.h"
 #include "Components/PostProcessComponent.h"
 #include "EarthHero/Stat/StatComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
@@ -29,6 +28,9 @@ AEHCharacter::AEHCharacter()
     ForceFieldPostProcessComponent = CreateDefaultSubobject<UPostProcessComponent>(TEXT("ForceFieldPostProcessComponent"));
     ForceFieldPostProcessComponent->bEnabled = false;
     ForceFieldPostProcessComponent->SetupAttachment(RootComponent);
+
+    WeaponMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("WeaponMesh"));
+    WeaponMeshComponent->SetupAttachment(GetMesh(), FName("RightWeaponSocket"));
 
 	//승언 : StatComponent 붙이기
 	StatComponent = CreateDefaultSubobject<UStatComponent>(TEXT("StatComponent"));

@@ -5,8 +5,6 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "Camera/CameraComponent.h"
-#include "EarthHero/Character/EHCharacter.h"
 #include "GameFramework/Character.h"
 
 AEHPlayerController::AEHPlayerController()

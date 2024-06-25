@@ -14,8 +14,8 @@ UCLASS()
 class EARTHHERO_API AEHCharacter : public AEHCharacterBase
 {
     GENERATED_BODY()
-
     friend class AEHPlayerController;
+    
 public:
     AEHCharacter();
     virtual void Tick(float DeltaSeconds) override;
@@ -42,10 +42,13 @@ private:
 
     UPROPERTY(EditAnywhere, Category = "ForceField")
     UPostProcessComponent* ForceFieldPostProcessComponent;
+
+    UPROPERTY(EditAnywhere, Category = "Weapon", meta = (AllowPrivateAccess = true))
+    USkeletalMeshComponent* WeaponMeshComponent;
     
 	//승언 : StatComponent 붙이기
 	UPROPERTY(VisibleAnywhere, Category="Component")
-	class UStatComponent *StatComponent;
+	class UStatComponent* StatComponent;
     UPROPERTY()
     UMaterialInterface* ForceFieldPostProcessMaterial;
 
