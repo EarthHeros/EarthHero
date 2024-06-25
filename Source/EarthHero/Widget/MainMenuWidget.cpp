@@ -1,16 +1,18 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
-#include "Menu.h"
+#include "MainMenuWidget.h"
 #include "Components/Button.h"
-#include "MultiplayerSessionsSubsystem.h"
+//#include "MultiplayerSessionsSubsystem.h"
+#include "../EHGameInstance.h"
 #include "OnlineSessionSettings.h"
 #include "OnlineSubsystem.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
 
-void UMenu::MenuSetup(int32 NumberOfPublicConnections, FString TypeOfMatch, FString LobbyPath)
+
+void UMainMenuWidget::MenuSetup(int32 NumberOfPublicConnections, FString TypeOfMatch, FString LobbyPath)
 {
+	/*
 	PathToLobby = FString::Printf(TEXT("%s?listen"), *LobbyPath);
 	NumPublicConnections = NumberOfPublicConnections;
 	MatchType = TypeOfMatch;
@@ -31,7 +33,7 @@ void UMenu::MenuSetup(int32 NumberOfPublicConnections, FString TypeOfMatch, FStr
 			PlayerController->SetShowMouseCursor(true);
 		}
 	}
-
+	
 	UGameInstance* GameInstance = GetGameInstance();
 	if (GameInstance)
 	{
@@ -45,10 +47,10 @@ void UMenu::MenuSetup(int32 NumberOfPublicConnections, FString TypeOfMatch, FStr
 		MultiplayerSessionsSubsystem->MultiplayerOnJoinSessionComplete.AddUObject(this, &ThisClass::OnJoinSession);
 		MultiplayerSessionsSubsystem->MultiplayerOnDestroySessionComplete.AddDynamic(this, &ThisClass::OnDestroySession);
 		MultiplayerSessionsSubsystem->MultiplayerOnStartSessionComplete.AddDynamic(this, &ThisClass::OnStartSession);
-	}
+	}*/
 }
 
-bool UMenu::Initialize()
+bool UMainMenuWidget::Initialize()
 {
 	if (!Super::Initialize())
 	{
@@ -71,7 +73,7 @@ bool UMenu::Initialize()
 	return true;
 }
 
-void UMenu::OnCreateSession(bool bWasSuccessful)
+void UMainMenuWidget::OnCreateSession(bool bWasSuccessful)
 {
 	if (bWasSuccessful)
 	{
@@ -97,7 +99,7 @@ void UMenu::OnCreateSession(bool bWasSuccessful)
 	}
 }
 
-void UMenu::OnFindSessions(const TArray<FOnlineSessionSearchResult>& SessionResults, bool bWasSuccessful)
+void UMainMenuWidget::OnFindSessions(const TArray<FOnlineSessionSearchResult>& SessionResults, bool bWasSuccessful)
 {
 	if (MultiplayerSessionsSubsystem == nullptr)
 	{
@@ -110,7 +112,7 @@ void UMenu::OnFindSessions(const TArray<FOnlineSessionSearchResult>& SessionResu
 		Result.Session.SessionSettings.Get(FName("MatchType"), SettingsValue);
 		if (SettingsValue == MatchType)
 		{
-			MultiplayerSessionsSubsystem->JoinSession(Result);
+			//MultiplayerSessionsSubsystem->JoinSession(Result);
 			return;
 		}
 	}
@@ -121,7 +123,7 @@ void UMenu::OnFindSessions(const TArray<FOnlineSessionSearchResult>& SessionResu
 	}
 }
 
-void UMenu::OnJoinSession(EOnJoinSessionCompleteResult::Type Result)
+void UMainMenuWidget::OnJoinSession(EOnJoinSessionCompleteResult::Type Result)
 {
 	IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
 	if (Subsystem)
@@ -141,26 +143,35 @@ void UMenu::OnJoinSession(EOnJoinSessionCompleteResult::Type Result)
 	}
 }
 
-void UMenu::OnDestroySession(bool bWasSuccessful)
+void UMainMenuWidget::OnDestroySession(bool bWasSuccessful)
 {
 }
 
-void UMenu::OnStartSession(bool bWasSuccessful)
+void UMainMenuWidget::OnStartSession(bool bWasSuccessful)
 {
 }
 
-void UMenu::Play_BtnClicked()
+void UMainMenuWidget::Play_BtnClicked()
 {
-	//랜덤 public 로비 참가
-	UE_LOG(LogTemp, Log, TEXT("Join Lobby Clicked"));
-	//UEHGameInstance* EHGameInstance = Cast<UEHGameInstance>(GetWorld()->GetGameInstance());
-	//if (EHGameInstance)
+	//인원 0명 로비로 참가
+	UE_LOG(LogTemp, Log, TEXT("Create Lobby Clicked"));
+	UEHGameInstance* EHGameInstance = Cast<UEHGameInstance>(GetWorld()->GetGameInstance());
+	if (EHGameInstance)
 	{
-		//로비 참가 전 세션 떠나기. (이름 변경 예정)
-		//EHGameInstance->LeaveMainSession("JoinLobby");
+		//if (!Check_IsPrivate->IsChecked())
+		{
+			EHGameInstance->IsCheckedPrivate = true; //이거 좀 바꾸고 싶고, 로비 컨트롤러에서 바로 서버에게 private 변경값 요청해야 함
+			EHGameInstance->LeaveMainSession("CreateLobby");
+		}
+		/*
+		else
+		{
+			EHGameInstance->IsCheckedPrivate = false;
+			EHGameInstance->LeaveMainSession("CreateLobby");
+		}*/
 	}
 
-	/*
+	/* 이전 꺼
 	Play_Btn->SetIsEnabled(false);
 	if (MultiplayerSessionsSubsystem)
 	{
@@ -168,20 +179,30 @@ void UMenu::Play_BtnClicked()
 	}*/
 }
 
-void UMenu::Join_BtnClicked()
+void UMainMenuWidget::Join_BtnClicked()
 {
+	//랜덤 public 로비 참가
+	UE_LOG(LogTemp, Log, TEXT("Join Lobby Clicked"));
+	UEHGameInstance* EHGameInstance = Cast<UEHGameInstance>(GetWorld()->GetGameInstance());
+	if (EHGameInstance)
+	{
+		//로비 참가 전 세션 떠나기. (이름 변경 예정)
+		EHGameInstance->LeaveMainSession("JoinLobby");
+	}
+
+	/* 이전 꺼
 	Join_Btn->SetIsEnabled(false);
 	if (MultiplayerSessionsSubsystem)
 	{
 		MultiplayerSessionsSubsystem->FindSessions(10000);
-	}
+	}*/
 }
 
-void UMenu::Exit_BtnClicked()
+void UMainMenuWidget::Exit_BtnClicked()
 {
 	// Get the current player controller
 	APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-    
+
 	// Ensure the PlayerController is valid
 	if (PlayerController)
 	{
@@ -190,7 +211,7 @@ void UMenu::Exit_BtnClicked()
 	}
 }
 
-void UMenu::MenuTearDown()
+void UMainMenuWidget::MenuTearDown()
 {
 	RemoveFromParent();
 	UWorld* World = GetWorld();
@@ -206,7 +227,7 @@ void UMenu::MenuTearDown()
 	}
 }
 
-void UMenu::NativeDestruct()
+void UMainMenuWidget::NativeDestruct()
 {
 	MenuTearDown();
 
