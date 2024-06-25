@@ -7,10 +7,25 @@ public class EarthHero : ModuleRules
 	public EarthHero(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "UMG" });
 
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
+        PublicDependencyModuleNames.AddRange(
+            new string[] {
+                "Core",
+                "CoreUObject",
+                "Engine",
+                "InputCore",
+                "HeadMountedDisplay",
+                "EnhancedInput",
+                "OnlineSubsystem",
+                "OnlineSubsystemUtils",
+                "OnlineSubsystemSteam",
+                "UMG",
+                "Slate",
+                "SlateCore"
+            }
+        );
+
+        PrivateDependencyModuleNames.AddRange(new string[] {  });
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });

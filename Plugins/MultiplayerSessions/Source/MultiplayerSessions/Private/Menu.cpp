@@ -8,6 +8,7 @@
 #include "OnlineSubsystem.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "../../../../../Source/EarthHero/EHGameInstance.h"
 
 void UMenu::MenuSetup(int32 NumberOfPublicConnections, FString TypeOfMatch, FString LobbyPath)
 {
@@ -151,11 +152,21 @@ void UMenu::OnStartSession(bool bWasSuccessful)
 
 void UMenu::Play_BtnClicked()
 {
+	//랜덤 public 로비 참가
+	UE_LOG(LogTemp, Log, TEXT("Join Lobby Clicked"));
+	//UEHGameInstance* EHGameInstance = Cast<UEHGameInstance>(GetWorld()->GetGameInstance());
+	//if (EHGameInstance)
+	{
+		//로비 참가 전 세션 떠나기. (이름 변경 예정)
+		//EHGameInstance->LeaveMainSession("JoinLobby");
+	}
+
+	/*
 	Play_Btn->SetIsEnabled(false);
 	if (MultiplayerSessionsSubsystem)
 	{
 		MultiplayerSessionsSubsystem->CreateSession(NumPublicConnections, MatchType);
-	}
+	}*/
 }
 
 void UMenu::Join_BtnClicked()
