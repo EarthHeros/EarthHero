@@ -437,3 +437,63 @@ void ALobbyGameSession::HandleDestroySessionCompleted(FName EOSSessionName, bool
         }
     }
 }
+
+void ALobbyGameSession::ChangeAdvertiseState(bool bAdvertise)
+{
+    IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
+    if (Subsystem)
+    {
+        IOnlineSessionPtr Session = Subsystem->GetSessionInterface();
+        if (Session.IsValid())
+        {
+            // 세션 설정 가져오기
+            FOnlineSessionSettings* SessionSettings = Session->GetSessionSettings(SessionName);
+            if (SessionSettings)
+            {
+                // 광고 상태 변경
+                SessionSettings->bShouldAdvertise = bAdvertise;
+
+                UpdateSessionDelegateHandle =
+                    Session->AddOnUpdateSessionCompleteDelegate_Handle(FOnUpdateSessionCompleteDelegate::CreateUObject(
+                        this,
+                        &ALobbyGameSession::HandleUpdateSessionCompleted));
+
+
+                // 세션 업데이트 시도
+                if (!Session->UpdateSession(SessionName, *SessionSettings, true))
+                {
+                    UE_LOG(LogTemp, Warning, TEXT("Failed to update Lobby"));
+                    Session->ClearOnUpdateSessionCompleteDelegate_Handle(UpdateSessionDelegateHandle);
+                    UpdateSessionDelegateHandle.Reset();
+                }
+            }
+            else
+            {
+                UE_LOG(LogTemp, Warning, TEXT("No session settings found for session: %s"), *SessionName.ToString());
+            }
+        }
+    }
+}
+
+void ALobbyGameSession::HandleUpdateSessionCompleted(FName EOSSessionName, bool bWasSuccesful)
+{
+    IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
+    if (Subsystem)
+    {
+        IOnlineSessionPtr Session = Subsystem->GetSessionInterface();
+        if (Session.IsValid())
+        {
+            if (bWasSuccesful)
+            {
+                UE_LOG(LogTemp, Log, TEXT("Update lobby succesfully."));
+            }
+            else
+            {
+                UE_LOG(LogTemp, Warning, TEXT("Failed to update lobby."));
+            }
+
+            Session->ClearOnUpdateSessionCompleteDelegate_Handle(UpdateSessionDelegateHandle);
+            UpdateSessionDelegateHandle.Reset();
+        }
+    }
+}

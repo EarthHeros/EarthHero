@@ -5,6 +5,8 @@
 #include "GameFramework/PlayerController.h"
 #include <EarthHero/EHGameInstance.h>
 #include <Kismet/GameplayStatics.h>
+#include <EarthHero/GameSession/LobbyGameSession.h>
+#include <EarthHero/GameMode/LobbyGameMode.h>
 
 
 void ALobbyPlayerController::BeginPlay()
@@ -37,12 +39,22 @@ void ALobbyPlayerController::BeginPlay()
 void ALobbyPlayerController::Server_ChangeAdvertiseState_Implementation(bool bAdvertise)
 {
 	//로비게임세션에서 이미 플레이어 접속을 감지하고 bHost에 할당해주었음
-	if (bHost == true)
+	if (bHost)
 	{
 		this->Client_HostAssignment();
 
 		//광고 상태 변경
+		ALobbyGameMode* LobbyGameMode = Cast<ALobbyGameMode>(GetWorld()->GetAuthGameMode());
+		if (LobbyGameMode)
+		{
+			ALobbyGameSession* LobbyGameSession = Cast<ALobbyGameSession>(LobbyGameMode->GameSession);
+			if (LobbyGameSession)
+			{
+				UE_LOG(LogTemp, Log, TEXT("Change advertise state..."));
 
+				LobbyGameSession->ChangeAdvertiseState(bAdvertise);
+			}
+		}
 
 	}
 }

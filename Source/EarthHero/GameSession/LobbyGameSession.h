@@ -35,6 +35,7 @@ protected:
 
 public:
 	void CreateSession(FString PortNumber);
+	void ChangeAdvertiseState(bool bAdvertise);
 
 protected:
 	void HandleCreateSessionCompleted(FName InSessionName, bool bWasSuccessful);
@@ -62,6 +63,9 @@ protected:
 	void HandleDestroySessionCompleted(FName SessionName, bool bWasSuccessful);
 
 
+	void HandleUpdateSessionCompleted(FName SessionName, bool bWasSuccessful);
+
+
 	FDelegateHandle CreateSessionDelegateHandle;
 	FDelegateHandle RegisterPlayerDelegateHandle;
 	FDelegateHandle UnregisterPlayerDelegateHandle;
@@ -69,4 +73,5 @@ protected:
 	FDelegateHandle EndSessionDelegateHandle;
 	FDelegateHandle DestroySessionDelegateHandle;
 
+	FDelegateHandle UpdateSessionDelegateHandle;
 };
