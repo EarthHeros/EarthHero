@@ -11,35 +11,43 @@ void ALobbyPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UEHGameInstance* EHGameInstance = Cast<UEHGameInstance>(GetWorld()->GetGameInstance());
-
-	//일단 로비에 오면 공개여부 설정 요청을 보냄
-	if (EHGameInstance)
+	if (!IsRunningDedicatedServer())
 	{
-		if (EHGameInstance->IsCheckedPrivate)
-		{
-			UE_LOG(LogTemp, Log, TEXT("Lobby mode request : Private"));
+		UEHGameInstance* EHGameInstance = Cast<UEHGameInstance>(GetWorld()->GetGameInstance());
 
-			ALobbyPlayerController* PC = Cast<ALobbyPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
-			if (PC)
+		//일단 로비에 오면 공개여부 설정 요청을 보냄
+		if (EHGameInstance)
+		{
+			if (EHGameInstance->IsCheckedPrivate)
 			{
-				PC->Server_ChangeAdvertiseState(false);
+				UE_LOG(LogTemp, Log, TEXT("Lobby mode request : Private"));
+
+				//ALobbyPlayerController* PC = Cast<ALobbyPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+				this->Server_ChangeAdvertiseState(false);
+			}
+			else
+			{
+				UE_LOG(LogTemp, Log, TEXT("Lobby mode request : Public"));
 			}
 		}
-		else
-		{
-			UE_LOG(LogTemp, Log, TEXT("Lobby mode request : Public"));
-		}
 	}
-
 }
 
+//클라이언트가 방장인지 검사 + 방장이면 advertise 상태 변경
 void ALobbyPlayerController::Server_ChangeAdvertiseState_Implementation(bool bAdvertise)
 {
+	//로비게임세션에서 이미 플레이어 접속을 감지하고 bHost에 할당해주었음
+	if (bHost == true)
+	{
+		this->Client_HostAssignment();
 
-	//게임세션에서 방장을 파악하고 그 요청만 수락해야함
+		//광고 상태 변경
+
+
+	}
 }
 
+//방장임을 클라이언트에게 알림
 void ALobbyPlayerController::Client_HostAssignment_Implementation()
 {
 	UE_LOG(LogTemp, Log, TEXT("Host Assignmented!"));

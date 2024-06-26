@@ -163,7 +163,7 @@ void ALobbyGameSession::HandleRegisterPlayerCompleted(FName EOSSessionName, cons
                 {
                     //첫 번째 플레이어가 방장
                     HostPlayerId = PlayerIds[0];
-                    UE_LOG(LogTemp, Log, TEXT("Host : %s"), *HostPlayerId->ToString());
+                    UE_LOG(LogTemp, Log, TEXT("Host Assigment..."), *HostPlayerId->ToString());
 
                     //클라이언트에게 방장 권한을 부여
                     APlayerController* HostPlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
@@ -186,6 +186,7 @@ void ALobbyGameSession::HandleRegisterPlayerCompleted(FName EOSSessionName, cons
     }
 }
 
+//클라이언트가 들어왔는데 첫번째 플레이어라면 host 부여 
 void ALobbyGameSession::HostAssignment(APlayerController* HostPlayer)
 {
     if (HostPlayer)
@@ -193,8 +194,8 @@ void ALobbyGameSession::HostAssignment(APlayerController* HostPlayer)
         ALobbyPlayerController* LobbyPlayerController = Cast<ALobbyPlayerController>(HostPlayer);
         if (LobbyPlayerController)
         {
+            UE_LOG(LogTemp, Log, TEXT("Host Assigment : %s"), *HostPlayerId->ToString());
             LobbyPlayerController->bHost = true;
-            LobbyPlayerController->Client_HostAssignment();
         }
     }
 }
