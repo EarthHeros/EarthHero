@@ -62,10 +62,23 @@ void ALobbyPlayerController::Server_ChangeAdvertiseState_Implementation(bool bAd
 //방장임을 클라이언트에게 알림
 void ALobbyPlayerController::Client_HostAssignment_Implementation()
 {
+	bHost = true;
+
 	UE_LOG(LogTemp, Log, TEXT("Host Assignmented!"));
 
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(-1, 600.f, FColor::Yellow, FString::Printf(TEXT("You are host!!!!!!!!!!")));
+}
 
-	//방장 받음
+void ALobbyPlayerController::Server_ClientReady_Implementation()
+{
+	//방장은 게임 시작버튼 처리
+	if(bHost)
+	{
+	}
+	//클라이언트는 게임 레디 처리
+	else
+	{
+
+	}
 }

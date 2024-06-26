@@ -25,5 +25,8 @@ public:
 
 	UFUNCTION(Client, Reliable)
 	void Client_HostAssignment();
+
+	UFUNCTION(Server, Reliable)
+	void Server_ClientReady();
 	
 };
