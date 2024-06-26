@@ -170,6 +170,8 @@ void ALobbyGameSession::HandleRegisterPlayerCompleted(FName EOSSessionName, cons
                     HostAssignment(HostPlayerController);
                 }
 
+                //미완성, 여기서 게임모드의 playerreadystate에 추가해줘야함
+
                 //플레이어가 꽉 찼으면 세션 시작
                 if (NumberOfPlayersInSession == MaxNumberOfPlayersInSession)
                 {
@@ -406,7 +408,7 @@ void ALobbyGameSession::DestroySession()
             //세션 제거 시도
             if (!Session->DestroySession(SessionName))
             {
-                UE_LOG(LogTemp, Warning, TEXT("Failed to destroy lobby.")); // Log to the UE logs that we are trying to log in. 
+                UE_LOG(LogTemp, Warning, TEXT("Failed to destroy lobby."));
                 Session->ClearOnDestroySessionCompleteDelegate_Handle(DestroySessionDelegateHandle);
                 DestroySessionDelegateHandle.Reset();
             }
@@ -501,6 +503,8 @@ void ALobbyGameSession::HandleUpdateSessionCompleted(FName EOSSessionName, bool 
 
 void ALobbyGameSession::NewHostFind()
 {
+    //미완성
+    
     // 인덱스 0의 플레이어 컨트롤러를 사용함 (테스트 x, 안되면 게임 스테이트 사용하자)
 
     //아니지.. const TArray<FUniqueNetIdRef>& PlayerIds를 얻어야하는데...
@@ -516,11 +520,11 @@ void ALobbyGameSession::NewHostFind()
         {
             APlayerState* PlayerState = NewHostLobbyPlayerController->PlayerState;
             
-            UE_LOG(LogTemp, Log, TEXT("Host Assigment..."));
+            UE_LOG(LogTemp, Log, TEXT("Host Assignment..."));
 
             if (PlayerState && PlayerState->GetUniqueId().IsValid())
             {
-                HostPlayerId = PlayerState->GetUniqueId();
+                HostPlayerId = PlayerState->GetUniqueId(); //테스트 x
                 HostAssignment(NewHostPlayerController);
             }
             else

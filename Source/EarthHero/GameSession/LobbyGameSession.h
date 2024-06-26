@@ -14,8 +14,10 @@ class EARTHHERO_API ALobbyGameSession : public AGameSession
 {
 	GENERATED_BODY()
 
-protected:
+public:
 	int MaxNumberOfPlayersInSession = 2; // 세션 최대 인원수 (임시로2)
+
+protected:
 	int NumberOfPlayersInSession = 0;
 
 	FName SessionName = "SessionName"; //임시 //무슨 의미가 있을까

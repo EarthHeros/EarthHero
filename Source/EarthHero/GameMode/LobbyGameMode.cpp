@@ -23,3 +23,24 @@ void ALobbyGameMode::BeginPlay()
 		GameModeBase->bUseSeamlessTravel = true;
 	}
 }
+
+void ALobbyGameMode::TogglePlayerReady(APlayerController* Player)
+{
+	if (PlayerReadyState.Contains(Player))
+	{
+		if (PlayerReadyState[Player]) ReadyCount--;
+		else ReadyCount++;
+
+		PlayerReadyState[Player] = !PlayerReadyState[Player];
+		
+		ALobbyGameSession* LobbyGameSession = Cast<ALobbyGameSession>(GameSession);
+		if (LobbyGameSession)
+		{
+			if (ReadyCount == (LobbyGameSession->MaxNumberOfPlayersInSession - 1)) //방장 제외 모두 레디 시
+			{
+				//미완성
+				UE_LOG(LogTemp, Warning, TEXT("all player ready!!"));
+			}
+		}
+	}
+}
