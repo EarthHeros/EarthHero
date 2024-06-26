@@ -186,20 +186,6 @@ void ALobbyGameSession::HandleRegisterPlayerCompleted(FName EOSSessionName, cons
     }
 }
 
-//클라이언트가 들어왔는데 첫번째 플레이어라면 host 부여 
-void ALobbyGameSession::HostAssignment(APlayerController* HostPlayer)
-{
-    if (HostPlayer)
-    {
-        ALobbyPlayerController* LobbyPlayerController = Cast<ALobbyPlayerController>(HostPlayer);
-        if (LobbyPlayerController)
-        {
-            UE_LOG(LogTemp, Log, TEXT("Host Assigment : %s"), *HostPlayerId->ToString());
-            LobbyPlayerController->bHost = true;
-        }
-    }
-}
-
 //세션에 플레이어 전부 다 차면 호출됨
 void ALobbyGameSession::StartSession()
 {
@@ -306,6 +292,19 @@ void ALobbyGameSession::HandleUnregisterPlayerCompleted(FName EOSSessionName, co
             if (bWasSuccesful)
             {
                 UE_LOG(LogTemp, Log, TEXT("Player unregistered in Lobby!"));
+
+                // 방장이 나갔는지 확인
+                for (const FUniqueNetIdRef& PlayerId : PlayerIds)
+                {
+                    if (HostPlayerId == PlayerId)
+                    {
+                        UE_LOG(LogTemp, Log, TEXT("Host has left the lobby"));
+
+                        NewHostFind();
+
+                        break;
+                    }
+                }
             }
             else
             {
@@ -321,6 +320,7 @@ void ALobbyGameSession::HandleUnregisterPlayerCompleted(FName EOSSessionName, co
 void ALobbyGameSession::NotifyLogout(const APlayerController* ExitingPlayer)
 {
     Super::NotifyLogout(ExitingPlayer); //UnregisterPlayer를 호출함
+
 
     if (IsRunningDedicatedServer())
     {
@@ -381,7 +381,7 @@ void ALobbyGameSession::HandleEndSessionCompleted(FName EOSSessionName, bool bWa
     }
 }
 
-//제거 시 서버 및 클라이언트 둘 다 호출됨
+//세션 파괴 시 서버 및 클라이언트 둘 다 호출됨
 void ALobbyGameSession::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
     Super::EndPlay(EndPlayReason);
@@ -494,6 +494,57 @@ void ALobbyGameSession::HandleUpdateSessionCompleted(FName EOSSessionName, bool 
 
             Session->ClearOnUpdateSessionCompleteDelegate_Handle(UpdateSessionDelegateHandle);
             UpdateSessionDelegateHandle.Reset();
+        }
+    }
+}
+
+
+void ALobbyGameSession::NewHostFind()
+{
+    // 인덱스 0의 플레이어 컨트롤러를 사용함 (테스트 x, 안되면 게임 스테이트 사용하자)
+
+    //아니지.. const TArray<FUniqueNetIdRef>& PlayerIds를 얻어야하는데...
+    //HostPlayerId 갱신 필요
+
+    
+    APlayerController* NewHostPlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+    if (NewHostPlayerController)
+    {
+        ALobbyPlayerController* NewHostLobbyPlayerController = Cast<ALobbyPlayerController>(NewHostPlayerController);
+
+        if (NewHostLobbyPlayerController)
+        {
+            APlayerState* PlayerState = NewHostLobbyPlayerController->PlayerState;
+            
+            UE_LOG(LogTemp, Log, TEXT("Host Assigment..."));
+
+            if (PlayerState && PlayerState->GetUniqueId().IsValid())
+            {
+                HostPlayerId = PlayerState->GetUniqueId();
+                HostAssignment(NewHostPlayerController);
+            }
+            else
+            {
+                UE_LOG(LogTemp, Warning, TEXT("Failed to get unique ID"));
+            }
+        }
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("player controller 0 is not vaild"));
+    }
+}
+
+//클라이언트가 들어왔는데 첫번째 플레이어라면 host 부여 
+void ALobbyGameSession::HostAssignment(APlayerController* HostPlayer)
+{
+    if (HostPlayer)
+    {
+        ALobbyPlayerController* LobbyPlayerController = Cast<ALobbyPlayerController>(HostPlayer);
+        if (LobbyPlayerController)
+        {
+            UE_LOG(LogTemp, Log, TEXT("Host Assigment : %s"), *HostPlayerId->ToString());
+            LobbyPlayerController->bHost = true;
         }
     }
 }

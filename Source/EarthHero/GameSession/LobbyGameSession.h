@@ -65,6 +65,8 @@ protected:
 
 	void HandleUpdateSessionCompleted(FName SessionName, bool bWasSuccessful);
 
+	void NewHostFind();
+
 
 	FDelegateHandle CreateSessionDelegateHandle;
 	FDelegateHandle RegisterPlayerDelegateHandle;

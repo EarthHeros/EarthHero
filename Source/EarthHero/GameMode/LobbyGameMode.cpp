@@ -23,13 +23,3 @@ void ALobbyGameMode::BeginPlay()
 		GameModeBase->bUseSeamlessTravel = true;
 	}
 }
-
-/*
-void ALobbyGameMode::CallCustomSessionFunction()
-{
-	ALobbyGameSession* LobbyGameSession = GetGameSession<ALobbyGameSession>();
-	if (LobbyGameSession)
-	{
-		LobbyGameSession->CustomSessionFunction();
-	}
-}*/
