@@ -14,8 +14,8 @@ UCLASS()
 class EARTHHERO_API AEHCharacter : public AEHCharacterBase
 {
     GENERATED_BODY()
-
     friend class AEHPlayerController;
+
 public:
     AEHCharacter();
     virtual void Tick(float DeltaSeconds) override;
@@ -33,27 +33,30 @@ public:
 protected:
     virtual void BeginPlay() override;
 
-    virtual void PostInitializeComponents() override;
+    void Initialize();
     
-    UPROPERTY(VisibleAnywhere, Category = "Camera")
+private:
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true), Category = "Camera")
     UCameraComponent* FPSCamera;
 
-    UPROPERTY(VisibleAnywhere,Category = "Mesh")
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true), Category = "Mesh")
     USkeletalMeshComponent* FirstPersonHand;
-    
-    UPROPERTY(VisibleAnywhere, Category = "Weapon")
-    USkeletalMeshComponent* WeaponMesh;
 
-private:
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true), Category = "Weapon")
+    USkeletalMeshComponent* WeaponMesh;
+    
     UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
     UWidgetComponent* OverheadWidget;
 
     UPROPERTY(EditAnywhere, Category = "ForceField")
     UPostProcessComponent* ForceFieldPostProcessComponent;
     
-	//승언 : StatComponent 붙이기
-	UPROPERTY(VisibleAnywhere, Category="Component")
-	class UStatComponent *StatComponent;
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+	class UStatComponent* StatComponent;
+
+    UPROPERTY(VisibleAnywhere, Category = "Combat")
+    class UCombatComponent* CombatComponent;            // Shoot, Skill 등 무기 이용한 공격 관리하는 Component
+    
     UPROPERTY()
     UMaterialInterface* ForceFieldPostProcessMaterial;
 
@@ -66,5 +69,7 @@ private:
     UPROPERTY()
     bool bIsInForceField;
 
-    bool bIsFirstPersonCam;
+public:
+    FORCEINLINE USkeletalMeshComponent* GetEquippedWeapon() { return WeaponMesh; }
+    FORCEINLINE USkeletalMeshComponent* GetFirstPersonMesh() { return FirstPersonHand; }
 };

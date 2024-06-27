@@ -55,11 +55,6 @@ void AEHCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
 
-    // if(FPSCamera)
-    // {
-    //     FRotator NewCameraRotation = FRotator(0.f, 90.f, 0.f);
-    //     FPSCamera->SetWorldRotation(NewCameraRotation);
-    // }
 }
 
 void AEHCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -78,18 +73,20 @@ void AEHCharacter::BeginPlay()
         BossZone = Cast<ABP_BossZone>(FoundActors[0]);
     }
 
-    // Third Person View
-    if(!IsLocallyControlled())
+   Initialize();
+}
+
+void AEHCharacter::Initialize()
+{
+    // First Person, Third Person Weapon Position Setting
+    if(IsLocallyControlled())
+    {
+        WeaponMesh->AttachToComponent(FirstPersonHand, FAttachmentTransformRules::KeepRelativeTransform, FName("FPS_RightHand"));
+    }
+    else
     {
         WeaponMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, FName("TPS_RightHand"));
     }
-}
-
-void AEHCharacter::PostInitializeComponents()
-{
-    Super::PostInitializeComponents();
-
-    
 }
 
 void AEHCharacter::EnableForceFieldEffect()
