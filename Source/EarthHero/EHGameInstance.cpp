@@ -27,7 +27,9 @@ void UEHGameInstance::Init()
 {
     Super::Init();
 
-    //Å¬¶óÀÌ¾ðÆ®¸¸ ¼¼¼Ç Ã£°í Âü°¡
+    LoadSettings();
+
+    //Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     if (!IsRunningDedicatedServer())
     {
         FindSessions("JoinMainSession");
@@ -91,7 +93,7 @@ void UEHGameInstance::HandleFindSessionsCompleted(bool bWasSuccessful, TSharedRe
 
                     int32 CurrentPlayers = SessionInSearchResult.Session.SessionSettings.NumPublicConnections - SessionInSearchResult.Session.NumOpenPublicConnections;
 
-                    // °Ë»öÁ¶°Ç¿¡ ºÎÇÕÇÏ°í ¼¼¼ÇÀÌ À¯È¿ÇÑÁö È®ÀÎ
+                    // ï¿½Ë»ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¿ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
                     if (bKeyValueFound1 && bKeyValueFound2)
                     {
                         if (GameName == "EH2" &&
@@ -102,7 +104,7 @@ void UEHGameInstance::HandleFindSessionsCompleted(bool bWasSuccessful, TSharedRe
                         {
                             UE_LOG(LogTemp, Log, TEXT("Valid session : %s, %s, %d"), *FindSessionReason, *PortNumber, CurrentPlayers);
 
-                            // Âü°¡¿¡ ÇÊ¿äÇÑ ÇÃ·§Æû Àü¿ë Á¢¼Ó Á¤º¸¸¦ ¹ÝÈ¯
+                            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
                             if (Session->GetResolvedConnectString(SessionInSearchResult, NAME_GamePort, ConnectString))
                             {
                                 SessionToJoin = &SessionInSearchResult;
@@ -142,7 +144,7 @@ void UEHGameInstance::JoinSession()
 
             UE_LOG(LogTemp, Log, TEXT("Joining session."));
 
-            //¼¼¼Ç Âü°¡ ½Ãµµ
+            //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ãµï¿½
             if (!Session->JoinSession(0, "MainSession", *SessionToJoin))
             {
                 UE_LOG(LogTemp, Warning, TEXT("Join session failed"));
@@ -164,7 +166,7 @@ void UEHGameInstance::HandleJoinSessionCompleted(FName SessionName, EOnJoinSessi
                 UE_LOG(LogTemp, Log, TEXT("Joined session."));
                 if (GEngine)
                 {
-                    //¼¼¼Ç¿¡¼­ ipÁÖ¼Ò °¡Á®¿À±â
+                    //ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ ipï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     if (!Session->GetResolvedConnectString(SessionName, ConnectString))
                     {
                         UE_LOG(LogTemp, Error, TEXT("Could not get connect string."));
@@ -176,7 +178,7 @@ void UEHGameInstance::HandleJoinSessionCompleted(FName SessionName, EOnJoinSessi
 
                     JoinedSessionName = SessionName;
 
-                    //Dedicated ¼­¹ö Á¢¼Ó
+                    //Dedicated ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                     FURL DedicatedServerURL(nullptr, *ConnectString, TRAVEL_Absolute);
                     FString DedicatedServerJoinError;
                     auto DedicatedServerJoinStatus = GEngine->Browse(GEngine->GetWorldContextFromWorldChecked(GetWorld()), DedicatedServerURL, DedicatedServerJoinError);
@@ -240,4 +242,52 @@ void UEHGameInstance::DestroySessionComplete(FName SessionName, bool bWasSuccess
         }
     }
 
+}
+
+void UEHGameInstance::SaveSettings()
+{
+    FString SavePath = FPaths::ProjectSavedDir() + TEXT("Settings.sav");
+
+    FString SaveString;
+    SaveString += FString::FromInt(Resolution) + TEXT("\n");
+    SaveString += FString::FromInt(ScreenMode) + TEXT("\n");
+    SaveString += FString::FromInt(MaxFrame) + TEXT("\n");
+    SaveString += bVSyncEnabled ? TEXT("1\n") : TEXT("0\n");
+    SaveString += FString::FromInt(OverallQuality) + TEXT("\n");
+    SaveString += FString::FromInt(AntiAliasing) + TEXT("\n");
+    SaveString += FString::FromInt(PostProcessing) + TEXT("\n");
+    SaveString += FString::SanitizeFloat(MasterVolume) + TEXT("\n");
+    SaveString += FString::SanitizeFloat(BackgroundVolume) + TEXT("\n");
+    SaveString += FString::SanitizeFloat(SFXVolume) + TEXT("\n");
+    SaveString += FString::SanitizeFloat(MouseSensitivity) + TEXT("\n");
+
+    FFileHelper::SaveStringToFile(SaveString, *SavePath);
+}
+
+
+void UEHGameInstance::LoadSettings()
+{
+    FString SavePath = FPaths::ProjectSavedDir() + TEXT("Settings.sav");
+    FString LoadString;
+
+    if (FFileHelper::LoadFileToString(LoadString, *SavePath))
+    {
+        TArray<FString> ParsedStrings;
+        LoadString.ParseIntoArray(ParsedStrings, TEXT("\n"), true);
+
+        if (ParsedStrings.Num() >= 11)
+        {
+            Resolution = FCString::Atoi(*ParsedStrings[0]);
+            ScreenMode = FCString::Atoi(*ParsedStrings[1]);
+            MaxFrame = FCString::Atoi(*ParsedStrings[2]);
+            bVSyncEnabled = FCString::Atoi(*ParsedStrings[3]) == 1;
+            OverallQuality = FCString::Atoi(*ParsedStrings[4]);
+            AntiAliasing = FCString::Atoi(*ParsedStrings[5]);
+            PostProcessing = FCString::Atoi(*ParsedStrings[6]);
+            MasterVolume = FCString::Atof(*ParsedStrings[7]);
+            BackgroundVolume = FCString::Atof(*ParsedStrings[8]);
+            SFXVolume = FCString::Atof(*ParsedStrings[9]);
+            MouseSensitivity = FCString::Atof(*ParsedStrings[10]);
+        }
+    }
 }

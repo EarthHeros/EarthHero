@@ -31,7 +31,44 @@ private:
 public:
 	bool IsCheckedPrivate = false;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	int32 Resolution;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	int32 ScreenMode;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	int32 MaxFrame;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	bool bVSyncEnabled;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	int32 OverallQuality;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	int32 AntiAliasing;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	int32 PostProcessing;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	float MasterVolume;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	float BackgroundVolume;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	float SFXVolume;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	float MouseSensitivity;
+
+	UFUNCTION(BlueprintCallable, Category = "Settings")
+	void SaveSettings();
+
+	UFUNCTION(BlueprintCallable, Category = "Settings")
+	void LoadSettings();
 
 protected:
 	FName JoinedSessionName;
