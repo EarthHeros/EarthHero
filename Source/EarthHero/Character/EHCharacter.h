@@ -33,8 +33,16 @@ public:
 protected:
     virtual void BeginPlay() override;
 
+    virtual void PostInitializeComponents() override;
+    
     UPROPERTY(VisibleAnywhere, Category = "Camera")
     UCameraComponent* FPSCamera;
+
+    UPROPERTY(VisibleAnywhere,Category = "Mesh")
+    USkeletalMeshComponent* FirstPersonHand;
+    
+    UPROPERTY(VisibleAnywhere, Category = "Weapon")
+    USkeletalMeshComponent* WeaponMesh;
 
 private:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))

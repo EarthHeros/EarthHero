@@ -2,7 +2,6 @@
 #include "Camera/CameraComponent.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/SpringArmComponent.h"
 #include "Components/PostProcessComponent.h"
 #include "EarthHero/Stat/StatComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
@@ -19,9 +18,14 @@ AEHCharacter::AEHCharacter()
     bUseControllerRotationRoll = false;
 
     FPSCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FPS Camera"));
-    FPSCamera->SetupAttachment(GetMesh(), FName("FPSCamSocket"));
+    FPSCamera->SetupAttachment(RootComponent);
     FPSCamera->bUsePawnControlRotation = true;
-    FPSCamera->bUsePawnControlRotation = true;
+
+    FirstPersonHand = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FPS Hand"));
+    FirstPersonHand->SetupAttachment(FPSCamera);
+
+    WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Weapon"));
+    WeaponMesh->SetupAttachment(FirstPersonHand, FName("FPS_RightHand"));
 
     OverheadWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("OverheadWidget"));
     OverheadWidget->SetupAttachment(RootComponent);
@@ -73,6 +77,19 @@ void AEHCharacter::BeginPlay()
     {
         BossZone = Cast<ABP_BossZone>(FoundActors[0]);
     }
+
+    // Third Person View
+    if(!IsLocallyControlled())
+    {
+        WeaponMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, FName("TPS_RightHand"));
+    }
+}
+
+void AEHCharacter::PostInitializeComponents()
+{
+    Super::PostInitializeComponents();
+
+    
 }
 
 void AEHCharacter::EnableForceFieldEffect()
