@@ -32,12 +32,10 @@ void UStatComponent::BeginPlay()
 	// }
 	
 	//테이블 내용 가져오기
-
-	/* 직업을 가져오는 코드를 작성해야 한다. 지금은 임시로 모든 생성 캐릭터가 Shooter로 설정 */
-	FName HeroName = TEXT("Shooter");
+	
 
 	//스텟 초기화(서버->클라이언트)
-	InitializeStatData(HeroName);
+	InitializeStatData("Hero");
 
 	if (GetOwner()->HasAuthority())
 	{
