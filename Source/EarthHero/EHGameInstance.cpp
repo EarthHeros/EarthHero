@@ -1,27 +1,25 @@
-
-
 #include "EHGameInstance.h"
 #include "Engine/DataTable.h"
 #include "UObject/ConstructorHelpers.h"
 #include "OnlineSubsystem.h"
 #include "OnlineSubsystemUtils.h"
 #include "Interfaces/OnlineIdentityInterface.h"
+#include "Options.h"
+#include "GameFramework/GameUserSettings.h"
 
 UEHGameInstance::UEHGameInstance()
 {
-	static ConstructorHelpers::FObjectFinder<UDataTable> DT_GameTable(TEXT("/Game/Data/Character/DT_CharacterStat.DT_CharacterStat"));
-	if (DT_GameTable.Succeeded())
-	{
-		CharacterStatDataTable = DT_GameTable.Object;
-	}
+    static ConstructorHelpers::FObjectFinder<UDataTable> DT_GameTable(TEXT("/Game/Data/Character/DT_CharacterStat.DT_CharacterStat"));
+    if (DT_GameTable.Succeeded())
+    {
+        CharacterStatDataTable = DT_GameTable.Object;
+    }
 }
 
 FStatStructure* UEHGameInstance::GetStatStructure(FName HeroName) const
 {
-	return CharacterStatDataTable->FindRow<FStatStructure>(HeroName, TEXT(""));
+    return CharacterStatDataTable->FindRow<FStatStructure>(HeroName, TEXT(""));
 }
-
-
 
 void UEHGameInstance::Init()
 {
@@ -29,7 +27,7 @@ void UEHGameInstance::Init()
 
     LoadSettings();
 
-    //Ŭ���̾�Ʈ�� ���� ã�� ����
+    // Find sessions if not running on a dedicated server
     if (!IsRunningDedicatedServer())
     {
         FindSessions("JoinMainSession");
@@ -88,12 +86,8 @@ void UEHGameInstance::HandleFindSessionsCompleted(bool bWasSuccessful, TSharedRe
                     FString PortNumber;
                     bool bKeyValueFound2 = SessionInSearchResult.Session.SessionSettings.Get("PortNumber", PortNumber);
 
-                    // FString LobbyType;
-                     //bool bKeyValueFound3 = SessionInSearchResult.Session.SessionSettings.Get("LobbyType", LobbyType);
-
                     int32 CurrentPlayers = SessionInSearchResult.Session.SessionSettings.NumPublicConnections - SessionInSearchResult.Session.NumOpenPublicConnections;
 
-                    // �˻����ǿ� �����ϰ� ������ ��ȿ���� Ȯ��
                     if (bKeyValueFound1 && bKeyValueFound2)
                     {
                         if (GameName == "EH2" &&
@@ -104,7 +98,6 @@ void UEHGameInstance::HandleFindSessionsCompleted(bool bWasSuccessful, TSharedRe
                         {
                             UE_LOG(LogTemp, Log, TEXT("Valid session : %s, %s, %d"), *FindSessionReason, *PortNumber, CurrentPlayers);
 
-                            // ������ �ʿ��� �÷��� ���� ���� ������ ��ȯ
                             if (Session->GetResolvedConnectString(SessionInSearchResult, NAME_GamePort, ConnectString))
                             {
                                 SessionToJoin = &SessionInSearchResult;
@@ -144,7 +137,6 @@ void UEHGameInstance::JoinSession()
 
             UE_LOG(LogTemp, Log, TEXT("Joining session."));
 
-            //���� ���� �õ�
             if (!Session->JoinSession(0, "MainSession", *SessionToJoin))
             {
                 UE_LOG(LogTemp, Warning, TEXT("Join session failed"));
@@ -166,7 +158,6 @@ void UEHGameInstance::HandleJoinSessionCompleted(FName SessionName, EOnJoinSessi
                 UE_LOG(LogTemp, Log, TEXT("Joined session."));
                 if (GEngine)
                 {
-                    //���ǿ��� ip�ּ� ��������
                     if (!Session->GetResolvedConnectString(SessionName, ConnectString))
                     {
                         UE_LOG(LogTemp, Error, TEXT("Could not get connect string."));
@@ -178,7 +169,6 @@ void UEHGameInstance::HandleJoinSessionCompleted(FName SessionName, EOnJoinSessi
 
                     JoinedSessionName = SessionName;
 
-                    //Dedicated ���� ����
                     FURL DedicatedServerURL(nullptr, *ConnectString, TRAVEL_Absolute);
                     FString DedicatedServerJoinError;
                     auto DedicatedServerJoinStatus = GEngine->Browse(GEngine->GetWorldContextFromWorldChecked(GetWorld()), DedicatedServerURL, DedicatedServerJoinError);
@@ -216,10 +206,11 @@ void UEHGameInstance::LeaveMainSession(FString Reason)
         }
         else
         {
-            UE_LOG(LogTemp, Warning, TEXT("Leave session is not vaild"));
+            UE_LOG(LogTemp, Warning, TEXT("Leave session is not valid"));
         }
     }
 }
+
 void UEHGameInstance::DestroySessionComplete(FName SessionName, bool bWasSuccessful)
 {
     IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
@@ -241,7 +232,6 @@ void UEHGameInstance::DestroySessionComplete(FName SessionName, bool bWasSuccess
             DestroySessionCompleteDelegatesHandle.Reset();
         }
     }
-
 }
 
 void UEHGameInstance::SaveSettings()
@@ -249,7 +239,8 @@ void UEHGameInstance::SaveSettings()
     FString SavePath = FPaths::ProjectSavedDir() + TEXT("Settings.sav");
 
     FString SaveString;
-    SaveString += FString::FromInt(Resolution) + TEXT("\n");
+    SaveString += FString::FromInt(ResolutionWidth) + TEXT("\n"); // Save width
+    SaveString += FString::FromInt(ResolutionHeight) + TEXT("\n"); // Save height
     SaveString += FString::FromInt(ScreenMode) + TEXT("\n");
     SaveString += FString::FromInt(MaxFrame) + TEXT("\n");
     SaveString += bVSyncEnabled ? TEXT("1\n") : TEXT("0\n");
@@ -264,7 +255,6 @@ void UEHGameInstance::SaveSettings()
     FFileHelper::SaveStringToFile(SaveString, *SavePath);
 }
 
-
 void UEHGameInstance::LoadSettings()
 {
     FString SavePath = FPaths::ProjectSavedDir() + TEXT("Settings.sav");
@@ -275,19 +265,59 @@ void UEHGameInstance::LoadSettings()
         TArray<FString> ParsedStrings;
         LoadString.ParseIntoArray(ParsedStrings, TEXT("\n"), true);
 
-        if (ParsedStrings.Num() >= 11)
+        if (ParsedStrings.Num() >= 12) // Expecting 12 lines now (width + height)
         {
-            Resolution = FCString::Atoi(*ParsedStrings[0]);
-            ScreenMode = FCString::Atoi(*ParsedStrings[1]);
-            MaxFrame = FCString::Atoi(*ParsedStrings[2]);
-            bVSyncEnabled = FCString::Atoi(*ParsedStrings[3]) == 1;
-            OverallQuality = FCString::Atoi(*ParsedStrings[4]);
-            AntiAliasing = FCString::Atoi(*ParsedStrings[5]);
-            PostProcessing = FCString::Atoi(*ParsedStrings[6]);
-            MasterVolume = FCString::Atof(*ParsedStrings[7]);
-            BackgroundVolume = FCString::Atof(*ParsedStrings[8]);
-            SFXVolume = FCString::Atof(*ParsedStrings[9]);
-            MouseSensitivity = FCString::Atof(*ParsedStrings[10]);
+            ResolutionWidth = FCString::Atoi(*ParsedStrings[0]);
+            ResolutionHeight = FCString::Atoi(*ParsedStrings[1]);
+            ScreenMode = FCString::Atoi(*ParsedStrings[2]);
+            MaxFrame = FCString::Atoi(*ParsedStrings[3]);
+            bVSyncEnabled = FCString::Atoi(*ParsedStrings[4]) == 1;
+            OverallQuality = FCString::Atoi(*ParsedStrings[5]);
+            AntiAliasing = FCString::Atoi(*ParsedStrings[6]);
+            PostProcessing = FCString::Atoi(*ParsedStrings[7]);
+            MasterVolume = FCString::Atof(*ParsedStrings[8]);
+            BackgroundVolume = FCString::Atof(*ParsedStrings[9]);
+            SFXVolume = FCString::Atof(*ParsedStrings[10]);
+            MouseSensitivity = FCString::Atof(*ParsedStrings[11]);
+
+            // Apply the loaded settings
+            UGameUserSettings* UserSettings = GEngine->GetGameUserSettings();
+            if (UserSettings)
+            {
+                EWindowMode::Type WindowMode = EWindowMode::Windowed;
+                switch (ScreenMode)
+                {
+                case 0:
+                    WindowMode = EWindowMode::Fullscreen;
+                    break;
+                case 1:
+                    WindowMode = EWindowMode::WindowedFullscreen;
+                    break;
+                case 2:
+                default:
+                    WindowMode = EWindowMode::Windowed;
+                    break;
+                }
+                UserSettings->SetFullscreenMode(WindowMode);
+
+                // Set resolution directly from the loaded values
+                UserSettings->SetScreenResolution(FIntPoint(ResolutionWidth, ResolutionHeight));
+
+                UserSettings->SetVSyncEnabled(bVSyncEnabled);
+                UserSettings->SetOverallScalabilityLevel(OverallQuality);
+                UserSettings->SetAntiAliasingQuality(AntiAliasing);
+                UserSettings->SetPostProcessingQuality(PostProcessing);
+                UserSettings->SetFrameRateLimit(MaxFrame);
+                UserSettings->ApplySettings(false);
+            }
+
+            /* Apply volume and mouse sensitivity
+            AudioSubsystem->SetMasterVolume(MasterVolume);
+            AudioSubsystem->SetBackgroundVolume(BackgroundVolume);
+            AudioSubsystem->SetSFXVolume(SFXVolume);
+            InputSubsystem->SetMouseSensitivity(MouseSensitivity); */
         }
     }
 }
+
+

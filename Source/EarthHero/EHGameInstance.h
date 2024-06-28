@@ -32,7 +32,10 @@ public:
 	bool IsCheckedPrivate = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
-	int32 Resolution;
+	int32 ResolutionWidth;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	int32 ResolutionHeight;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	int32 ScreenMode;
@@ -69,7 +72,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Settings")
 	void LoadSettings();
-
 protected:
 	FName JoinedSessionName;
 	FString LeaveSessionReason, FindSessionReason;

@@ -47,6 +47,10 @@ public:
 
     UPROPERTY(meta = (BindWidget))
     USlider* MouseSensitivitySlider;
+    
+    void SetRecommendedResolution();
+
+    static bool ParseResolution(const FString& ResolutionString, int32& Width, int32& Height);
 
     void InitializeOptions();
 

@@ -2,6 +2,7 @@
 #include "Components/ComboBoxString.h"
 #include "Components/Slider.h"
 #include "EHGameInstance.h"
+#include "GameFramework/GameUserSettings.h"
 
 void UOptions::NativeConstruct()
 {
@@ -73,7 +74,8 @@ void UOptions::InitializeOptions()
         // Set ComboBox selections based on loaded settings
         if (ResolutionComboBox)
         {
-            ResolutionComboBox->SetSelectedOption(FString::FromInt(GameInstance->Resolution));
+            FString ResolutionString = FString::Printf(TEXT("%dx%d"), GameInstance->ResolutionWidth, GameInstance->ResolutionHeight);
+            ResolutionComboBox->SetSelectedOption(ResolutionString);
         }
 
         if (ScreenModeComboBox)
@@ -126,6 +128,16 @@ void UOptions::InitializeOptions()
         {
             MouseSensitivitySlider->SetValue(GameInstance->MouseSensitivity);
         }
+
+        // Disable resolution combo box if necessary
+        if (GameInstance->ScreenMode == 0 || GameInstance->ScreenMode == 1)
+        {
+            ResolutionComboBox->SetIsEnabled(false);
+        }
+        else
+        {
+            ResolutionComboBox->SetIsEnabled(true);
+        }
     }
 }
 
@@ -134,10 +146,24 @@ void UOptions::OnResolutionChanged(FString SelectedItem, ESelectInfo::Type Selec
     auto GameInstance = Cast<UEHGameInstance>(GetGameInstance());
     if (GameInstance)
     {
-        GameInstance->Resolution = FCString::Atoi(*SelectedItem);
-        GameInstance->SaveSettings();
+        int32 Width, Height;
+        if (ParseResolution(SelectedItem, Width, Height))
+        {
+            GameInstance->ResolutionWidth = Width;
+            GameInstance->ResolutionHeight = Height;
+            GameInstance->SaveSettings();
+
+            // Apply the resolution change
+            UGameUserSettings* UserSettings = GEngine->GetGameUserSettings();
+            if (UserSettings)
+            {
+                UserSettings->SetScreenResolution(FIntPoint(Width, Height));
+                UserSettings->ApplySettings(false);
+            }
+        }
     }
 }
+
 
 void UOptions::OnScreenModeChanged(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
@@ -146,6 +172,46 @@ void UOptions::OnScreenModeChanged(FString SelectedItem, ESelectInfo::Type Selec
     {
         GameInstance->ScreenMode = ScreenModeFromString(SelectedItem);
         GameInstance->SaveSettings();
+
+        // Apply the screen mode change
+        UGameUserSettings* UserSettings = GEngine->GetGameUserSettings();
+        if (UserSettings)
+        {
+            EWindowMode::Type WindowMode;
+            switch (GameInstance->ScreenMode)
+            {
+                case 0:
+                    WindowMode = EWindowMode::Fullscreen;
+                    SetRecommendedResolution();
+                    break;
+                case 1:
+                    WindowMode = EWindowMode::WindowedFullscreen;
+                    SetRecommendedResolution();
+                    break;
+                case 2:
+                default:
+                    WindowMode = EWindowMode::Windowed;
+                    ResolutionComboBox->SetIsEnabled(true);
+                    break;
+            }
+            UserSettings->SetFullscreenMode(WindowMode);
+            UserSettings->ApplySettings(false);
+        }
+    }
+}
+
+void UOptions::SetRecommendedResolution()
+{
+    UGameUserSettings* UserSettings = GEngine->GetGameUserSettings();
+    if (UserSettings)
+    {
+        FIntPoint NativeResolution = UserSettings->GetDesktopResolution();
+        UserSettings->SetScreenResolution(NativeResolution);
+        UserSettings->ApplySettings(false);
+
+        FString ResolutionString = FString::Printf(TEXT("%dx%d"), NativeResolution.X, NativeResolution.Y);
+        ResolutionComboBox->SetSelectedOption(ResolutionString);
+        ResolutionComboBox->SetIsEnabled(false);
     }
 }
 
@@ -156,6 +222,9 @@ void UOptions::OnMaxFrameChanged(FString SelectedItem, ESelectInfo::Type Selecti
     {
         GameInstance->MaxFrame = FCString::Atoi(*SelectedItem);
         GameInstance->SaveSettings();
+        
+        // Apply the max frame rate change
+        GEngine->GetGameUserSettings()->SetFrameRateLimit(GameInstance->MaxFrame);
     }
 }
 
@@ -166,6 +235,9 @@ void UOptions::OnVSyncChanged(FString SelectedItem, ESelectInfo::Type SelectionT
     {
         GameInstance->bVSyncEnabled = (SelectedItem == TEXT("켜기"));
         GameInstance->SaveSettings();
+
+        // Apply the VSync change
+        GEngine->GetGameUserSettings()->SetVSyncEnabled(GameInstance->bVSyncEnabled);
     }
 }
 
@@ -176,6 +248,14 @@ void UOptions::OnOverallQualityChanged(FString SelectedItem, ESelectInfo::Type S
     {
         GameInstance->OverallQuality = QualityFromString(SelectedItem);
         GameInstance->SaveSettings();
+
+        // Apply the overall quality change
+        UGameUserSettings* UserSettings = GEngine->GetGameUserSettings();
+        if (UserSettings)
+        {
+            UserSettings->SetOverallScalabilityLevel(GameInstance->OverallQuality);
+            UserSettings->ApplySettings(false);
+        }
     }
 }
 
@@ -186,6 +266,14 @@ void UOptions::OnAntiAliasingChanged(FString SelectedItem, ESelectInfo::Type Sel
     {
         GameInstance->AntiAliasing = QualityFromString(SelectedItem);
         GameInstance->SaveSettings();
+
+        // Apply the anti-aliasing quality change
+        UGameUserSettings* UserSettings = GEngine->GetGameUserSettings();
+        if (UserSettings)
+        {
+            UserSettings->SetAntiAliasingQuality(GameInstance->AntiAliasing);
+            UserSettings->ApplySettings(false);
+        }
     }
 }
 
@@ -196,6 +284,14 @@ void UOptions::OnPostProcessingChanged(FString SelectedItem, ESelectInfo::Type S
     {
         GameInstance->PostProcessing = QualityFromString(SelectedItem);
         GameInstance->SaveSettings();
+
+        // Apply the post-processing quality change
+        UGameUserSettings* UserSettings = GEngine->GetGameUserSettings();
+        if (UserSettings)
+        {
+            UserSettings->SetPostProcessingQuality(GameInstance->PostProcessing);
+            UserSettings->ApplySettings(false);
+        }
     }
 }
 
@@ -206,6 +302,10 @@ void UOptions::OnMasterVolumeChanged(float Value)
     {
         GameInstance->MasterVolume = Value;
         GameInstance->SaveSettings();
+        
+        // Apply the master volume change
+        // Assuming you have an audio subsystem or audio manager to set this
+        // AudioSubsystem->SetMasterVolume(Value);
     }
 }
 
@@ -216,6 +316,10 @@ void UOptions::OnBackgroundVolumeChanged(float Value)
     {
         GameInstance->BackgroundVolume = Value;
         GameInstance->SaveSettings();
+        
+        // Apply the background volume change
+        // Assuming you have an audio subsystem or audio manager to set this
+        // AudioSubsystem->SetBackgroundVolume(Value);
     }
 }
 
@@ -226,6 +330,10 @@ void UOptions::OnSFXVolumeChanged(float Value)
     {
         GameInstance->SFXVolume = Value;
         GameInstance->SaveSettings();
+        
+        // Apply the SFX volume change
+        // Assuming you have an audio subsystem or audio manager to set this
+        // AudioSubsystem->SetSFXVolume(Value);
     }
 }
 
@@ -236,6 +344,10 @@ void UOptions::OnMouseSensitivityChanged(float Value)
     {
         GameInstance->MouseSensitivity = Value;
         GameInstance->SaveSettings();
+        
+        // Apply the mouse sensitivity change
+        // Assuming you have a function to set this in your input system
+        // InputSubsystem->SetMouseSensitivity(Value);
     }
 }
 
@@ -282,3 +394,18 @@ int32 UOptions::ScreenModeFromString(const FString& ScreenModeString)
     if (ScreenModeString == TEXT("창모드")) return 2;
     return 2;
 }
+
+bool UOptions::ParseResolution(const FString& ResolutionString, int32& Width, int32& Height)
+{
+    TArray<FString> ParsedStrings;
+    ResolutionString.ParseIntoArray(ParsedStrings, TEXT("x"), true);
+
+    if (ParsedStrings.Num() == 2)
+    {
+        Width = FCString::Atoi(*ParsedStrings[0]);
+        Height = FCString::Atoi(*ParsedStrings[1]);
+        return true;
+    }
+    return false;
+}
+
