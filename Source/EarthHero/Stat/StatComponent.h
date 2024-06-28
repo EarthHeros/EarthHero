@@ -14,7 +14,16 @@ class EARTHHERO_API UStatComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
+	// Sets default values for this component's properties
 	UStatComponent();
+
+	//참조만 가능하다.
+	//replicated replicateUsing에 대해 좀 더 생각해 봐야한다
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated)
+	FStatStructure HeroStat;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated)
+	FStatStructure BaseHeroStat;
 
 protected:
 	// Called when the game starts
@@ -27,13 +36,6 @@ public:
 private:
 
 	//APlayerController *PlayerController;
-	//참조만 가능하다.
-	//replicated replicateUsing에 대해 좀 더 생각해 봐야한다
-	UPROPERTY(Replicated)
-	FStatStructure HeroStat;
-	
-	UPROPERTY(Replicated)
-	FStatStructure BaseHeroStat;
 
 	//데미지 처리 함수
 	UFUNCTION(Server, Reliable, WithValidation)
