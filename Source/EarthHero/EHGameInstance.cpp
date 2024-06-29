@@ -1,4 +1,6 @@
 #include "EHGameInstance.h"
+
+#include "AudioDevice.h"
 #include "Engine/DataTable.h"
 #include "UObject/ConstructorHelpers.h"
 #include "OnlineSubsystem.h"
@@ -6,6 +8,7 @@
 #include "Interfaces/OnlineIdentityInterface.h"
 #include "Options.h"
 #include "GameFramework/GameUserSettings.h"
+#include "Kismet/GameplayStatics.h"
 
 UEHGameInstance::UEHGameInstance()
 {
@@ -13,6 +16,30 @@ UEHGameInstance::UEHGameInstance()
     if (DT_GameTable.Succeeded())
     {
         CharacterStatDataTable = DT_GameTable.Object;
+    }
+    
+    static ConstructorHelpers::FObjectFinder<USoundMix> SoundMixFinder(TEXT("/Game/Sounds/MainSoundMix.MainSoundMix"));
+    if (SoundMixFinder.Succeeded())
+    {
+        MainSoundMix = SoundMixFinder.Object;
+    }
+
+    static ConstructorHelpers::FObjectFinder<USoundClass> MasterSoundClassFinder(TEXT("/Game/Sounds/MasterVolume.MasterVolume"));
+    if (MasterSoundClassFinder.Succeeded())
+    {
+        MasterVolumeSoundClass = MasterSoundClassFinder.Object;
+    }
+
+    static ConstructorHelpers::FObjectFinder<USoundClass> BackgroundSoundClassFinder(TEXT("/Game/Sounds/BGMVolume.BGMVolume"));
+    if (BackgroundSoundClassFinder.Succeeded())
+    {
+        BackgroundVolumeSoundClass = BackgroundSoundClassFinder.Object;
+    }
+
+    static ConstructorHelpers::FObjectFinder<USoundClass> SFXSoundClassFinder(TEXT("/Game/Sounds/SFXVolume.SFXVolume"));
+    if (SFXSoundClassFinder.Succeeded())
+    {
+        SFXVolumeSoundClass = SFXSoundClassFinder.Object;
     }
 }
 
@@ -24,7 +51,6 @@ FStatStructure* UEHGameInstance::GetStatStructure(FName HeroName) const
 void UEHGameInstance::Init()
 {
     Super::Init();
-
     LoadSettings();
 
     // Find sessions if not running on a dedicated server
@@ -311,10 +337,16 @@ void UEHGameInstance::LoadSettings()
                 UserSettings->ApplySettings(false);
             }
 
-            /* Apply volume and mouse sensitivity
-            AudioSubsystem->SetMasterVolume(MasterVolume);
-            AudioSubsystem->SetBackgroundVolume(BackgroundVolume);
-            AudioSubsystem->SetSFXVolume(SFXVolume);
+            // Apply volume
+            if (GEngine && GEngine->GetMainAudioDevice())
+            {
+                GEngine->GetMainAudioDevice()->SetSoundMixClassOverride(MainSoundMix, MasterVolumeSoundClass, MasterVolume, 1.0f, 0.0f, true);
+                GEngine->GetMainAudioDevice()->SetSoundMixClassOverride(MainSoundMix, BackgroundVolumeSoundClass, BackgroundVolume, 1.0f, 0.0f, true);
+                GEngine->GetMainAudioDevice()->SetSoundMixClassOverride(MainSoundMix, SFXVolumeSoundClass, SFXVolume, 1.0f, 0.0f, true);
+                UGameplayStatics::PushSoundMixModifier(this, MainSoundMix);
+            }
+            
+            /* Apply mouse sensitivity
             InputSubsystem->SetMouseSensitivity(MouseSensitivity); */
         }
     }

@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "StatComponent.h"
 
 #include "StatCalculationLibrary.h"
@@ -129,4 +126,3 @@ void UStatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
 	DOREPLIFETIME(UStatComponent, HeroStat);
 	DOREPLIFETIME(UStatComponent, BaseHeroStat);
 }
-

@@ -30,6 +30,27 @@ private:
 
 public:
 	bool IsCheckedPrivate = false;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
+	USoundMix* MainSoundMix;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
+	USoundClass* MasterVolumeSoundClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
+	USoundClass* BackgroundVolumeSoundClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
+	USoundClass* SFXVolumeSoundClass;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	float MasterVolume;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	float BackgroundVolume;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	float SFXVolume;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	int32 ResolutionWidth;
@@ -54,15 +75,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	int32 PostProcessing;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
-	float MasterVolume;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
-	float BackgroundVolume;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
-	float SFXVolume;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 	float MouseSensitivity;

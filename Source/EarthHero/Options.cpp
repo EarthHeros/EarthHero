@@ -1,8 +1,11 @@
 #include "Options.h"
+
+#include "AudioDevice.h"
 #include "Components/ComboBoxString.h"
 #include "Components/Slider.h"
 #include "EHGameInstance.h"
 #include "GameFramework/GameUserSettings.h"
+#include "Kismet/GameplayStatics.h"
 
 void UOptions::NativeConstruct()
 {
@@ -304,8 +307,11 @@ void UOptions::OnMasterVolumeChanged(float Value)
         GameInstance->SaveSettings();
         
         // Apply the master volume change
-        // Assuming you have an audio subsystem or audio manager to set this
-        // AudioSubsystem->SetMasterVolume(Value);
+        if (GEngine && GEngine->GetMainAudioDevice())
+        {
+            GEngine->GetMainAudioDevice()->SetSoundMixClassOverride(GameInstance->MainSoundMix, GameInstance->MasterVolumeSoundClass, Value, 1.0f, 0.0f, true);
+            UGameplayStatics::PushSoundMixModifier(this, GameInstance->MainSoundMix);
+        }
     }
 }
 
@@ -318,8 +324,11 @@ void UOptions::OnBackgroundVolumeChanged(float Value)
         GameInstance->SaveSettings();
         
         // Apply the background volume change
-        // Assuming you have an audio subsystem or audio manager to set this
-        // AudioSubsystem->SetBackgroundVolume(Value);
+        if (GEngine && GEngine->GetMainAudioDevice())
+        {
+            GEngine->GetMainAudioDevice()->SetSoundMixClassOverride(GameInstance->MainSoundMix, GameInstance->BackgroundVolumeSoundClass, Value, 1.0f, 0.0f, true);
+            UGameplayStatics::PushSoundMixModifier(this, GameInstance->MainSoundMix);
+        }
     }
 }
 
@@ -332,10 +341,14 @@ void UOptions::OnSFXVolumeChanged(float Value)
         GameInstance->SaveSettings();
         
         // Apply the SFX volume change
-        // Assuming you have an audio subsystem or audio manager to set this
-        // AudioSubsystem->SetSFXVolume(Value);
+        if (GEngine && GEngine->GetMainAudioDevice())
+        {
+            GEngine->GetMainAudioDevice()->SetSoundMixClassOverride(GameInstance->MainSoundMix, GameInstance->SFXVolumeSoundClass, Value, 1.0f, 0.0f, true);
+            UGameplayStatics::PushSoundMixModifier(this, GameInstance->MainSoundMix);
+        }
     }
 }
+
 
 void UOptions::OnMouseSensitivityChanged(float Value)
 {
