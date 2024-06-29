@@ -53,8 +53,9 @@ protected:
 	virtual void UnregisterPlayer(const APlayerController* ExitingPlayer);
 	void HandleUnregisterPlayerCompleted(FName SessionName, const TArray<FUniqueNetIdRef>& PlayerIds, bool bWasSuccesful);
 
-
+public:
 	void StartSession();
+protected:
 	void HandleStartSessionCompleted(FName SessionName, bool bWasSuccessful);
 
 	void ChangeMap(); //테스트용

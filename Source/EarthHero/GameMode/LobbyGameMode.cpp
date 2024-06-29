@@ -36,11 +36,26 @@ void ALobbyGameMode::TogglePlayerReady(APlayerController* Player)
 		ALobbyGameSession* LobbyGameSession = Cast<ALobbyGameSession>(GameSession);
 		if (LobbyGameSession)
 		{
-			if (ReadyCount == (LobbyGameSession->MaxNumberOfPlayersInSession - 1)) //방장 제외 모두 레디 시
+			if (ReadyCount == (LobbyGameSession->MaxNumberOfPlayersInSession - 1)) //방장 제외 모두 레디 시 //수정 필요
 			{
-				//미완성
 				UE_LOG(LogTemp, Warning, TEXT("all player ready!!"));
+				UE_LOG(LogTemp, Log, TEXT("Lobby Start!"));
+				LobbyGameSession->StartSession();
 			}
 		}
 	}
+}
+
+void ALobbyGameMode::AddPlayerReadyState(APlayerController* NewPlayer)
+{
+	if (PlayerReadyState.Contains(NewPlayer))
+	{
+		PlayerReadyState.Remove(NewPlayer);
+	}
+	PlayerReadyState.Add(NewPlayer, false);
+}
+
+void ALobbyGameMode::PressGameStartButton()
+{
+	//미온성
 }

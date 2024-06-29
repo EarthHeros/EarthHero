@@ -8,6 +8,7 @@
 #include "OnlineSessionSettings.h"
 #include <EarthHero/PlayerController/LobbyPlayerController.h>
 #include <Kismet/GameplayStatics.h>
+#include <EarthHero/GameMode/LobbyGameMode.h>
 
 
 
@@ -166,23 +167,18 @@ void ALobbyGameSession::HandleRegisterPlayerCompleted(FName EOSSessionName, cons
                 if (NumberOfPlayersInSession == 1)
                 {
                     //첫 번째 플레이어가 방장
-                    HostPlayerId = PlayerIds[0];
+                    HostPlayerId = PlayerIds[0]; //이거 플레이어 컨트롤러 저장으로 변경 필요
                     UE_LOG(LogTemp, Log, TEXT("Host Assigment..."), *HostPlayerId->ToString());
 
                     //클라이언트에게 방장 권한을 부여
                     HostAssignment(NewPlayerPlayerController);
                 }
 
-                //미완성, 여기서 게임모드의 playerreadystate에 추가해줘야함
+                // playerreadystate에 새로운 플레이어 레디 상태 false 추가
+                ALobbyGameMode* LobbyGameMode = Cast<ALobbyGameMode>(GetWorld()->GetAuthGameMode());
+                if (LobbyGameMode)
                 {
-                    //NewPlayerPlayerController
-                }
-
-                //플레이어가 꽉 찼으면 세션 시작
-                if (NumberOfPlayersInSession == MaxNumberOfPlayersInSession)
-                {
-                    UE_LOG(LogTemp, Log, TEXT("Lobby Start!"));
-                    StartSession();
+                    LobbyGameMode->AddPlayerReadyState(NewPlayerPlayerController);
                 }
             }
             else UE_LOG(LogTemp, Warning, TEXT("Failed to register player! (From Callback)"));

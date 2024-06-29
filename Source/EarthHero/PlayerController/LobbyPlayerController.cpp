@@ -75,10 +75,19 @@ void ALobbyPlayerController::Server_ClientReady_Implementation()
 	//방장은 게임 시작버튼 처리
 	if(bHost)
 	{
+		ALobbyGameMode* LobbyGameMode = Cast<ALobbyGameMode>(GetWorld()->GetAuthGameMode());
+		if (LobbyGameMode)
+		{
+			LobbyGameMode->PressGameStartButton();
+		}
 	}
 	//클라이언트는 게임 레디 처리
 	else
 	{
-
+		ALobbyGameMode* LobbyGameMode = Cast<ALobbyGameMode>(GetWorld()->GetAuthGameMode());
+		if (LobbyGameMode)
+		{
+			LobbyGameMode->TogglePlayerReady(this); //로비 플레이어 컨트롤러를 넘기지만 받는 곳은 플레이어 컨트롤러. 큰 문제 없으려나?
+		}
 	}
 }
