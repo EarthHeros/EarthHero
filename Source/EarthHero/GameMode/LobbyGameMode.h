@@ -26,4 +26,8 @@ protected:
 public:
 	ALobbyGameMode();
 	void TogglePlayerReady(APlayerController* Player);
+	void AddPlayerReadyState(APlayerController* Player);
+	void PressGameStartButton();
+
+
 };
