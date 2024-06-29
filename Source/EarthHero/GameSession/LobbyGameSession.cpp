@@ -124,8 +124,11 @@ void ALobbyGameSession::RegisterPlayer(APlayerController* NewPlayer, const FUniq
         if (Subsystem)
         {
             IOnlineSessionPtr Session = Subsystem->GetSessionInterface();
+
             if (Session.IsValid())
             {
+                NewPlayerPlayerController = NewPlayer;
+
                 RegisterPlayerDelegateHandle =
                     Session->AddOnRegisterPlayersCompleteDelegate_Handle(FOnRegisterPlayersCompleteDelegate::CreateUObject(
                         this,
@@ -144,6 +147,7 @@ void ALobbyGameSession::RegisterPlayer(APlayerController* NewPlayer, const FUniq
 }
 
 //플레이어 등록 결과
+//PlayerIds는 온라인 서비스에 연결된 모든 플레이어 id를 의미
 void ALobbyGameSession::HandleRegisterPlayerCompleted(FName EOSSessionName, const TArray<FUniqueNetIdRef>& PlayerIds, bool bWasSuccesful)
 {
     IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
@@ -166,11 +170,13 @@ void ALobbyGameSession::HandleRegisterPlayerCompleted(FName EOSSessionName, cons
                     UE_LOG(LogTemp, Log, TEXT("Host Assigment..."), *HostPlayerId->ToString());
 
                     //클라이언트에게 방장 권한을 부여
-                    APlayerController* HostPlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-                    HostAssignment(HostPlayerController);
+                    HostAssignment(NewPlayerPlayerController);
                 }
 
                 //미완성, 여기서 게임모드의 playerreadystate에 추가해줘야함
+                {
+                    //NewPlayerPlayerController
+                }
 
                 //플레이어가 꽉 찼으면 세션 시작
                 if (NumberOfPlayersInSession == MaxNumberOfPlayersInSession)
@@ -283,6 +289,7 @@ void ALobbyGameSession::UnregisterPlayer(const APlayerController* ExitingPlayer)
     }
 }
 
+//PlayerIds는 온라인 서브에서 나간 플레이어 id들
 void ALobbyGameSession::HandleUnregisterPlayerCompleted(FName EOSSessionName, const TArray<FUniqueNetIdRef>& PlayerIds, bool bWasSuccesful)
 {
     IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();

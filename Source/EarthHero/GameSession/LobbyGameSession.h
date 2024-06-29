@@ -23,6 +23,7 @@ protected:
 	FName SessionName = "SessionName"; //임시 //무슨 의미가 있을까
 
 	FUniqueNetIdRepl HostPlayerId;
+	APlayerController* NewPlayerPlayerController;
 
 	const FString MainSessionMap = TEXT("/Game/Maps/StartupMap"); //임시
 	const FString InGameMap = TEXT("/Game/Maps/ForceFieldTestMap"); //임시
