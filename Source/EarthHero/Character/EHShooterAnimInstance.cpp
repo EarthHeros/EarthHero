@@ -24,8 +24,6 @@ void UEHShooterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	}
 	if(Shooter == nullptr) return;
 
-	if(Shooter->IsLocallyControlled()) return;
-
 	FVector Velocity = Shooter->GetVelocity();
 	Velocity.Z = 0.f;
 	Speed = Velocity.Size();
@@ -48,14 +46,25 @@ void UEHShooterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	PitchOffset = AimDeltaRotation.Pitch;
 	RollOffset = AimDeltaRotation.Roll;
 
-	if(EquippedWeapon && Shooter->GetMesh())
+	if(EquippedWeapon && Shooter->GetMesh() && Shooter->GetFirstPersonMesh())
 	{
-		LeftHandTransform = EquippedWeapon->GetSocketTransform(FName("LeftHandSocket"), RTS_World);
 		FVector OutPosition;
 		FRotator OutRotation;
-		// RightHand Socket을 기준으로 Bone Space에서 LeftHandTransform의 위치를 구한다
-		Shooter->GetMesh()->TransformToBoneSpace(FName("hand_r"), LeftHandTransform.GetLocation(), FRotator::ZeroRotator, OutPosition, OutRotation);
-		LeftHandTransform.SetLocation(OutPosition);
-		LeftHandTransform.SetRotation(FQuat(OutRotation));
+		
+		if(!Shooter->IsLocallyControlled()) // TPS
+		{
+			// RightHand Socket을 기준으로 Bone Space에서 LeftHandTransform의 위치를 구한다
+			LeftHandTransform = EquippedWeapon->GetSocketTransform(FName("LeftHandSocket"), RTS_World);
+			Shooter->GetMesh()->TransformToBoneSpace(FName("hand_r"), LeftHandTransform.GetLocation(), FRotator::ZeroRotator, OutPosition, OutRotation);
+			LeftHandTransform.SetLocation(OutPosition);
+			LeftHandTransform.SetRotation(FQuat(OutRotation));
+		}
+		else // FPS
+		{
+			LeftHandTransform = EquippedWeapon->GetSocketTransform(FName("FPSLeftHandSocket"), RTS_World);
+			Shooter->GetFirstPersonMesh()->TransformToBoneSpace(FName("hand_r"), LeftHandTransform.GetLocation(), FRotator::ZeroRotator, OutPosition, OutRotation);
+			LeftHandTransform.SetLocation(OutPosition);
+			LeftHandTransform.SetRotation(FQuat(OutRotation));
+		}
 	}
 }

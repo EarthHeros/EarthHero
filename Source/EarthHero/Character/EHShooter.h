@@ -15,9 +15,16 @@ class EARTHHERO_API AEHShooter : public AEHCharacter
 public:
 	AEHShooter();
 	virtual void Tick(float DeltaSeconds) override;
+	virtual void Shoot() override;
 
 protected:
 	void DrawShootingLine();
+
+	void ResetFire();
+	UFUNCTION(Server, Reliable)
+	void Server_Shoot(FVector Start, FVector End);
+	UFUNCTION(NetMulticast, Reliable)
+	void NetMulticast_Shoot(FVector Start, FVector End);
 	
 private:
 	virtual void BeginPlay() override;
@@ -27,4 +34,7 @@ private:
 	float MaxPitchAngle;
 	UPROPERTY(EditDefaultsOnly, Category = "Camera")
 	float MinPitchAngle;
+
+	FTimerHandle ShootTimerHandle;
+	bool bCanFire = true;
 };

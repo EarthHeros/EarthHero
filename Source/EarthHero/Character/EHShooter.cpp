@@ -4,7 +4,6 @@
 #include "EHShooter.h"
 
 #include "Camera/CameraComponent.h"
-#include "EarthHero/Player/EHPlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 AEHShooter::AEHShooter()
@@ -17,7 +16,7 @@ void AEHShooter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	DrawShootingLine();
+	//DrawShootingLine();
 
 	if(Controller)
 	{
@@ -31,24 +30,61 @@ void AEHShooter::Tick(float DeltaSeconds)
 		{
 			NewPitch = FMath::Clamp(NewRotator.Pitch-360.f, MinPitchAngle, MaxPitchAngle);
 		}
-		UE_LOG(LogTemp, Warning, TEXT("%f"), NewRotator.Pitch);
 		NewRotator.Pitch = NewPitch;
 		Controller->SetControlRotation(NewRotator);
 	}
 }
 
-void AEHShooter::DrawShootingLine()
+void AEHShooter::Shoot()
 {
-	FVector SocketLocation = GetMesh()->GetSocketLocation(FName("FPSCamSocket"));
-	FRotator ControlRotation;
-	if(Controller)
+	Super::Shoot();
+
+	if(!GetEquippedWeapon()) return;
+
+	if(bCanFire)
 	{
-		ControlRotation = Controller->GetControlRotation();
-	}
-	FVector Start = SocketLocation;
-	FVector End = SocketLocation + (ControlRotation.Vector() * 1000.f);
+		bCanFire = false;
 	
-	DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, -1, 0, 1.0f);
+		FRotator CameraRotation = GetController()->GetControlRotation();
+		FVector StartLocation = GetFPSCamera()->GetComponentLocation();
+		FVector EndLocation = StartLocation + (CameraRotation.Vector() * 15000.f);
+	
+		FHitResult HitResult;
+		FCollisionQueryParams CollisionParams;
+		CollisionParams.AddIgnoredActor(this);
+
+		bool bHit = GetWorld()->LineTraceSingleByChannel(
+			HitResult,
+			StartLocation,
+			EndLocation,
+			ECC_Visibility,
+			CollisionParams);
+	
+		if(bHit)
+		{
+			FVector Start = GetEquippedWeapon()->GetSocketLocation(FName("FireSocket"));
+			FVector End = HitResult.Location;
+			Server_Shoot(Start, End);
+		}
+
+		GetWorldTimerManager().SetTimer(ShootTimerHandle, this, &ThisClass::ResetFire, 0.1f, false);
+	}
+}
+
+void AEHShooter::ResetFire()
+{
+	bCanFire = true;
+}
+
+void AEHShooter::Server_Shoot_Implementation(FVector Start, FVector End)
+{
+	NetMulticast_Shoot(Start, End);	
+}
+
+void AEHShooter::NetMulticast_Shoot_Implementation(FVector Start, FVector End)
+{
+	DrawDebugLine(GetWorld(), Start, End, FColor::Emerald, false, 10.f, 0,1.f);
+	DrawDebugPoint(GetWorld(), End, 20.f, FColor::Red, false, 10.f);
 }
 
 void AEHShooter::BeginPlay()

@@ -37,8 +37,6 @@ private:
 	TObjectPtr<UInputAction> ShootAction;
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> CamAction;
-	
-	TObjectPtr<ACharacter> ControlledCharacter;
 
 protected:
 	void Jump();

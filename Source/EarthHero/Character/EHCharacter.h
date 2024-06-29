@@ -30,6 +30,8 @@ public:
     bool IsInForceField() const;
     void SetIsInForceField(bool bInForceField);
 
+    virtual void Shoot();
+
 protected:
     virtual void BeginPlay() override;
 
@@ -54,9 +56,6 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Component")
 	class UStatComponent* StatComponent;
 
-    UPROPERTY(VisibleAnywhere, Category = "Combat")
-    class UCombatComponent* CombatComponent;            // Shoot, Skill 등 무기 이용한 공격 관리하는 Component
-    
     UPROPERTY()
     UMaterialInterface* ForceFieldPostProcessMaterial;
 
@@ -72,4 +71,5 @@ private:
 public:
     FORCEINLINE USkeletalMeshComponent* GetEquippedWeapon() { return WeaponMesh; }
     FORCEINLINE USkeletalMeshComponent* GetFirstPersonMesh() { return FirstPersonHand; }
+    FORCEINLINE UCameraComponent* GetFPSCamera() { return FPSCamera; }
 };
