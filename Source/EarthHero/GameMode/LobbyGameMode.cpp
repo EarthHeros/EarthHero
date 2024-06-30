@@ -36,11 +36,9 @@ void ALobbyGameMode::TogglePlayerReady(APlayerController* Player)
 		ALobbyGameSession* LobbyGameSession = Cast<ALobbyGameSession>(GameSession);
 		if (LobbyGameSession)
 		{
-			if (ReadyCount == (LobbyGameSession->MaxNumberOfPlayersInSession - 1)) //방장 제외 모두 레디 시 //수정 필요
+			if (ReadyCount == (LobbyGameSession->MaxNumberOfPlayersInSession - 1)) //방장 제외 모두 레디 시
 			{
-				UE_LOG(LogTemp, Warning, TEXT("all player ready!!"));
-				UE_LOG(LogTemp, Log, TEXT("Lobby Start!"));
-				LobbyGameSession->StartSession();
+				//방장이 잠수이면 방장 퇴출 로직?
 			}
 		}
 	}
