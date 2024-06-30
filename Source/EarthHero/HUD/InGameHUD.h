@@ -6,22 +6,22 @@
 #include "Blueprint/UserWidget.h"
 #include "InGameHUD.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class EARTHHERO_API UInGameHUD : public UUserWidget
 {
 	GENERATED_BODY()
 
-private:
-	float GetHealthPercent() const;
-
 public:
 	UPROPERTY(meta = (BindWidget))
 	class UProgressBar *HealthBar;
 
+	void InitializePlayerState(class UStatComponent *StatComponent);
+
 protected:
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
-	
+
+private:
+	UPROPERTY()
+	class UStatComponent *StatComponentRef;
 };

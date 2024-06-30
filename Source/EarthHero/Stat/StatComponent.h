@@ -30,9 +30,7 @@ public:
 	float GetHealthPercent() const;
 
 private:
-
-	//APlayerController *PlayerController;
-	//참조만 가능하다.
+	
 	//replicated replicateUsing에 대해 좀 더 생각해 봐야한다
 	UPROPERTY(Replicated)
 	FStatStructure HeroStat;
@@ -52,5 +50,9 @@ private:
 	void InitializeStatData(FName HeroName);
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	//임시 초당 데미지 함수와 타이머
+	FTimerHandle PlayerStateCheckTimerHandle;
+	void TickDamage();
 
 };

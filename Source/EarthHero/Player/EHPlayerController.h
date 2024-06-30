@@ -22,6 +22,11 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
+	virtual void OnPossess(APawn* InPawn) override;
+
+	//승언 : 소유 클라이언트 실행 Possess
+	UFUNCTION(Client, Reliable)
+	void ClientPossess();
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Input")
@@ -42,7 +47,11 @@ private:
 	UPROPERTY(EditAnywhere, Category = "HUD")
 	TSubclassOf<class UUserWidget> InGameHUD;
 	UPROPERTY()
-	UUserWidget *HUD;
+	class UInGameHUD *HUD;
+
+	void InitializeHUD();
+	FTimerHandle PlayerStateCheckTimerHandle;
+	//승언 끝
 	
 	TObjectPtr<ACharacter> ControlledCharacter;
 

@@ -3,11 +3,12 @@
 
 #include "EHPlayerController.h"
 
+#include "EHPlayerState.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Blueprint/UserWidget.h"
-#include "Camera/CameraComponent.h"
 #include "EarthHero/Character/EHCharacter.h"
+#include "EarthHero/HUD/InGameHUD.h"
 #include "GameFramework/Character.h"
 
 AEHPlayerController::AEHPlayerController()
@@ -19,6 +20,7 @@ void AEHPlayerController::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 }
 
+
 void AEHPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -29,13 +31,35 @@ void AEHPlayerController::BeginPlay()
 	{
 		Subsystem->AddMappingContext(HeroContext, 0);
 	}
+}
 
+//승언 : 컨트롤러가 빙의했을 때
+void AEHPlayerController::OnPossess(APawn* InPawn)
+{
+	Super::OnPossess(InPawn);
+	
 	//승언 : InGameHUD를 Viewport에 추가
-	if (IsLocalPlayerController())
+	ClientPossess();
+}
+
+void AEHPlayerController::ClientPossess_Implementation()
+{
+	//Client가 PlayerState를 전달받는 게 느리기 때문에 받을 때까지 반복 호출한다.
+	GetWorldTimerManager().SetTimer(PlayerStateCheckTimerHandle, this, &AEHPlayerController::InitializeHUD, 0.1f, true);
+}
+
+void AEHPlayerController::InitializeHUD()
+{
+	AEHPlayerState* MyPlayerState = Cast<AEHPlayerState>(PlayerState);
+	if (MyPlayerState && MyPlayerState->StatComponent)
 	{
-		HUD = CreateWidget(this, InGameHUD);
+		GetWorldTimerManager().ClearTimer(PlayerStateCheckTimerHandle); // 타이머 해제
+
+		// InGameHUD를 Viewport에 추가
+		HUD = Cast<UInGameHUD>(CreateWidget(this, InGameHUD));
 		if (HUD)
 		{
+			HUD->InitializePlayerState(MyPlayerState->StatComponent);
 			HUD->AddToViewport();
 		}
 	}

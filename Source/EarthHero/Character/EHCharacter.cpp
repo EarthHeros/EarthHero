@@ -8,6 +8,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
 #include "../ForceField/BossZone.h"
+#include "EarthHero/Player/EHPlayerState.h"
 
 AEHCharacter::AEHCharacter()
 {
@@ -33,9 +34,6 @@ AEHCharacter::AEHCharacter()
     ForceFieldPostProcessComponent = CreateDefaultSubobject<UPostProcessComponent>(TEXT("ForceFieldPostProcessComponent"));
     ForceFieldPostProcessComponent->bEnabled = false;
     ForceFieldPostProcessComponent->SetupAttachment(RootComponent);
-
-	//승언 : StatComponent 붙이기
-	StatComponent = CreateDefaultSubobject<UStatComponent>(TEXT("StatComponent"));
 
     static ConstructorHelpers::FObjectFinder<UMaterial> PostProcessMaterial(TEXT("/Game/Blueprints/HUD/PP_ForceField_Damage.PP_ForceField_Damage"));
     if (PostProcessMaterial.Succeeded())
@@ -74,6 +72,24 @@ void AEHCharacter::BeginPlay()
     }
 
    Initialize();
+}
+
+//승언 : 빙의 시 호출 함수
+void AEHCharacter::PossessedBy(AController* NewController)
+{
+    Super::PossessedBy(NewController);
+    
+    // 승언 : EHPlayerState에서 StatComponent의 참조 가져오기
+    AEHPlayerState* MyPlayerState =  Cast<AEHPlayerState>(NewController->PlayerState);
+    if (MyPlayerState)
+    {
+        UE_LOG(LogTemp, Error, TEXT("EHCharacter.cpp: PlayerState Set Success"));
+        StatComponent = MyPlayerState->StatComponent;
+    }
+    else
+    {
+        UE_LOG(LogTemp, Error, TEXT("EHCharacter.cpp: Fail to Get PlayerState"));
+    }
 }
 
 void AEHCharacter::Initialize()

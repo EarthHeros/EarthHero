@@ -29,14 +29,16 @@ public:
 
     bool IsInForceField() const;
     void SetIsInForceField(bool bInForceField);
-
-    //승언: 임시 컴포넌트 추가, 각 히어로 별 컴포넌트로 대체 예정
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component")
-    class UStatComponent* StatComponent;
     virtual void Shoot();
+
+    //승언 :StatComponent 참조
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component")
+    class UStatComponent *StatComponent;
 
 protected:
     virtual void BeginPlay() override;
+
+    virtual void PossessedBy(AController* NewController) override;
 
     void Initialize();
     

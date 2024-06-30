@@ -11,16 +11,14 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "TimerManager.h"  // FTimerHandle과 TimerManager를 사용하기 위해 필요
+#include "EarthHero/Player/EHPlayerController.h"
 
 
-// Sets default values for this component's properties
 UStatComponent::UStatComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
+
 	PrimaryComponentTick.bCanEverTick = false;
 	SetIsReplicatedByDefault(true);  // 컴포넌트가 네트워크에서 복제될 수 있도록 설정
-	// ...
 }
 
 
@@ -28,45 +26,39 @@ UStatComponent::UStatComponent()
 void UStatComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	//컨트롤러 가져오기
-	// PlayerController = Cast<APlayerController>(GetOwner()->GetInstigatorController());
-	// if (PlayerController)
-	// {
-	// 	UE_LOG(LogTemp, Error, TEXT("StatComponent: No PlayerController"));
-	// }
 	
-	//테이블 내용 가져오기
-	
-
 	//스텟 초기화(서버->클라이언트)
 	InitializeStatData("Hero");
-
-	if (GetOwner()->HasAuthority())
-	{
-		//FString Message = FString::Printf(TEXT("Server Attack Power : %f"), HeroStat.AttackPower);
-		//GEngine->AddOnScreenDebugMessage(-1, 1233223.f, FColor::Green, Message);
-	}
-	else
-	{
-		//FString Message = FString::Printf(TEXT("Client Attack Power : %f"), HeroStat.AttackPower);
-		//GEngine->AddOnScreenDebugMessage(-1, 1233223.f, FColor::Green, Message);
-	}
 
 	//TakeDamage를 Delecate 설정
 	if (GetOwner())
 	{
 		GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UStatComponent::DamageTaken);
 	}
+
+	// //임시 초당데미지 함수
+	// if (GetOwner()->HasAuthority())
+	// {
+	// 	GetWorld()->GetTimerManager().SetTimer(PlayerStateCheckTimerHandle, this, &UStatComponent::TickDamage, 2.0f, true);
+	// }
 	
+}
+
+//임시 초당 데미지 함수
+void UStatComponent::TickDamage()
+{
+	AActor* Owner = GetOwner();
+	if (Owner)
+	{
+		//ApplyDamage로 호출
+		UGameplayStatics::ApplyDamage(Owner, 10, nullptr, nullptr, nullptr);
+	}
 }
 
 // Called every frame
 void UStatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
 
 void UStatComponent::DamageTaken_Implementation(AActor* DamagedActor, float InDamage, const UDamageType* DamageType,
@@ -79,7 +71,7 @@ void UStatComponent::DamageTaken_Implementation(AActor* DamagedActor, float InDa
 	//GEngine->AddOnScreenDebugMessage(-1, 1233223.f, FColor::Green, Message);
 	if (HeroStat.Health <= 0.f)
 	{
-		FString Message = FString::Printf(TEXT("Health : %f"), HeroStat.Health);
+		FString Message = FString::Printf(TEXT("Dead"));
 		GEngine->AddOnScreenDebugMessage(-1, 1233223.f, FColor::Green, Message);
 	}
 }
@@ -148,7 +140,7 @@ float UStatComponent::GetMaxHealth() const
 
 float UStatComponent::GetHealthPercent() const
 {
-	if (BaseHeroStat.MaxHealth > 0)
+	if (HeroStat.MaxHealth > 0)
     {
         return HeroStat.Health / HeroStat.MaxHealth;
     }
