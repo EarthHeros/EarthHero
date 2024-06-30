@@ -30,6 +30,10 @@ public:
     bool IsInForceField() const;
     void SetIsInForceField(bool bInForceField);
 
+    //승언: 임시 컴포넌트 추가, 각 히어로 별 컴포넌트로 대체 예정
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component")
+    class UStatComponent* StatComponent;
+
 protected:
     virtual void BeginPlay() override;
 
@@ -50,9 +54,6 @@ private:
 
     UPROPERTY(EditAnywhere, Category = "ForceField")
     UPostProcessComponent* ForceFieldPostProcessComponent;
-    
-	UPROPERTY(VisibleAnywhere, Category = "Component")
-	class UStatComponent* StatComponent;
 
     UPROPERTY(VisibleAnywhere, Category = "Combat")
     class UCombatComponent* CombatComponent;            // Shoot, Skill 등 무기 이용한 공격 관리하는 Component

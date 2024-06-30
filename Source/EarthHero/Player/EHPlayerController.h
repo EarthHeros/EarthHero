@@ -37,6 +37,12 @@ private:
 	TObjectPtr<UInputAction> ShootAction;
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> CamAction;
+
+	//승언 : InGameHUD를 컨트롤러에 추가
+	UPROPERTY(EditAnywhere, Category = "HUD")
+	TSubclassOf<class UUserWidget> InGameHUD;
+	UPROPERTY()
+	UUserWidget *HUD;
 	
 	TObjectPtr<ACharacter> ControlledCharacter;
 

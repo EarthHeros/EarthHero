@@ -45,7 +45,12 @@ UEHGameInstance::UEHGameInstance()
 
 FStatStructure* UEHGameInstance::GetStatStructure(FName HeroName) const
 {
-    return CharacterStatDataTable->FindRow<FStatStructure>(HeroName, TEXT(""));
+    if (!CharacterStatDataTable)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("No Such DataTable"));
+        return nullptr;
+    }
+    return  CharacterStatDataTable->FindRow<FStatStructure>(HeroName, TEXT(""));
 }
 
 void UEHGameInstance::Init()

@@ -31,10 +31,7 @@ struct FStatStructure : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	float SkillDamage = 0.f;				//스킬 데미지
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-	float DefensePower = 0.f;				//방어력
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	float MaxExp = 0.f;						//최대 경험치
 

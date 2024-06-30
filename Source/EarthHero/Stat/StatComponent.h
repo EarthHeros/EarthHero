@@ -21,6 +21,16 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	//스텟 반환 함수
+	UFUNCTION(BlueprintPure, Category = "Stat")
+	float GetHealth() const;
+
+	UFUNCTION(BlueprintPure, Category = "Stat")
+	float GetMaxHealth() const;
+
+	UFUNCTION(BlueprintPure, Category = "Stat")
+	float GetHealthPercent() const;
+
 private:
 
 	//APlayerController *PlayerController;
@@ -31,6 +41,10 @@ private:
 	
 	UPROPERTY(Replicated)
 	FStatStructure BaseHeroStat;
+
+	FTimerHandle TimerHandle;
+	float TestPoison = 2.0f;
+	void TestAttackByPoison();
 
 	//데미지 처리 함수
 	UFUNCTION(Server, Reliable, WithValidation)

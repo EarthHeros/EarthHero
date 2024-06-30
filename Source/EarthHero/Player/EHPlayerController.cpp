@@ -5,6 +5,7 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Blueprint/UserWidget.h"
 #include "Camera/CameraComponent.h"
 #include "EarthHero/Character/EHCharacter.h"
 #include "GameFramework/Character.h"
@@ -28,6 +29,16 @@ void AEHPlayerController::BeginPlay()
 	if(UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		Subsystem->AddMappingContext(HeroContext, 0);
+	}
+
+	//승언 : InGameHUD를 Viewport에 추가
+	if (IsLocalPlayerController())
+	{
+		HUD = CreateWidget(this, InGameHUD);
+		if (HUD)
+		{
+			HUD->AddToViewport();
+		}
 	}
 }
 

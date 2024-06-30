@@ -5,6 +5,11 @@
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "TimerManager.h"  // FTimerHandle과 TimerManager를 사용하기 위해 필요
+
+
 // Sets default values for this component's properties
 UStatComponent::UStatComponent()
 {
@@ -50,8 +55,24 @@ void UStatComponent::BeginPlay()
 	{
 		GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UStatComponent::DamageTaken);
 	}
+	
+
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle,
+			this,
+			&UStatComponent::TestAttackByPoison,
+			TestPoison,
+			true);
 }
 
+void UStatComponent::TestAttackByPoison()
+{
+	// TakeDamage 호출 예시
+	AActor* Owner = GetOwner();
+	if (Owner)
+	{
+		UGameplayStatics::ApplyDamage(Owner, 1.0f, nullptr, nullptr, nullptr); // 예시: 10 데미지 적용
+	}
+}
 
 // Called every frame
 void UStatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -101,13 +122,14 @@ void UStatComponent::InitializeStatData_Implementation(FName HeroName)
 	if (FStatStructure *TempStat = ABGameInstance->GetStatStructure(HeroName))
 	{
 		BaseHeroStat = *TempStat;
+		BaseHeroStat.Health = BaseHeroStat.MaxHealth;
 		HeroStat = BaseHeroStat;
 	}
 	else
 	{
 		// 데이터 테이블에 없는 행일 때
-		GEngine->AddOnScreenDebugMessage(-1, 1233223.f, FColor::Green, TEXT("Row %s data doesn't exist"));
-		UE_LOG(LogClass, Warning, TEXT("Row %s data doesn't exist."), *HeroName.ToString());
+		//GEngine->AddOnScreenDebugMessage(-1, 1233223.f, FColor::Green, TEXT("Row %s data doesn't exist"), *HeroName.ToString());
+		UE_LOG(LogClass, Warning, TEXT("Row '%s' data doesn't exist."), *HeroName.ToString());
 	}
 }
 
@@ -125,4 +147,23 @@ void UStatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
 	// HeroStat 속성을 복제 목록에 추가, 모든 클라이언트에게 복사
 	DOREPLIFETIME(UStatComponent, HeroStat);
 	DOREPLIFETIME(UStatComponent, BaseHeroStat);
+}
+
+float UStatComponent::GetHealth() const
+{
+	return HeroStat.Health;
+}
+
+float UStatComponent::GetMaxHealth() const
+{
+	return HeroStat.MaxHealth;
+}
+
+float UStatComponent::GetHealthPercent() const
+{
+	if (BaseHeroStat.MaxHealth > 0)
+    {
+        return BaseHeroStat.Health / BaseHeroStat.MaxHealth;
+    }
+    return 0.0f;
 }
