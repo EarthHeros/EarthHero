@@ -4,10 +4,13 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/PostProcessComponent.h"
 #include "EarthHero/Stat/StatComponent.h"
-#include "Materials/MaterialInstanceDynamic.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
 #include "../ForceField/BossZone.h"
+#include "Components/SceneCaptureComponent2D.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "PaperSpriteComponent.h"
+#include "PaperSprite.h"
 
 AEHCharacter::AEHCharacter()
 {
@@ -34,8 +37,8 @@ AEHCharacter::AEHCharacter()
     ForceFieldPostProcessComponent->bEnabled = false;
     ForceFieldPostProcessComponent->SetupAttachment(RootComponent);
 
-	//승언 : StatComponent 붙이기
-	StatComponent = CreateDefaultSubobject<UStatComponent>(TEXT("StatComponent"));
+    //승언 : StatComponent 붙이기
+    StatComponent = CreateDefaultSubobject<UStatComponent>(TEXT("StatComponent"));
 
     static ConstructorHelpers::FObjectFinder<UMaterial> PostProcessMaterial(TEXT("/Game/Blueprints/HUD/PP_ForceField_Damage.PP_ForceField_Damage"));
     if (PostProcessMaterial.Succeeded())
@@ -49,12 +52,41 @@ AEHCharacter::AEHCharacter()
     bIsInForceField = false;
 
     GetCharacterMovement()->MaxWalkSpeed = 500.f;
+
+    // Create a spring arm for the minimap SceneCaptureComponent2D
+    MinimapSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("MinimapSpringArm"));
+    MinimapSpringArm->SetupAttachment(RootComponent);
+    MinimapSpringArm->SetRelativeLocation(FVector(0.f, 0.f, 300.f));
+    MinimapSpringArm->TargetArmLength = 450.f;
+    MinimapSpringArm->bDoCollisionTest = false;
+    MinimapSpringArm->bUsePawnControlRotation = false;
+    MinimapSpringArm->SetRelativeRotation(FRotator(-90.f, 0.f, -180.f));
+    MinimapSpringArm->bInheritPitch = false;
+    MinimapSpringArm->bInheritRoll = false;
+    MinimapSpringArm->bInheritYaw = false;
+
+    // Create the SceneCaptureComponent2D for the minimap
+    MinimapCaptureComponent = CreateDefaultSubobject<USceneCaptureComponent2D>(TEXT("MinimapCapture"));
+    MinimapCaptureComponent->SetupAttachment(MinimapSpringArm, USpringArmComponent::SocketName);
+    MinimapCaptureComponent->ProjectionType = ECameraProjectionMode::Orthographic;
+    MinimapCaptureComponent->OrthoWidth = 2000;
+
+    // Create the PaperSpriteComponent for the minimap
+    MinimapSprite = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("MinimapSprite"));
+    MinimapSprite->SetupAttachment(RootComponent);
+    static ConstructorHelpers::FObjectFinder<UPaperSprite> PlayerArrowSprite(TEXT("/Game/Blueprints/HUD/MinimapTextures/T_PlayerArrow_Sprite.T_PlayerArrow_Sprite"));
+    if (PlayerArrowSprite.Succeeded())
+    {
+        MinimapSprite->SetSprite(PlayerArrowSprite.Object);
+    }
+    MinimapSprite->SetRelativeLocation(FVector(0.f, 0.f, 300.f));
+    MinimapSprite->SetRelativeRotation(FRotator(0.f, 0.f, 90.f)); // Set rotation to -90 degrees on X-axis
+    MinimapSprite->SetRelativeScale3D(FVector(0.4f, 0.4f, 0.4f)); // Set scale to 0.4 on all axes
 }
 
 void AEHCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
-
 }
 
 void AEHCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -73,7 +105,7 @@ void AEHCharacter::BeginPlay()
         BossZone = Cast<ABP_BossZone>(FoundActors[0]);
     }
 
-   Initialize();
+    Initialize();
 }
 
 void AEHCharacter::Initialize()

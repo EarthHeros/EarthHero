@@ -21,7 +21,8 @@ public class EarthHero : ModuleRules
                 "OnlineSubsystemSteam",
                 "UMG",
                 "Slate",
-                "SlateCore"
+                "SlateCore",
+                "Paper2D"
             }
         );
 
