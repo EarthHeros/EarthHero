@@ -4,6 +4,7 @@
 #include "LobbyGameMode.h"
 #include <EarthHero/PlayerController/LobbyPlayerController.h>
 #include <EarthHero/GameSession/LobbyGameSession.h>
+#include <EarthHero/GameState/LobbyGameState.h>
 
 ALobbyGameMode::ALobbyGameMode()
 {
@@ -24,33 +25,45 @@ void ALobbyGameMode::BeginPlay()
 	}
 }
 
-void ALobbyGameMode::TogglePlayerReady(APlayerController* Player)
+void ALobbyGameMode::AddPlayerReadyState(APlayerController* NewPlayer)
 {
-	if (PlayerReadyState.Contains(Player))
+	ALobbyGameState* LobbyGameState = GetGameState<ALobbyGameState>();
+	if (LobbyGameState)
 	{
-		if (PlayerReadyState[Player]) ReadyCount--;
-		else ReadyCount++;
-
-		PlayerReadyState[Player] = !PlayerReadyState[Player];
-		
-		ALobbyGameSession* LobbyGameSession = Cast<ALobbyGameSession>(GameSession);
-		if (LobbyGameSession)
+		int32 PlayerIndex = PlayerControllerArray.IndexOfByKey(NewPlayer);
+		if (PlayerIndex != INDEX_NONE)
 		{
-			if (ReadyCount == (LobbyGameSession->MaxNumberOfPlayersInSession - 1)) //방장 제외 모두 레디 시
-			{
-				//방장이 잠수이면 방장 퇴출 로직?
-			}
+			PlayerControllerArray.RemoveAt(PlayerIndex);
+
+			LobbyGameState->PlayerReadyStateArray.RemoveAt(PlayerIndex);
 		}
+		PlayerControllerArray.Add(NewPlayer);
+		LobbyGameState->PlayerReadyStateArray.Add(false);
+
+		//LobbyGameState->Multicast_UpdatePlayerReadyState();
 	}
 }
 
-void ALobbyGameMode::AddPlayerReadyState(APlayerController* NewPlayer)
+void ALobbyGameMode::TogglePlayerReady(APlayerController* Player)
 {
-	if (PlayerReadyState.Contains(NewPlayer))
+	ALobbyGameState* LobbyGameState = GetGameState<ALobbyGameState>();
+	if (LobbyGameState)
 	{
-		PlayerReadyState.Remove(NewPlayer);
+		if (LobbyGameState)
+		{
+			int32 PlayerIndex = PlayerControllerArray.IndexOfByKey(Player);
+			if (PlayerIndex != INDEX_NONE)
+			{
+				if (LobbyGameState->PlayerReadyStateArray[PlayerIndex]) ReadyCount--;
+				else ReadyCount++;
+
+				LobbyGameState->PlayerReadyStateArray[PlayerIndex] = !LobbyGameState->PlayerReadyStateArray[PlayerIndex];
+			}
+			else UE_LOG(LogTemp, Error, TEXT("%s is not valid for player ready state"), Player);
+
+			//LobbyGameState->Multicast_UpdatePlayerReadyState();
+		}
 	}
-	PlayerReadyState.Add(NewPlayer, false);
 }
 
 bool ALobbyGameMode::PressGameStartButton()

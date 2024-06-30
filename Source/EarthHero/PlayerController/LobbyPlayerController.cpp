@@ -70,7 +70,6 @@ void ALobbyPlayerController::Server_ClientReady_Implementation()
 		//방장은 게임 시작버튼으로 처리
 		if (bHost)
 		{
-
 			if (LobbyGameMode->PressGameStartButton())
 			{
 				Client_SendToDebugMessage("Game Start!");
