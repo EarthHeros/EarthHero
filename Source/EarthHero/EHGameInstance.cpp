@@ -109,6 +109,8 @@ void UEHGameInstance::HandleFindSessionsCompleted(bool bWasSuccessful, TSharedRe
             {
                 UE_LOG(LogTemp, Log, TEXT("Found session : %d"), Search->SearchResults.Num());
 
+                bool bIsFind = false;
+
                 for (auto SessionInSearchResult : Search->SearchResults)
                 {
                     FString GameName;
@@ -122,10 +124,10 @@ void UEHGameInstance::HandleFindSessionsCompleted(bool bWasSuccessful, TSharedRe
                     if (bKeyValueFound1 && bKeyValueFound2)
                     {
                         if (GameName == "EH2" &&
-                            ((FindSessionReason == "JoinMainSession" && PortNumber == "7777") ||
-                                (FindSessionReason == "JoinLobby" && PortNumber != "7777")) ||
-                            (FindSessionReason == "CreateLobby" && PortNumber != "7777" && CurrentPlayers == 0)
-                            )
+                                ((FindSessionReason == "JoinMainSession" && PortNumber == "7777") ||
+                                (FindSessionReason == "JoinLobby" && PortNumber != "7777" && CurrentPlayers > 0) ||
+                                (FindSessionReason == "CreateLobby" && PortNumber != "7777" && CurrentPlayers == 0))
+                           )
                         {
                             UE_LOG(LogTemp, Log, TEXT("Valid session : %s, %s, %d"), *FindSessionReason, *PortNumber, CurrentPlayers);
 
@@ -134,6 +136,7 @@ void UEHGameInstance::HandleFindSessionsCompleted(bool bWasSuccessful, TSharedRe
                                 SessionToJoin = &SessionInSearchResult;
                                 if (SessionToJoin)
                                 {
+                                    bIsFind = true;
                                     JoinSession();
                                     break;
                                 }
@@ -141,10 +144,31 @@ void UEHGameInstance::HandleFindSessionsCompleted(bool bWasSuccessful, TSharedRe
                         }
                     }
                 }
+
+                //만약 찾은 로비가 없다면
+                if (!bIsFind && GEngine)
+                {
+                    if (FindSessionReason == "JoinMainSession")
+                    {
+                        GEngine->AddOnScreenDebugMessage(-1, 600.f, FColor::Yellow, FString::Printf(TEXT("EH2 server connection failed")));
+                        //재접속? 대기열?
+                    }
+                    else if (FindSessionReason == "JoinLobby")
+                    {
+                        GEngine->AddOnScreenDebugMessage(-1, 600.f, FColor::Yellow, FString::Printf(TEXT("No lobby to participate")));
+                    }
+                    else if (FindSessionReason == "CreateLobby")
+                    {
+                        GEngine->AddOnScreenDebugMessage(-1, 600.f, FColor::Yellow, FString::Printf(TEXT("Unable to create lobby (server full)")));
+                    }
+
+                }
             }
             else
             {
                 UE_LOG(LogTemp, Warning, TEXT("Find Sessions failed."));
+                if(GEngine)
+                    GEngine->AddOnScreenDebugMessage(-1, 600.f, FColor::Yellow, FString::Printf(TEXT("Find Sessions failed!")));
             }
 
             Session->ClearOnFindSessionsCompleteDelegate_Handle(FindSessionsDelegateHandle);

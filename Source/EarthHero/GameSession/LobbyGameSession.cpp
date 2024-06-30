@@ -72,7 +72,6 @@ void ALobbyGameSession::CreateSession(FString PortNumber)
             // 세션 검색을 위한 사용자 지정 속성 추가
             SessionSettings->Set("GameName", FString("EH2"), EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
             SessionSettings->Set("PortNumber", PortNumber, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
-            //SessionSettings->Set("LobbyType", FString("Public"), EOnlineDataAdvertisementType::ViaOnlineServiceAndPing); //음...
 
             UE_LOG(LogTemp, Log, TEXT("Creating lobby..."));
 
