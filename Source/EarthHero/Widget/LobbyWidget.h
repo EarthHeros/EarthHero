@@ -24,6 +24,16 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	class UEditableTextBox* ReadyButton_Tb;
 
+	/*
+	UPROPERTY(meta = (BindWidget))
+	class UText* Player1_Txt;
+	UPROPERTY(meta = (BindWidget))
+	UText* Player2_Txt;
+	UPROPERTY(meta = (BindWidget))
+	UText* Player3_Txt;
+	UPROPERTY(meta = (BindWidget))
+	UText* Player4_Txt;*/
+
 	UFUNCTION()
 	void ReadyClicked();
 };

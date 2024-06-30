@@ -46,6 +46,9 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UButton* Exit_Btn;
 
+	UPROPERTY(meta = (BindWidget))
+	class UCheckBox* Private_Cb;
+
 	UFUNCTION()
 	void Play_BtnClicked();
 

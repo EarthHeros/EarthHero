@@ -4,11 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+
+
+#include "Blueprint/UserWidget.h"
+#include <EarthHero/Widget/LobbyWidget.h>
+
 #include "LobbyPlayerController.generated.h"
 
 /**
  * 
  */
+
 UCLASS()
 class EARTHHERO_API ALobbyPlayerController : public APlayerController
 {
@@ -16,7 +22,8 @@ class EARTHHERO_API ALobbyPlayerController : public APlayerController
 
 	virtual void BeginPlay();
 
-	
+	//ALobbyPlayerController(const FObjectInitializer& ObjectInitializer);
+
 
 protected:
 	UFUNCTION(Server, Reliable)
@@ -32,6 +39,17 @@ public:
 	void Server_ClientReady();
 
 	UFUNCTION(Client, Reliable)
+	void Client_UpdateReadyState(const TArray<bool>& PlayerReadyStateArray);
+
+	UFUNCTION(Client, Reliable)
 	void Client_SendToDebugMessage(const FString& Message);
+
+
+protected:
+	void ShowLobbyWidget();
+
+	TSubclassOf<class UUserWidget> LobbyWidgetClass;
+
+	ULobbyWidget* LobbyWidget;
 	
 };

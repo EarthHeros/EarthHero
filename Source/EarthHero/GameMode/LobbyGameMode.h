@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include <EarthHero/PlayerController/LobbyPlayerController.h>
 #include "LobbyGameMode.generated.h"
 
 /**
@@ -16,16 +17,14 @@ class EARTHHERO_API ALobbyGameMode : public AGameModeBase
 
 protected:
 	virtual void BeginPlay();
-
-	//미완성
-	//플레이어 들어왔을 때 초기값 false 줘야함
-	TMap<APlayerController*, bool> PlayerReadyState;
-
 	int ReadyCount = 0;
+	TArray<ALobbyPlayerController*> LobbyPlayerControllerArray;
+	TArray<bool> PlayerReadyStateArray;
 
 public:
 	ALobbyGameMode();
 	void TogglePlayerReady(APlayerController* Player);
+	void UpdatePlayerReadyState();
 	void AddPlayerReadyState(APlayerController* Player);
 	bool PressGameStartButton();
 

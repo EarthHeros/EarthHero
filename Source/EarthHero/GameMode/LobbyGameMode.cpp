@@ -2,7 +2,7 @@
 
 
 #include "LobbyGameMode.h"
-#include <EarthHero/PlayerController/LobbyPlayerController.h>
+//#include <EarthHero/PlayerController/LobbyPlayerController.h>
 #include <EarthHero/GameSession/LobbyGameSession.h>
 
 ALobbyGameMode::ALobbyGameMode()
@@ -24,35 +24,51 @@ void ALobbyGameMode::BeginPlay()
 	}
 }
 
-void ALobbyGameMode::TogglePlayerReady(APlayerController* Player)
-{
-	if (PlayerReadyState.Contains(Player))
-	{
-		if (PlayerReadyState[Player]) ReadyCount--;
-		else ReadyCount++;
-
-		PlayerReadyState[Player] = !PlayerReadyState[Player];
-		
-		ALobbyGameSession* LobbyGameSession = Cast<ALobbyGameSession>(GameSession);
-		if (LobbyGameSession)
-		{
-			if (ReadyCount == (LobbyGameSession->MaxNumberOfPlayersInSession - 1)) //방장 제외 모두 레디 시 //수정 필요
-			{
-				UE_LOG(LogTemp, Warning, TEXT("all player ready!!"));
-				UE_LOG(LogTemp, Log, TEXT("Lobby Start!"));
-				LobbyGameSession->StartSession();
-			}
-		}
-	}
-}
-
 void ALobbyGameMode::AddPlayerReadyState(APlayerController* NewPlayer)
 {
-	if (PlayerReadyState.Contains(NewPlayer))
+	ALobbyPlayerController* LobbyNewPlayerController = Cast<ALobbyPlayerController>(NewPlayer);
+
+	int32 PlayerIndex = LobbyPlayerControllerArray.IndexOfByKey(LobbyNewPlayerController);
+
+	if (PlayerIndex != INDEX_NONE)
 	{
-		PlayerReadyState.Remove(NewPlayer);
+		LobbyPlayerControllerArray.RemoveAt(PlayerIndex);
+		PlayerReadyStateArray.RemoveAt(PlayerIndex);
 	}
-	PlayerReadyState.Add(NewPlayer, false);
+
+	LobbyPlayerControllerArray.Add(LobbyNewPlayerController);
+	PlayerReadyStateArray.Add(false);
+}
+
+void ALobbyGameMode::TogglePlayerReady(APlayerController* Player)
+{
+	ALobbyPlayerController* LobbyPlayerController = Cast<ALobbyPlayerController>(Player);
+
+	int32 PlayerIndex = LobbyPlayerControllerArray.IndexOfByKey(LobbyPlayerController);
+
+	if (PlayerIndex != INDEX_NONE)
+	{
+		if (PlayerReadyStateArray[PlayerIndex]) ReadyCount--;
+		else ReadyCount++;
+
+		PlayerReadyStateArray[PlayerIndex] = !PlayerReadyStateArray[PlayerIndex];
+	}
+	else UE_LOG(LogTemp, Error, TEXT("%s is not valid for player ready state"), LobbyPlayerController);
+}
+
+//모든 클라이언트에게 바뀐 레디 상태 배열 전송
+void ALobbyGameMode::UpdatePlayerReadyState()
+{
+	int32 NumberOfPlayers = LobbyPlayerControllerArray.Num();
+	//ALobbyPlayerController로 for문은 안되나봐
+
+	for (int i = 0; i < NumberOfPlayers; i++)
+	{
+		if (LobbyPlayerControllerArray[i])
+		{
+			LobbyPlayerControllerArray[i]->Client_UpdateReadyState(PlayerReadyStateArray);
+		}
+	}
 }
 
 bool ALobbyGameMode::PressGameStartButton()

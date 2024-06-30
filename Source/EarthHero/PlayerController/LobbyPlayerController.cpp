@@ -8,6 +8,15 @@
 #include <EarthHero/GameSession/LobbyGameSession.h>
 #include <EarthHero/GameMode/LobbyGameMode.h>
 
+/*
+ALobbyPlayerController::ALobbyPlayerController(const FObjectInitializer& ObjectInitializer)
+{
+	static ConstructorHelpers::FClassFinder<UUserWidget> LobbyWidgetAsset(TEXT("/Game/Blueprints/Menu/WBP_Lobby"));
+	if (LobbyWidgetAsset.Succeeded())
+	{
+		LobbyWidgetClass = LobbyWidgetAsset.Class;
+	}
+}*/
 
 void ALobbyPlayerController::BeginPlay()
 {
@@ -20,20 +29,28 @@ void ALobbyPlayerController::BeginPlay()
 		//일단 로비에 오면 공개여부 설정 요청을 보냄
 		if (EHGameInstance)
 		{
-			if (EHGameInstance->IsCheckedPrivate)
-			{
-				UE_LOG(LogTemp, Log, TEXT("Lobby mode request : Private"));
+			UE_LOG(LogTemp, Log, TEXT("Lobby mode request private? : %s"), EHGameInstance->IsCheckedPrivate);
 
-				//ALobbyPlayerController* PC = Cast<ALobbyPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
-				this->Server_ChangeAdvertiseState(false);
-			}
-			else
-			{
-				UE_LOG(LogTemp, Log, TEXT("Lobby mode request : Public"));
-			}
+			Server_ChangeAdvertiseState(EHGameInstance->IsCheckedPrivate);
 		}
+		//ShowLobbyWidget();
 	}
 }
+/*
+void ALobbyPlayerController::ShowLobbyWidget()
+{
+	if (LobbyWidgetClass)
+	{
+		LobbyWidget = Cast<ULobbyWidget>(CreateWidget(GetWorld(), LobbyWidgetClass));
+		if (LobbyWidget)
+		{
+			// 위젯을 뷰포트에 띄우는 함수
+			LobbyWidget->AddToViewport();
+
+			bShowMouseCursor = true;
+		}
+	}
+}*/
 
 //클라이언트가 방장인지 검사 + 방장이면 advertise 상태 변경
 void ALobbyPlayerController::Server_ChangeAdvertiseState_Implementation(bool bAdvertise)
@@ -41,7 +58,7 @@ void ALobbyPlayerController::Server_ChangeAdvertiseState_Implementation(bool bAd
 	//로비게임세션에서 이미 플레이어 접속을 감지하고 bHost에 할당해주었음
 	if (bHost)
 	{
-		this->Client_HostAssignment();
+		Client_HostAssignment();
 
 		//광고 상태 변경
 		ALobbyGameMode* LobbyGameMode = Cast<ALobbyGameMode>(GetWorld()->GetAuthGameMode());
@@ -62,7 +79,7 @@ void ALobbyPlayerController::Server_ChangeAdvertiseState_Implementation(bool bAd
 //방장임을 클라이언트에게 알림
 void ALobbyPlayerController::Client_HostAssignment_Implementation()
 {
-	bHost = true;
+	bHost = true; //클라이언트에도 알리는 만큼, 서버에서 호스트 확인 항상하기
 
 	UE_LOG(LogTemp, Log, TEXT("Host Assignmented!"));
 
@@ -72,11 +89,11 @@ void ALobbyPlayerController::Client_HostAssignment_Implementation()
 
 void ALobbyPlayerController::Server_ClientReady_Implementation()
 {
-	//방장은 게임 시작버튼 처리
-	if(bHost)
+	ALobbyGameMode* LobbyGameMode = Cast<ALobbyGameMode>(GetWorld()->GetAuthGameMode());
+	if (LobbyGameMode)
 	{
-		ALobbyGameMode* LobbyGameMode = Cast<ALobbyGameMode>(GetWorld()->GetAuthGameMode());
-		if (LobbyGameMode)
+		//방장은 게임 시작버튼으로 처리
+		if (bHost)
 		{
 			if (LobbyGameMode->PressGameStartButton())
 			{
@@ -87,12 +104,8 @@ void ALobbyPlayerController::Server_ClientReady_Implementation()
 				Client_SendToDebugMessage("All players should be ready!");
 			}
 		}
-	}
-	//클라이언트는 게임 레디 처리
-	else
-	{
-		ALobbyGameMode* LobbyGameMode = Cast<ALobbyGameMode>(GetWorld()->GetAuthGameMode());
-		if (LobbyGameMode)
+		//클라이언트는 게임 레디버튼으로 처리
+		else
 		{
 			LobbyGameMode->TogglePlayerReady(this); //로비 플레이어 컨트롤러를 넘기지만 받는 곳은 플레이어 컨트롤러. 큰 문제 없으려나?
 		}
@@ -100,12 +113,19 @@ void ALobbyPlayerController::Server_ClientReady_Implementation()
 }
 
 
-
-
-
-
-
-
+//서버에서 레디 상태 배열 받고 UI 갱신
+void ALobbyPlayerController::Client_UpdateReadyState_Implementation(const TArray<bool>& PlayerReadyStateArray)
+{
+	if (LobbyWidget)
+	{
+		/*
+		UWBP_Lobby* LobbyWidgetInstance = Cast<WBP_Lobby>(LobbyWidget);
+		if (LobbyWidgetInstance)
+		{
+			LobbyWidgetInstance->UpdatePlayerList(PlayerNames);
+		}*/
+	}
+}
 
 //서버->클라 메시지 전송 (임시)
 void ALobbyPlayerController::Client_SendToDebugMessage_Implementation(const FString& Message)

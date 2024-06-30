@@ -2,6 +2,7 @@
 
 #include "MainMenuWidget.h"
 #include "Components/Button.h"
+#include "Components/CheckBox.h"
 //#include "MultiplayerSessionsSubsystem.h"
 #include "../EHGameInstance.h"
 #include "OnlineSessionSettings.h"
@@ -158,17 +159,8 @@ void UMainMenuWidget::Play_BtnClicked()
 	UEHGameInstance* EHGameInstance = Cast<UEHGameInstance>(GetWorld()->GetGameInstance());
 	if (EHGameInstance)
 	{
-		//if (!Check_IsPrivate->IsChecked())
-		{
-			EHGameInstance->IsCheckedPrivate = true; //이거 좀 바꾸고 싶고, 로비 컨트롤러에서 바로 서버에게 private 변경값 요청해야 함
-			EHGameInstance->LeaveMainSession("CreateLobby");
-		}
-		/*
-		else
-		{
-			EHGameInstance->IsCheckedPrivate = false;
-			EHGameInstance->LeaveMainSession("CreateLobby");
-		}*/
+		EHGameInstance->IsCheckedPrivate = Private_Cb->IsChecked();
+		EHGameInstance->LeaveMainSession("CreateLobby");
 	}
 
 	/* 이전 꺼
@@ -186,7 +178,7 @@ void UMainMenuWidget::Join_BtnClicked()
 	UEHGameInstance* EHGameInstance = Cast<UEHGameInstance>(GetWorld()->GetGameInstance());
 	if (EHGameInstance)
 	{
-		EHGameInstance->IsCheckedPrivate = true; //테스트용으로 냅둔거임
+		//EHGameInstance->IsCheckedPrivate = true; //테스트용으로 냅둔거임
 		//로비 참가 전 세션 떠나기. (이름 변경 예정)
 		EHGameInstance->LeaveMainSession("JoinLobby");
 	}
