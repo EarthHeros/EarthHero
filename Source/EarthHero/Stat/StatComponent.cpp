@@ -1,9 +1,12 @@
+#pragma once
+
 #include "StatComponent.h"
 
 #include "StatCalculationLibrary.h"
-#include "EarthHero/EHGameInstance.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
+
+#include "Components/ActorComponent.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"

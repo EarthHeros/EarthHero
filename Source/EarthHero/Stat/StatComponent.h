@@ -1,7 +1,5 @@
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
 #include "EarthHero/EHGameInstance.h"
 #include "StatComponent.generated.h"
 

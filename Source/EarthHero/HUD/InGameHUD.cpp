@@ -16,8 +16,8 @@ void UInGameHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 	if (World && World->GetFirstPlayerController() && World->GetFirstPlayerController()->GetPawn())
 	{
 		AEHCharacter *MyCharacter = Cast<AEHCharacter>(World->GetFirstPlayerController()->GetPawn());
-		FString Message = FString::Printf(TEXT("HealthPercent : %f"), MyCharacter->StatComponent->GetHealthPercent());
-		GEngine->AddOnScreenDebugMessage(-1, 1233223.f, FColor::Red, Message);
+		// FString Message = FString::Printf(TEXT("HealthPercent : %f"), MyCharacter->StatComponent->GetHealthPercent());
+		// GEngine->AddOnScreenDebugMessage(-1, 1233223.f, FColor::Red, Message);
 		HealthBar->SetPercent(MyCharacter->StatComponent->GetHealthPercent());
 	}
 }
