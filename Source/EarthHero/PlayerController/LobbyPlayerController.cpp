@@ -8,6 +8,15 @@
 #include <EarthHero/GameSession/LobbyGameSession.h>
 #include <EarthHero/GameMode/LobbyGameMode.h>
 
+/*
+ALobbyPlayerController::ALobbyPlayerController(const FObjectInitializer& ObjectInitializer)
+{
+	static ConstructorHelpers::FClassFinder<UUserWidget> LobbyWidgetAsset(TEXT("/Game/Blueprints/Menu/WBP_Lobby"));
+	if (LobbyWidgetAsset.Succeeded())
+	{
+		LobbyWidgetClass = LobbyWidgetAsset.Class;
+	}
+}*/
 
 void ALobbyPlayerController::BeginPlay()
 {
@@ -24,8 +33,24 @@ void ALobbyPlayerController::BeginPlay()
 
 			Server_ChangeAdvertiseState(EHGameInstance->IsCheckedPrivate);
 		}
+		//ShowLobbyWidget();
 	}
 }
+/*
+void ALobbyPlayerController::ShowLobbyWidget()
+{
+	if (LobbyWidgetClass)
+	{
+		LobbyWidget = Cast<ULobbyWidget>(CreateWidget(GetWorld(), LobbyWidgetClass));
+		if (LobbyWidget)
+		{
+			// 위젯을 뷰포트에 띄우는 함수
+			LobbyWidget->AddToViewport();
+
+			bShowMouseCursor = true;
+		}
+	}
+}*/
 
 //클라이언트가 방장인지 검사 + 방장이면 advertise 상태 변경
 void ALobbyPlayerController::Server_ChangeAdvertiseState_Implementation(bool bAdvertise)
@@ -91,9 +116,16 @@ void ALobbyPlayerController::Server_ClientReady_Implementation()
 //서버에서 레디 상태 배열 받고 UI 갱신
 void ALobbyPlayerController::Client_UpdateReadyState_Implementation(const TArray<bool>& PlayerReadyStateArray)
 {
-	//ui 에서 함수호출
+	if (LobbyWidget)
+	{
+		/*
+		UWBP_Lobby* LobbyWidgetInstance = Cast<WBP_Lobby>(LobbyWidget);
+		if (LobbyWidgetInstance)
+		{
+			LobbyWidgetInstance->UpdatePlayerList(PlayerNames);
+		}*/
+	}
 }
-
 
 //서버->클라 메시지 전송 (임시)
 void ALobbyPlayerController::Client_SendToDebugMessage_Implementation(const FString& Message)
