@@ -228,7 +228,7 @@ void ALobbyGameSession::HandleStartSessionCompleted(FName EOSSessionName, bool b
                 UE_LOG(LogTemp, Log, TEXT("Lobby Started!"));
 
                 FTimerHandle UnusedHandle;
-                GetWorldTimerManager().SetTimer(UnusedHandle, this, &ALobbyGameSession::ChangeMap, 10.0f, false);
+                GetWorldTimerManager().SetTimer(UnusedHandle, this, &ALobbyGameSession::ChangeMap, 5.0f, false);
             }
             else UE_LOG(LogTemp, Warning, TEXT("Failed to start lobby!! (From Callback)"));
 
@@ -240,8 +240,8 @@ void ALobbyGameSession::HandleStartSessionCompleted(FName EOSSessionName, bool b
 
 void ALobbyGameSession::ChangeMap()
 {
-    // 맵 전환 //테스트 //x
-    this->GetWorld()->ServerTravel(InGameMap, true);
+    // 맵 전환 //뭔가 오류나네
+    GetWorld()->ServerTravel(InGameMap, true);
 }
 
 //NotifyLogout에서 호출됨

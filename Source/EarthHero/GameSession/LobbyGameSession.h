@@ -26,7 +26,7 @@ protected:
 	APlayerController* NewPlayerPlayerController;
 
 	const FString MainSessionMap = TEXT("/Game/Maps/StartupMap"); //임시
-	const FString InGameMap = TEXT("/Game/Maps/ForceFieldTestMap"); //임시
+	const FString InGameMap = TEXT("/Game/Maps/TestMap"); //임시
 
 	bool bSessionExists = false;
 
