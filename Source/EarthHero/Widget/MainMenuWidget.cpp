@@ -186,6 +186,7 @@ void UMainMenuWidget::Join_BtnClicked()
 	UEHGameInstance* EHGameInstance = Cast<UEHGameInstance>(GetWorld()->GetGameInstance());
 	if (EHGameInstance)
 	{
+		EHGameInstance->IsCheckedPrivate = true; //테스트용으로 냅둔거임
 		//로비 참가 전 세션 떠나기. (이름 변경 예정)
 		EHGameInstance->LeaveMainSession("JoinLobby");
 	}
