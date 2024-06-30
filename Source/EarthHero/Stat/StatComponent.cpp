@@ -56,22 +56,6 @@ void UStatComponent::BeginPlay()
 		GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UStatComponent::DamageTaken);
 	}
 	
-
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle,
-			this,
-			&UStatComponent::TestAttackByPoison,
-			TestPoison,
-			true);
-}
-
-void UStatComponent::TestAttackByPoison()
-{
-	// TakeDamage 호출 예시
-	AActor* Owner = GetOwner();
-	if (Owner)
-	{
-		UGameplayStatics::ApplyDamage(Owner, 1.0f, nullptr, nullptr, nullptr); // 예시: 10 데미지 적용
-	}
 }
 
 // Called every frame
@@ -88,11 +72,11 @@ void UStatComponent::DamageTaken_Implementation(AActor* DamagedActor, float InDa
 	//데미지 계산
 	UStatCalculationLibrary::CalNormalDamage(HeroStat, InDamage);
 	
-	FString Message = FString::Printf(TEXT("Health : %f"), HeroStat.Health);
-	GEngine->AddOnScreenDebugMessage(-1, 1233223.f, FColor::Green, Message);
+	//FString Message = FString::Printf(TEXT("Health : %f"), HeroStat.Health);
+	//GEngine->AddOnScreenDebugMessage(-1, 1233223.f, FColor::Green, Message);
 	if (HeroStat.Health <= 0.f)
 	{
-		Message = FString::Printf(TEXT("Health : %f"), HeroStat.Health);
+		FString Message = FString::Printf(TEXT("Health : %f"), HeroStat.Health);
 		GEngine->AddOnScreenDebugMessage(-1, 1233223.f, FColor::Green, Message);
 	}
 }
@@ -163,7 +147,7 @@ float UStatComponent::GetHealthPercent() const
 {
 	if (BaseHeroStat.MaxHealth > 0)
     {
-        return BaseHeroStat.Health / BaseHeroStat.MaxHealth;
+        return HeroStat.Health / HeroStat.MaxHealth;
     }
     return 0.0f;
 }

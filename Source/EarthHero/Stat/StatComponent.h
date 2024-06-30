@@ -44,7 +44,6 @@ private:
 
 	FTimerHandle TimerHandle;
 	float TestPoison = 2.0f;
-	void TestAttackByPoison();
 
 	//데미지 처리 함수
 	UFUNCTION(Server, Reliable, WithValidation)
