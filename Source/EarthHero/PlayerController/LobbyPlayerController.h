@@ -15,7 +15,6 @@ class EARTHHERO_API ALobbyPlayerController : public APlayerController
 	GENERATED_BODY()
 
 	virtual void BeginPlay();
-
 	
 
 protected:
@@ -30,6 +29,9 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void Server_ClientReady();
+
+	UFUNCTION(Client, Reliable)
+	void Client_UpdateReadyState(const TArray<bool>& PlayerReadyStateArray);
 
 	UFUNCTION(Client, Reliable)
 	void Client_SendToDebugMessage(const FString& Message);

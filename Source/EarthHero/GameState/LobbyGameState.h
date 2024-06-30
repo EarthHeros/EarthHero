@@ -13,7 +13,6 @@ class EARTHHERO_API ALobbyGameState : public AGameStateBase
 	GENERATED_BODY()
 
 public:
-	TArray<bool> PlayerReadyStateArray;
 
 	//UFUNCTION(NetMulticast, Reliable)
 	//void Multicast_UpdatePlayerReadyState();

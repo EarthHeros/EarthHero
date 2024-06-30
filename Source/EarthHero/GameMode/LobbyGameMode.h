@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include <EarthHero/PlayerController/LobbyPlayerController.h>
 #include "LobbyGameMode.generated.h"
 
 /**
@@ -17,11 +18,13 @@ class EARTHHERO_API ALobbyGameMode : public AGameModeBase
 protected:
 	virtual void BeginPlay();
 	int ReadyCount = 0;
-	TArray<APlayerController*> PlayerControllerArray;
+	TArray<ALobbyPlayerController*> LobbyPlayerControllerArray;
+	TArray<bool> PlayerReadyStateArray;
 
 public:
 	ALobbyGameMode();
 	void TogglePlayerReady(APlayerController* Player);
+	void UpdatePlayerReadyState();
 	void AddPlayerReadyState(APlayerController* Player);
 	bool PressGameStartButton();
 

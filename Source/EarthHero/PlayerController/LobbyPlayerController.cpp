@@ -88,11 +88,11 @@ void ALobbyPlayerController::Server_ClientReady_Implementation()
 }
 
 
-
-
-
-
-
+//서버에서 레디 상태 배열 받고 UI 갱신
+void ALobbyPlayerController::Client_UpdateReadyState_Implementation(const TArray<bool>& PlayerReadyStateArray)
+{
+	//ui 에서 함수호출
+}
 
 
 //서버->클라 메시지 전송 (임시)
