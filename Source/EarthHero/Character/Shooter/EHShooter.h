@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "EHCharacter.h"
+#include "EarthHero/Character/EHCharacter.h"
 #include "EHShooter.generated.h"
 
 
@@ -12,24 +12,22 @@ class EARTHHERO_API AEHShooter : public AEHCharacter
 {
 	GENERATED_BODY()
 
+	friend class UShooterCombatComponent;
+	
 public:
 	AEHShooter();
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void Shoot() override;
 
 protected:
-	void DrawShootingLine();
-
-	void ResetFire();
-	UFUNCTION(Server, Reliable)
-	void Server_Shoot(FVector Start, FVector End);
-	UFUNCTION(NetMulticast, Reliable)
-	void NetMulticast_Shoot(FVector Start, FVector End);
-	
-private:
 	virtual void BeginPlay() override;
 	virtual void PostInitializeComponents() override;
 
+	UPROPERTY(VisibleAnywhere, Category = "Combat")
+	UShooterCombatComponent* CombatComponent;
+	
+private:
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Camera")
 	float MaxPitchAngle;
 	UPROPERTY(EditDefaultsOnly, Category = "Camera")
@@ -37,4 +35,6 @@ private:
 
 	FTimerHandle ShootTimerHandle;
 	bool bCanFire = true;
+
+
 };
