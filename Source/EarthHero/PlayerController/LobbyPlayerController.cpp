@@ -78,7 +78,14 @@ void ALobbyPlayerController::Server_ClientReady_Implementation()
 		ALobbyGameMode* LobbyGameMode = Cast<ALobbyGameMode>(GetWorld()->GetAuthGameMode());
 		if (LobbyGameMode)
 		{
-			LobbyGameMode->PressGameStartButton();
+			if (LobbyGameMode->PressGameStartButton())
+			{
+				Client_SendToDebugMessage("Game Start!");
+			}
+			else
+			{
+				Client_SendToDebugMessage("All players should be ready!");
+			}
 		}
 	}
 	//클라이언트는 게임 레디 처리
@@ -90,4 +97,19 @@ void ALobbyPlayerController::Server_ClientReady_Implementation()
 			LobbyGameMode->TogglePlayerReady(this); //로비 플레이어 컨트롤러를 넘기지만 받는 곳은 플레이어 컨트롤러. 큰 문제 없으려나?
 		}
 	}
+}
+
+
+
+
+
+
+
+
+
+//서버->클라 메시지 전송 (임시)
+void ALobbyPlayerController::Client_SendToDebugMessage_Implementation(const FString& Message)
+{
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 600.f, FColor::Yellow, Message);
 }

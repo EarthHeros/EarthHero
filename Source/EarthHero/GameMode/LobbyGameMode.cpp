@@ -55,7 +55,17 @@ void ALobbyGameMode::AddPlayerReadyState(APlayerController* NewPlayer)
 	PlayerReadyState.Add(NewPlayer, false);
 }
 
-void ALobbyGameMode::PressGameStartButton()
+bool ALobbyGameMode::PressGameStartButton()
 {
-	//¹Ì¿Â¼º
+	ALobbyGameSession* LobbyGameSession = Cast<ALobbyGameSession>(GameSession);
+	if (LobbyGameSession)
+	{
+		if (ReadyCount == (LobbyGameSession->MaxNumberOfPlayersInSession - 1))
+		{
+			UE_LOG(LogTemp, Log, TEXT("Lobby Start!"));
+			LobbyGameSession->StartSession();
+			return true;
+		}
+	}
+	return false;
 }

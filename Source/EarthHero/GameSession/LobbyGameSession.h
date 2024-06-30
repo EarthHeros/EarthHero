@@ -15,7 +15,7 @@ class EARTHHERO_API ALobbyGameSession : public AGameSession
 	GENERATED_BODY()
 
 public:
-	int MaxNumberOfPlayersInSession = 2; // 세션 최대 인원수 (임시로2)
+	int MaxNumberOfPlayersInSession = 1; // 세션 최대 인원수 (임시로2)
 
 protected:
 	int NumberOfPlayersInSession = 0;
@@ -26,7 +26,7 @@ protected:
 	APlayerController* NewPlayerPlayerController;
 
 	const FString MainSessionMap = TEXT("/Game/Maps/StartupMap"); //임시
-	const FString InGameMap = TEXT("/Game/Maps/ForceFieldTestMap"); //임시
+	const FString InGameMap = TEXT("/Game/Maps/TestMap"); //임시
 
 	bool bSessionExists = false;
 

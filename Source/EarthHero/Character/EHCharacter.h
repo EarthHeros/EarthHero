@@ -33,6 +33,7 @@ public:
     //승언: 임시 컴포넌트 추가, 각 히어로 별 컴포넌트로 대체 예정
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component")
     class UStatComponent* StatComponent;
+    virtual void Shoot();
 
 protected:
     virtual void BeginPlay() override;
@@ -55,9 +56,6 @@ private:
     UPROPERTY(EditAnywhere, Category = "ForceField")
     UPostProcessComponent* ForceFieldPostProcessComponent;
 
-    UPROPERTY(VisibleAnywhere, Category = "Combat")
-    class UCombatComponent* CombatComponent;            // Shoot, Skill 등 무기 이용한 공격 관리하는 Component
-    
     UPROPERTY()
     UMaterialInterface* ForceFieldPostProcessMaterial;
 
@@ -73,4 +71,5 @@ private:
 public:
     FORCEINLINE USkeletalMeshComponent* GetEquippedWeapon() { return WeaponMesh; }
     FORCEINLINE USkeletalMeshComponent* GetFirstPersonMesh() { return FirstPersonHand; }
+    FORCEINLINE UCameraComponent* GetFPSCamera() { return FPSCamera; }
 };

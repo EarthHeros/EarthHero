@@ -140,3 +140,7 @@ void AEHCharacter::SetIsInForceField(bool bInForceField)
         DisableForceFieldEffect();
     }
 }
+
+void AEHCharacter::Shoot()
+{
+}

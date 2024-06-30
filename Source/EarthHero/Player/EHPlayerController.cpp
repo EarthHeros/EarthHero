@@ -22,7 +22,6 @@ void AEHPlayerController::Tick(float DeltaSeconds)
 void AEHPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	ControlledCharacter = GetPawn<ACharacter>();
 	
 	check(HeroContext);
 	
@@ -59,19 +58,23 @@ void AEHPlayerController::SetupInputComponent()
 	EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ThisClass::Look);
 
 	// Shoot
-	EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Started, this, &ThisClass::Shoot);
+	EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Triggered, this, &ThisClass::Shoot);
 }
 
 void AEHPlayerController::Jump()
 {
-	if(ControlledCharacter)
+	if(GetPawn())
 	{
-		ControlledCharacter->Jump();
+		Cast<AEHCharacter>(GetPawn())->Jump();
 	}
 }
 
 void AEHPlayerController::Shoot()
 {
+	if(GetPawn())
+	{
+		Cast<AEHCharacter>(GetPawn())->Shoot();
+	}
 }
 
 void AEHPlayerController::Move(const FInputActionValue& Value)
@@ -89,10 +92,10 @@ void AEHPlayerController::Move(const FInputActionValue& Value)
 	const FVector RightVector = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
 	// Movement 추가
-	if(ControlledCharacter)
+	if(GetPawn())
 	{
-		ControlledCharacter->AddMovementInput(ForwardVector, MovementVector.Y);
-		ControlledCharacter->AddMovementInput(RightVector, MovementVector.X);
+		GetPawn()->AddMovementInput(ForwardVector, MovementVector.Y);
+		GetPawn()->AddMovementInput(RightVector, MovementVector.X);
 	}
 }
 

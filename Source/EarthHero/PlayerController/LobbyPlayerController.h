@@ -16,6 +16,8 @@ class EARTHHERO_API ALobbyPlayerController : public APlayerController
 
 	virtual void BeginPlay();
 
+	
+
 protected:
 	UFUNCTION(Server, Reliable)
 	void Server_ChangeAdvertiseState(bool bAdvertise);
@@ -28,5 +30,8 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void Server_ClientReady();
+
+	UFUNCTION(Client, Reliable)
+	void Client_SendToDebugMessage(const FString& Message);
 	
 };
