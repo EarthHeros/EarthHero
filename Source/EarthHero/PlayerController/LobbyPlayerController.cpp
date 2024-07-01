@@ -49,9 +49,7 @@ void ALobbyPlayerController::ShowLobbyWidget()
 		LobbyWidget = Cast<ULobbyWidget>(CreateWidget(GetWorld(), LobbyWidgetClass));
 		if (LobbyWidget)
 		{
-			// 위젯을 뷰포트에 띄우는 함수
 			LobbyWidget->AddToViewport();
-
 			bShowMouseCursor = true;
 		}
 	}
@@ -117,19 +115,22 @@ void ALobbyPlayerController::Server_ClientReady_Implementation()
 	}
 }
 
+//서버에서 플레이어 이름 리스트 받고 UI 갱신
+void ALobbyPlayerController::Client_UpdatePlayerNameList_Implementation(const TArray<FString>& PlayerNameList)
+{
+	if (LobbyWidget)
+	{
+		LobbyWidget->UpdatePlayerNameList(PlayerNameList);
+	}
+}
 
 //서버에서 레디 상태 배열 받고 UI 갱신
 void ALobbyPlayerController::Client_UpdateReadyState_Implementation(const TArray<bool>& PlayerReadyStateArray)
 {
-	/*
 	if (LobbyWidget)
 	{
-		UWBP_Lobby* LobbyWidgetInstance = Cast<WBP_Lobby>(LobbyWidget);
-		if (LobbyWidgetInstance)
-		{
-			LobbyWidgetInstance->UpdatePlayerList(PlayerNames);
-		}
-	}*/
+		LobbyWidget->UpdateReadyState(PlayerReadyStateArray);
+	}
 }
 
 //서버->클라 메시지 전송 (임시)

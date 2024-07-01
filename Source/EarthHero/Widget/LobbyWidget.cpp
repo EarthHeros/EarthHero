@@ -3,7 +3,7 @@
 
 #include "LobbyWidget.h"
 #include "Components/Button.h"
-#include "Components/EditableTextBox.h"
+#include "Components/TextBlock.h"
 #include <EarthHero/PlayerController/LobbyPlayerController.h>
 
 bool ULobbyWidget::Initialize()
@@ -28,6 +28,11 @@ bool ULobbyWidget::Initialize()
 	}
 	Ready_Btn->OnClicked.AddDynamic(this, &ULobbyWidget::ReadyClicked);
 
+	PlayerTexts.Add(Player1_Txt);
+	PlayerTexts.Add(Player2_Txt);
+	PlayerTexts.Add(Player3_Txt);
+	PlayerTexts.Add(Player4_Txt);
+
 	return true;
 }
 
@@ -44,5 +49,25 @@ void ULobbyWidget::ReadyClicked()
 		{
 			LobbyPlayerController->Server_ClientReady();
 		}
+	}
+}
+void ULobbyWidget::UpdatePlayerNameList(const TArray<FString>& PlayerNameList)
+{
+	int NumberOfPlayers = PlayerNameList.Num();
+
+	for (int i = 0; i < NumberOfPlayers; i++)
+	{
+		PlayerTexts[i]->SetText(FText::FromString(PlayerNameList[i]));
+	}
+}
+
+void ULobbyWidget::UpdateReadyState(const TArray<bool>& PlayerReadyStateArray)
+{
+	int NumberOfPlayers = PlayerReadyStateArray.Num();
+
+	for(int i = 0; i < NumberOfPlayers; i++)
+	{
+		if(PlayerReadyStateArray[i]) PlayerTexts[i]->SetColorAndOpacity(FLinearColor::Red);
+		else PlayerTexts[i]->SetColorAndOpacity(FLinearColor::Black);
 	}
 }

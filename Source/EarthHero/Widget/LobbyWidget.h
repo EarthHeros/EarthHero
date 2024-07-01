@@ -22,18 +22,23 @@ private:
 	class UButton* Ready_Btn;
 
 	UPROPERTY(meta = (BindWidget))
-	class UEditableTextBox* ReadyButton_Tb;
+	class UTextBlock* ReadyButton_Tb;
 
-	/*
+	TArray<UTextBlock*> PlayerTexts;
+
 	UPROPERTY(meta = (BindWidget))
-	class UText* Player1_Txt;
+	UTextBlock* Player1_Txt;
 	UPROPERTY(meta = (BindWidget))
-	UText* Player2_Txt;
+	UTextBlock* Player2_Txt;
 	UPROPERTY(meta = (BindWidget))
-	UText* Player3_Txt;
+	UTextBlock* Player3_Txt;
 	UPROPERTY(meta = (BindWidget))
-	UText* Player4_Txt;*/
+	UTextBlock* Player4_Txt;
 
 	UFUNCTION()
 	void ReadyClicked();
+	
+public:
+	void UpdatePlayerNameList(const TArray<FString>& PlayerNameList);
+	void UpdateReadyState(const TArray<bool>& PlayerReadyStateArray);
 };

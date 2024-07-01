@@ -19,11 +19,13 @@ protected:
 	virtual void BeginPlay();
 	int ReadyCount = 0;
 	TArray<ALobbyPlayerController*> LobbyPlayerControllerArray;
+	TArray<FString> PlayerNameArray;
 	TArray<bool> PlayerReadyStateArray;
 
 public:
 	ALobbyGameMode();
 	void TogglePlayerReady(APlayerController* Player);
+	void UpdatePlayerNameList();
 	void UpdatePlayerReadyState();
 	void AddPlayerReadyState(APlayerController* Player);
 	bool PressGameStartButton();

@@ -39,11 +39,15 @@ public:
 	void Server_ClientReady();
 
 	UFUNCTION(Client, Reliable)
+	void Client_UpdatePlayerNameList(const TArray<FString>& PlayerNameList);
+
+	UFUNCTION(Client, Reliable)
 	void Client_UpdateReadyState(const TArray<bool>& PlayerReadyStateArray);
 
 	UFUNCTION(Client, Reliable)
 	void Client_SendToDebugMessage(const FString& Message);
 
+	
 
 protected:
 	void ShowLobbyWidget();
