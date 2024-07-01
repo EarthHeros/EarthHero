@@ -56,9 +56,9 @@ private:
 
 
 	UPROPERTY(meta = (BindWidget))
-	UScrollBox* Chat_Scr;
+	class UScrollBox* Chat_Scr;
 	UPROPERTY(meta = (BindWidget))
-	UEditableTextBox* Chat_Etb;
+	class UEditableTextBox* Chat_Etb;
 
 	UFUNCTION()
 	void ReadyClicked();

@@ -159,6 +159,8 @@ void ALobbyPlayerController::Client_UpdateReadyState_Implementation(const TArray
 
 void ALobbyPlayerController::Server_SendChatMessage_Implementation(const FText& Text)
 {
+	UE_LOG(LogTemp, Log, TEXT("Send a chat message : %s"), *Text.ToString());
+
 	ALobbyGameMode* LobbyGameMode = Cast<ALobbyGameMode>(GetWorld()->GetAuthGameMode());
 	if (LobbyGameMode)
 	{

@@ -157,16 +157,20 @@ void ULobbyWidget::AddChatMessage(const FText& Text)
 {
 	URichTextBlock* RichTextBlock = NewObject<URichTextBlock>(this);
 
-	FTextBlockStyle TextStyle = FTextBlockStyle()
-		.SetColorAndOpacity(FSlateColor(FLinearColor::White))
-		.SetShadowOffset(FVector2D(1.0f, 1.0f))
-		.SetShadowColorAndOpacity(FLinearColor::Black);
-	
-	RichTextBlock->SetDefaultTextStyle(TextStyle);
+	if (RichTextBlock)
+	{
+		RichTextBlock->SetText(Text);
+		//RichTextBlock->SetDefaultColorAndOpacity(FSlateColor(FLinearColor::Black));
 
-	Chat_Scr->AddChild(RichTextBlock);
+		if (Chat_Scr)
+		{
+			Chat_Scr->AddChild(RichTextBlock);
 
-	//µô·¹ÀÌ Á¶±Ý
+			int32 ChildCount = Chat_Scr->GetChildrenCount();
+			UE_LOG(LogTemp, Warning, TEXT("Chat_Scr Child Count: %d"), ChildCount);
+			//µô·¹ÀÌ Á¶±Ý
 
-	Chat_Scr->ScrollToEnd();
+			Chat_Scr->ScrollToEnd();
+		}
+	}
 }
