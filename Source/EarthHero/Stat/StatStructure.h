@@ -18,22 +18,22 @@ struct FStatStructure : public FTableRowBase
 	float Health = 0.f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-	float HealthRegeneration = 0.f;			//체력 재생
+	float HealthRegeneration = 1.f;			//체력 재생
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-	float MovementSpeed = 0.f;				//이동속도
+	float MovementSpeed = 1.f;				//이동속도
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-	float NormalDamage = 0.f;				//일반 공격 데미지
+	float NormalDamage = 1.f;				//일반 공격 데미지
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-	float AttackSpeed = 0.f;				//공격 속도
+	float AttackSpeed = 1.f;				//공격 속도
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-	float SkillDamage = 0.f;				//스킬 데미지
+	float SkillDamage = 1.f;				//스킬 데미지
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-	float MaxExp = 0.f;						//최대 경험치
+	float MaxExp = 100.f;					//최대 경험치
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	float Exp = 0.f;
@@ -43,5 +43,14 @@ struct FStatStructure : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 	float DashCoolTime = 0.f;				//이동 스킬 쿨타임 감소
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	float DefensePower = 0.f;				//보호막
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	float IncreasedExpGain = 0.f;			//경험치 획득량 증가
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	float JumpPower = 0.f;					//점프력
 	
 };
