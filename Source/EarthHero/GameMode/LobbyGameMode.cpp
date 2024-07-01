@@ -112,3 +112,19 @@ bool ALobbyGameMode::PressGameStartButton()
 	}
 	return false;
 }
+
+
+void ALobbyGameMode::SendChatMessage(const FText& Text)
+{
+	int32 NumberOfPlayers = LobbyPlayerControllerArray.Num();
+
+	UE_LOG(LogTemp, Log, TEXT("Send a message to clients"));
+
+	for (int i = 0; i < NumberOfPlayers; i++)
+	{
+		if (LobbyPlayerControllerArray[i])
+		{
+			LobbyPlayerControllerArray[i]->Client_SendChatMessage(Text);
+		}
+	}
+}

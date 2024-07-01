@@ -47,7 +47,10 @@ public:
 	UFUNCTION(Client, Reliable)
 	void Client_SendToDebugMessage(const FString& Message);
 
-	
+	UFUNCTION(Server, Reliable)
+	void Server_SendChatMessage(const FText& Text);
+	UFUNCTION(Client, Reliable)
+	void Client_SendChatMessage(const FText& Text);
 
 protected:
 	void ShowLobbyWidget();
@@ -56,4 +59,8 @@ protected:
 
 	ULobbyWidget* LobbyWidget;
 	
+	
+
+	
+
 };

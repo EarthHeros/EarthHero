@@ -4,7 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include <Components/EditableTextBox.h>
+#include <Components/ScrollBox.h>
 #include "LobbyWidget.generated.h"
+
+
 
 enum class EClassType : uint8
 {
@@ -50,6 +54,12 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UButton* Archor_Btn;
 
+
+	UPROPERTY(meta = (BindWidget))
+	UScrollBox* Chat_Scr;
+	UPROPERTY(meta = (BindWidget))
+	UEditableTextBox* Chat_Etb;
+
 	UFUNCTION()
 	void ReadyClicked();
 
@@ -58,13 +68,17 @@ private:
 	UFUNCTION()
 	void MechanicClicked();
 	UFUNCTION()
-	void ShooterClicked();
+	void ShooterClicked(); 
 	UFUNCTION()
 	void ArchorClicked();
 
 	int NumberOfClass = 4;
-
+	
 	void ChangeSelectedButton(EClassType ClassType);
+
+	UFUNCTION()
+	void ChatTextCommitted(const FText& Text, ETextCommit::Type CommitMethod);
+
 
 
 
@@ -72,4 +86,5 @@ private:
 public:
 	void UpdatePlayerNameList(const TArray<FString>& PlayerNameList);
 	void UpdateReadyState(const TArray<bool>& PlayerReadyStateArray);
+	void AddChatMessage(const FText& Text);
 };

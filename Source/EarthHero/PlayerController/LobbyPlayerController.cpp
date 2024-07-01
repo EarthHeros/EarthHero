@@ -156,6 +156,28 @@ void ALobbyPlayerController::Client_UpdateReadyState_Implementation(const TArray
 	}
 }
 
+
+void ALobbyPlayerController::Server_SendChatMessage_Implementation(const FText& Text)
+{
+	ALobbyGameMode* LobbyGameMode = Cast<ALobbyGameMode>(GetWorld()->GetAuthGameMode());
+	if (LobbyGameMode)
+	{
+		LobbyGameMode->SendChatMessage(Text);
+	}
+}
+
+void ALobbyPlayerController::Client_SendChatMessage_Implementation(const FText& Text)
+{
+	UE_LOG(LogTemp, Log, TEXT("Receive a chat message : %s"), *Text.ToString());
+
+	if (LobbyWidget)
+	{
+		LobbyWidget->AddChatMessage(Text);
+	}
+}
+
+
+
 //서버->클라 메시지 전송 (임시)
 void ALobbyPlayerController::Client_SendToDebugMessage_Implementation(const FString& Message)
 {

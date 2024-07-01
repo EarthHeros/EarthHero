@@ -30,5 +30,7 @@ public:
 	void AddPlayerReadyState(APlayerController* Player);
 	bool PressGameStartButton();
 
+	void SendChatMessage(const FText& Text);
+
 
 };

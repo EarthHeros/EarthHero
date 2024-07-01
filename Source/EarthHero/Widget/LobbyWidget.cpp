@@ -5,6 +5,7 @@
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
 #include <EarthHero/PlayerController/LobbyPlayerController.h>
+#include <Components/RichTextBlock.h>
 
 bool ULobbyWidget::Initialize()
 {
@@ -24,10 +25,12 @@ bool ULobbyWidget::Initialize()
 	}
 	Ready_Btn->OnClicked.AddDynamic(this, &ULobbyWidget::ReadyClicked);
 
+
 	PlayerTexts.Add(Player1_Txt);
 	PlayerTexts.Add(Player2_Txt);
 	PlayerTexts.Add(Player3_Txt);
 	PlayerTexts.Add(Player4_Txt);
+	
 
 	ClassBtns.Add(Warrior_Btn);
 	ClassBtns.Add(Mechanic_Btn);
@@ -38,6 +41,8 @@ bool ULobbyWidget::Initialize()
 	Mechanic_Btn->OnClicked.AddDynamic(this, &ULobbyWidget::MechanicClicked);
 	Shooter_Btn->OnClicked.AddDynamic(this, &ULobbyWidget::ShooterClicked);
 	Archor_Btn->OnClicked.AddDynamic(this, &ULobbyWidget::ArchorClicked);
+
+	Chat_Etb->OnTextCommitted.AddDynamic(this, &ULobbyWidget::ChatTextCommitted);
 
 	return true;
 }
@@ -81,8 +86,37 @@ void ULobbyWidget::ChangeSelectedButton(EClassType ClassType)
 	{
 		ClassBtns[i]->SetColorAndOpacity(FLinearColor(1.0f, 1.0f, 1.0f, 1.0f));
 	}
-	ClassBtns[(int)ClassType]->SetColorAndOpacity(FLinearColor(1.0f, 1.0f, 1.0f, 0.3f));
+	ClassBtns[(int)ClassType]->SetColorAndOpacity(FLinearColor(1.0f, 1.0f, 1.0f, 0.5f));
 }
+
+void ULobbyWidget::ChatTextCommitted(const FText& Text, ETextCommit::Type CommitMethod)
+{
+	switch (CommitMethod)
+	{
+		case ETextCommit::Default:
+		case ETextCommit::OnEnter:
+			if (!Text.IsEmpty())
+			{
+				APlayerController* PlayerController = GetOwningPlayer();
+				if (PlayerController)
+				{
+					ALobbyPlayerController* LobbyPlayerController = Cast<ALobbyPlayerController>(PlayerController);
+					if (LobbyPlayerController)
+						LobbyPlayerController->Server_SendChatMessage(Text);
+				}
+				Chat_Etb->SetText(FText::GetEmpty());
+			}
+			//포커스 다시 edittext
+			break;
+
+		case ETextCommit::OnUserMovedFocus:
+		case ETextCommit::OnCleared:
+			//포커스 다시 edittext
+			break;
+	}
+}
+
+
 
 
 
@@ -116,4 +150,23 @@ void ULobbyWidget::UpdateReadyState(const TArray<bool>& PlayerReadyStateArray)
 		if(PlayerReadyStateArray[i]) PlayerTexts[i]->SetColorAndOpacity(FLinearColor::Red);
 		else PlayerTexts[i]->SetColorAndOpacity(FLinearColor::Black);
 	}
+}
+
+
+void ULobbyWidget::AddChatMessage(const FText& Text)
+{
+	URichTextBlock* RichTextBlock = NewObject<URichTextBlock>(this);
+
+	FTextBlockStyle TextStyle = FTextBlockStyle()
+		.SetColorAndOpacity(FSlateColor(FLinearColor::White))
+		.SetShadowOffset(FVector2D(1.0f, 1.0f))
+		.SetShadowColorAndOpacity(FLinearColor::Black);
+	
+	RichTextBlock->SetDefaultTextStyle(TextStyle);
+
+	Chat_Scr->AddChild(RichTextBlock);
+
+	//딜레이 조금
+
+	Chat_Scr->ScrollToEnd();
 }
