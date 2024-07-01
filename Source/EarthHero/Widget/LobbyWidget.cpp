@@ -55,6 +55,8 @@ void ULobbyWidget::UpdatePlayerNameList(const TArray<FString>& PlayerNameList)
 {
 	int NumberOfPlayers = PlayerNameList.Num();
 
+	UE_LOG(LogTemp, Log, TEXT("Widget : update player name list (%d players)"), NumberOfPlayers);
+
 	for (int i = 0; i < NumberOfPlayers; i++)
 	{
 		PlayerTexts[i]->SetText(FText::FromString(PlayerNameList[i]));
@@ -64,6 +66,8 @@ void ULobbyWidget::UpdatePlayerNameList(const TArray<FString>& PlayerNameList)
 void ULobbyWidget::UpdateReadyState(const TArray<bool>& PlayerReadyStateArray)
 {
 	int NumberOfPlayers = PlayerReadyStateArray.Num();
+
+	UE_LOG(LogTemp, Log, TEXT("Widget : update player ready state (%d players)"), NumberOfPlayers);
 
 	for(int i = 0; i < NumberOfPlayers; i++)
 	{

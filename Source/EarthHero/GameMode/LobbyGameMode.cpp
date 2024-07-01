@@ -38,8 +38,6 @@ void ALobbyGameMode::AddPlayerReadyState(APlayerController* NewPlayer)
 	LobbyPlayerControllerArray.Add(LobbyNewPlayerController);
 	PlayerNameArray.Add(NewPlayer->PlayerState->GetPlayerName());
 	PlayerReadyStateArray.Add(false);
-
-	UpdatePlayerNameList();
 }
 
 void ALobbyGameMode::TogglePlayerReady(APlayerController* Player)
@@ -60,12 +58,12 @@ void ALobbyGameMode::TogglePlayerReady(APlayerController* Player)
 	else UE_LOG(LogTemp, Error, TEXT("%s is not valid for player ready state"), LobbyPlayerController);
 }
 
-//모든 클라이언트에게 플레이어 이름 리스트 전송
-void ALobbyGameMode::UpdatePlayerNameList()
+//모든 클라이언트에게 플레이어 이름 리스트 전송 및 UpdatePlayerReadyState() 호출
+void ALobbyGameMode::UpdatePlayerNameyListAndReadyState()
 {
 	int32 NumberOfPlayers = LobbyPlayerControllerArray.Num();
 
-	UE_LOG(LogTemp, Log, TEXT("Send player name list to client"));
+	UE_LOG(LogTemp, Log, TEXT("Send player name list to client. (%d players)"), NumberOfPlayers);
 
 	for (int i = 0; i < NumberOfPlayers; i++)
 	{
@@ -84,7 +82,7 @@ void ALobbyGameMode::UpdatePlayerReadyState()
 	int32 NumberOfPlayers = LobbyPlayerControllerArray.Num();
 	//ALobbyPlayerController로 for문은 안되나봐...
 
-	UE_LOG(LogTemp, Log, TEXT("Send Ready state to client"));
+	UE_LOG(LogTemp, Log, TEXT("Send Ready state to client. (%d players)"), NumberOfPlayers);
 
 	for (int i = 0; i < NumberOfPlayers; i++)
 	{

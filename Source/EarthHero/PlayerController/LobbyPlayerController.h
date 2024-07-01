@@ -27,7 +27,7 @@ class EARTHHERO_API ALobbyPlayerController : public APlayerController
 
 protected:
 	UFUNCTION(Server, Reliable)
-	void Server_ChangeAdvertiseState(bool bAdvertise);
+	void Server_InitSetup(bool bAdvertise);
 
 public:
 	bool bHost = false;

@@ -34,9 +34,8 @@ void ALobbyPlayerController::BeginPlay()
 		//일단 로비에 오면 공개여부 설정 요청을 보냄
 		if (EHGameInstance)
 		{
-			UE_LOG(LogTemp, Log, TEXT("Lobby mode request private? : %s"), EHGameInstance->IsCheckedPrivate);
-
-			Server_ChangeAdvertiseState(EHGameInstance->IsCheckedPrivate);
+			UE_LOG(LogTemp, Log, TEXT("Lobby mode request private? : %s"), EHGameInstance->IsCheckedPrivate ? "true" : "false");
+			Server_InitSetup(EHGameInstance->IsCheckedPrivate);
 		}
 		ShowLobbyWidget();
 	}
@@ -55,27 +54,34 @@ void ALobbyPlayerController::ShowLobbyWidget()
 	}
 }
 
+//클라이언트가 준비 되었음을 서버에게 알림 +
 //클라이언트가 방장인지 검사 + 방장이면 advertise 상태 변경
-void ALobbyPlayerController::Server_ChangeAdvertiseState_Implementation(bool bAdvertise)
+void ALobbyPlayerController::Server_InitSetup_Implementation(bool bAdvertise)
 {
 	//로비게임세션에서 이미 플레이어 접속을 감지하고 bHost에 할당해주었음
 	if (bHost)
 	{
+		//클라이언트한테 방장임을 알림
 		Client_HostAssignment();
 
 		//광고 상태 변경
 		ALobbyGameMode* LobbyGameMode = Cast<ALobbyGameMode>(GetWorld()->GetAuthGameMode());
 		if (LobbyGameMode)
 		{
+			//광고 상태 변경
 			ALobbyGameSession* LobbyGameSession = Cast<ALobbyGameSession>(LobbyGameMode->GameSession);
 			if (LobbyGameSession)
 			{
 				UE_LOG(LogTemp, Log, TEXT("Change advertise state..."));
-
 				LobbyGameSession->ChangeAdvertiseState(bAdvertise);
 			}
 		}
-
+	}
+	//서버에서 현재 로비 속 플레이어 이름과 레디상태를 업데이트
+	ALobbyGameMode* LobbyGameMode = Cast<ALobbyGameMode>(GetWorld()->GetAuthGameMode());
+	if (LobbyGameMode)
+	{
+		LobbyGameMode->UpdatePlayerNameyListAndReadyState();
 	}
 }
 
@@ -118,6 +124,8 @@ void ALobbyPlayerController::Server_ClientReady_Implementation()
 //서버에서 플레이어 이름 리스트 받고 UI 갱신
 void ALobbyPlayerController::Client_UpdatePlayerNameList_Implementation(const TArray<FString>& PlayerNameList)
 {
+	UE_LOG(LogTemp, Log, TEXT("Player name list received"));
+
 	if (LobbyWidget)
 	{
 		LobbyWidget->UpdatePlayerNameList(PlayerNameList);
@@ -127,6 +135,8 @@ void ALobbyPlayerController::Client_UpdatePlayerNameList_Implementation(const TA
 //서버에서 레디 상태 배열 받고 UI 갱신
 void ALobbyPlayerController::Client_UpdateReadyState_Implementation(const TArray<bool>& PlayerReadyStateArray)
 {
+	UE_LOG(LogTemp, Log, TEXT("Player ready state received"));
+
 	if (LobbyWidget)
 	{
 		LobbyWidget->UpdateReadyState(PlayerReadyStateArray);
