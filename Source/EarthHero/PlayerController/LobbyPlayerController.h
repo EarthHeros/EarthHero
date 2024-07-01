@@ -33,7 +33,7 @@ public:
 	bool bHost = false;
 
 	UFUNCTION(Client, Reliable)
-	void Client_HostAssignment();
+	void Client_HostAssignment(bool bHostAssignment);
 
 	UFUNCTION(Server, Reliable)
 	void Server_ClientReady();

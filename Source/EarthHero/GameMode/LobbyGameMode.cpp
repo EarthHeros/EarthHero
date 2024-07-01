@@ -38,15 +38,8 @@ void ALobbyGameMode::AddPlayerReadyState(APlayerController* NewPlayer)
 		PlayerReadyStateArray.RemoveAt(PlayerIndex);
 	}
 
-
-
-	FString NewPlayerName;
-
-	NewPlayerName = LobbyNewPlayerController->PlayerState->GetPlayerName();
-	UE_LOG(LogTemp, Log, TEXT("Player Steam Nickname: %s"), *NewPlayerName);
-
 	LobbyPlayerControllerArray.Add(LobbyNewPlayerController);
-	PlayerNameArray.Add(NewPlayerName);
+	PlayerNameArray.Add(LobbyNewPlayerController->PlayerState->GetPlayerName());
 	PlayerReadyStateArray.Add(false);
 
 	UpdatePlayerNameyListAndReadyState();

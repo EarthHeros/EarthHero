@@ -44,7 +44,6 @@ void ALobbyPlayerController::BeginPlay()
 			else UE_LOG(LogTemp, Log, TEXT("Lobby mode request private? : false"));
 			Server_InitSetup(EHGameInstance->IsCheckedPrivate);
 		}
-		ShowLobbyWidget();
 	}
 }
 
@@ -69,7 +68,7 @@ void ALobbyPlayerController::Server_InitSetup_Implementation(bool bAdvertise)
 	if (bHost)
 	{
 		//클라이언트한테 방장임을 알림
-		Client_HostAssignment();
+		Client_HostAssignment(true);
 
 		//광고 상태 변경
 		ALobbyGameMode* LobbyGameMode = Cast<ALobbyGameMode>(GetWorld()->GetAuthGameMode());
@@ -89,6 +88,8 @@ void ALobbyPlayerController::Server_InitSetup_Implementation(bool bAdvertise)
 			}
 		}
 	}
+	else Client_HostAssignment(false);
+
 	//서버에서 현재 로비 속 플레이어 이름과 레디상태를 업데이트
 	ALobbyGameMode* LobbyGameMode = Cast<ALobbyGameMode>(GetWorld()->GetAuthGameMode());
 	if (LobbyGameMode)
@@ -97,15 +98,20 @@ void ALobbyPlayerController::Server_InitSetup_Implementation(bool bAdvertise)
 	}
 }
 
-//방장임을 클라이언트에게 알림
-void ALobbyPlayerController::Client_HostAssignment_Implementation()
+//방장 권한이 있는 지 클라이언트에게 알림
+void ALobbyPlayerController::Client_HostAssignment_Implementation(bool bHostAssignment)
 {
-	bHost = true; //클라이언트에도 알리는 만큼, 서버에서 호스트 확인 항상하기
+	bHost = bHostAssignment; //클라이언트에도 알리는 만큼, 서버에서 호스트 확인 항상하기
 
-	UE_LOG(LogTemp, Log, TEXT("Host Assignmented!"));
+	ShowLobbyWidget();
 
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(-1, 600.f, FColor::Yellow, FString::Printf(TEXT("You are host!!!!!!!!!!")));
+	if (bHost)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Host Assignmented!"));
+
+		if (GEngine)
+			GEngine->AddOnScreenDebugMessage(-1, 600.f, FColor::Yellow, FString::Printf(TEXT("You are host!!!!!!!!!!")));
+	}
 }
 
 void ALobbyPlayerController::Server_ClientReady_Implementation()

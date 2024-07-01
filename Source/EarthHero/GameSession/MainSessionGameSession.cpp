@@ -150,7 +150,6 @@ void AMainSessionGameSession::HandleRegisterPlayerCompleted(FName EOSSessionName
             {
                 UE_LOG(LogTemp, Log, TEXT("Player registered in Session!"));
                 NumberOfPlayersInSession++; //플레이어 수 세어줌
-                UE_LOG(LogTemp, Error, TEXT("NumberOfPlayersInSession = %d"), NumberOfPlayersInSession); //테스트
             }
             else UE_LOG(LogTemp, Warning, TEXT("Failed to register player! (From Callback)"));
 
