@@ -4,6 +4,9 @@
 #include "LobbyGameMode.h"
 #include <EarthHero/GameSession/LobbyGameSession.h>
 #include "GameFramework/PlayerState.h"
+#include "OnlineSubsystem.h"
+#include "OnlineSubsystemUtils.h"
+#include "Interfaces/OnlineSessionInterface.h"
 
 ALobbyGameMode::ALobbyGameMode()
 {
@@ -35,11 +38,26 @@ void ALobbyGameMode::AddPlayerReadyState(APlayerController* NewPlayer)
 		PlayerReadyStateArray.RemoveAt(PlayerIndex);
 	}
 
-	LobbyPlayerControllerArray.Add(LobbyNewPlayerController);
-	PlayerNameArray.Add(NewPlayer->PlayerState->GetPlayerName());
-	PlayerReadyStateArray.Add(false);
+	FString NewPlayerName;
 
-	UE_LOG(LogTemp, Error, TEXT("New player name : %s"), *(NewPlayer->PlayerState->GetPlayerName()));
+	IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
+	if (Subsystem)
+	{
+		IOnlineIdentityPtr Identity = Subsystem->GetIdentityInterface();
+		if (Identity)
+		{
+			TSharedPtr<const FUniqueNetId> PlayerId = LobbyNewPlayerController->PlayerState->GetUniqueId().GetUniqueNetId();
+			if (PlayerId)
+			{
+				NewPlayerName = Identity->GetPlayerNickname(0); //*PlayerId
+				UE_LOG(LogTemp, Log, TEXT("Player Steam Nickname: %s %s"), *NewPlayerName, *(PlayerId->ToString()));
+			}
+		}
+	}
+
+	LobbyPlayerControllerArray.Add(LobbyNewPlayerController);
+	PlayerNameArray.Add(NewPlayerName);
+	PlayerReadyStateArray.Add(false);
 }
 
 void ALobbyGameMode::TogglePlayerReady(APlayerController* Player)
