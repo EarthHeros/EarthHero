@@ -18,11 +18,6 @@ ALobbyPlayerController::ALobbyPlayerController()
 		{
 			LobbyWidgetClass = LobbyWidgetAsset.Class;
 		}
-		else
-		{
-			UE_LOG(LogTemp, Error, TEXT("WBP_Lobby Found Failed!"));
-			//강퇴처리해야함
-		}
 	}
 }
 

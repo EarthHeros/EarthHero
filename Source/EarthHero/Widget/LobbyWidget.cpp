@@ -17,13 +17,9 @@ bool ULobbyWidget::Initialize()
 		if (LobbyPlayerController)
 		{
 			if (LobbyPlayerController->bHost)
-			{
 				ReadyButton_Tb->SetText(FText::FromString("Game Start"));
-			}
 			else
-			{
 				ReadyButton_Tb->SetText(FText::FromString("Game Ready"));
-			}
 		}
 	}
 	Ready_Btn->OnClicked.AddDynamic(this, &ULobbyWidget::ReadyClicked);
@@ -32,6 +28,16 @@ bool ULobbyWidget::Initialize()
 	PlayerTexts.Add(Player2_Txt);
 	PlayerTexts.Add(Player3_Txt);
 	PlayerTexts.Add(Player4_Txt);
+
+	ClassBtns.Add(Warrior_Btn);
+	ClassBtns.Add(Mechanic_Btn);
+	ClassBtns.Add(Shooter_Btn);
+	ClassBtns.Add(Archor_Btn);
+
+	Warrior_Btn->OnClicked.AddDynamic(this, &ULobbyWidget::WarriorClicked);
+	Mechanic_Btn->OnClicked.AddDynamic(this, &ULobbyWidget::MechanicClicked);
+	Shooter_Btn->OnClicked.AddDynamic(this, &ULobbyWidget::ShooterClicked);
+	Archor_Btn->OnClicked.AddDynamic(this, &ULobbyWidget::ArchorClicked);
 
 	return true;
 }
@@ -51,6 +57,35 @@ void ULobbyWidget::ReadyClicked()
 		}
 	}
 }
+
+void ULobbyWidget::WarriorClicked()
+{
+	ChangeSelectedButton(EClassType::Warrior);
+}
+void ULobbyWidget::MechanicClicked()
+{
+	ChangeSelectedButton(EClassType::Mechanic);
+}
+void ULobbyWidget::ShooterClicked()
+{
+	ChangeSelectedButton(EClassType::Shooter);
+}
+void ULobbyWidget::ArchorClicked()
+{
+	ChangeSelectedButton(EClassType::Archor);
+}
+
+void ULobbyWidget::ChangeSelectedButton(EClassType ClassType)
+{
+	for (int i = 0; i < (int)EClassType::NumberOfClass; i++)
+	{
+		ClassBtns[i]->SetColorAndOpacity(FLinearColor(1.0f, 1.0f, 1.0f, 1.0f));
+	}
+	ClassBtns[(int)ClassType]->SetColorAndOpacity(FLinearColor(1.0f, 1.0f, 1.0f, 0.3f));
+}
+
+
+
 void ULobbyWidget::UpdatePlayerNameList(const TArray<FString>& PlayerNameList)
 {
 	int NumberOfPlayers = PlayerNameList.Num();
