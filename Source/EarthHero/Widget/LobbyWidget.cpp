@@ -59,6 +59,7 @@ void ULobbyWidget::UpdatePlayerNameList(const TArray<FString>& PlayerNameList)
 
 	for (int i = 0; i < NumberOfPlayers; i++)
 	{
+		UE_LOG(LogTemp, Log, TEXT("Player %d name : %s"), i, *PlayerNameList[i]);
 		PlayerTexts[i]->SetText(FText::FromString(PlayerNameList[i]));
 	}
 }
@@ -71,6 +72,12 @@ void ULobbyWidget::UpdateReadyState(const TArray<bool>& PlayerReadyStateArray)
 
 	for(int i = 0; i < NumberOfPlayers; i++)
 	{
+		if (PlayerReadyStateArray[i])
+		{
+			UE_LOG(LogTemp, Log, TEXT("Player %d ready : true"), i);
+		}
+		else UE_LOG(LogTemp, Log, TEXT("Player %d ready : false"), i)
+
 		if(PlayerReadyStateArray[i]) PlayerTexts[i]->SetColorAndOpacity(FLinearColor::Red);
 		else PlayerTexts[i]->SetColorAndOpacity(FLinearColor::Black);
 	}

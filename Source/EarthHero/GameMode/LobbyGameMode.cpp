@@ -38,6 +38,8 @@ void ALobbyGameMode::AddPlayerReadyState(APlayerController* NewPlayer)
 	LobbyPlayerControllerArray.Add(LobbyNewPlayerController);
 	PlayerNameArray.Add(NewPlayer->PlayerState->GetPlayerName());
 	PlayerReadyStateArray.Add(false);
+
+	UE_LOG(LogTemp, Error, TEXT("New player name : %s"), *(NewPlayer->PlayerState->GetPlayerName()));
 }
 
 void ALobbyGameMode::TogglePlayerReady(APlayerController* Player)

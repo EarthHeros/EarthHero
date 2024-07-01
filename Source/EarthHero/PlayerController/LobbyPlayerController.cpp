@@ -11,15 +11,18 @@
 
 ALobbyPlayerController::ALobbyPlayerController()
 {
-	static ConstructorHelpers::FClassFinder<UUserWidget> LobbyWidgetAsset(TEXT("UserWidget'/Game/Blueprints/Menu/WBP_Lobby.WBP_Lobby_C'"));
-	if (LobbyWidgetAsset.Succeeded())
+	if (!IsRunningDedicatedServer())
 	{
-		LobbyWidgetClass = LobbyWidgetAsset.Class;
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("WBP_Lobby Found Failed!"));
-		//강퇴처리해야함
+		static ConstructorHelpers::FClassFinder<UUserWidget> LobbyWidgetAsset(TEXT("UserWidget'/Game/Blueprints/Menu/WBP_Lobby.WBP_Lobby_C'"));
+		if (LobbyWidgetAsset.Succeeded())
+		{
+			LobbyWidgetClass = LobbyWidgetAsset.Class;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("WBP_Lobby Found Failed!"));
+			//강퇴처리해야함
+		}
 	}
 }
 
@@ -34,7 +37,11 @@ void ALobbyPlayerController::BeginPlay()
 		//일단 로비에 오면 공개여부 설정 요청을 보냄
 		if (EHGameInstance)
 		{
-			UE_LOG(LogTemp, Log, TEXT("Lobby mode request private? : %s"), EHGameInstance->IsCheckedPrivate ? "true" : "false");
+			if (EHGameInstance->IsCheckedPrivate)
+			{
+				UE_LOG(LogTemp, Log, TEXT("Lobby mode request private? : true"));
+			}
+			else UE_LOG(LogTemp, Log, TEXT("Lobby mode request private? : false"));
 			Server_InitSetup(EHGameInstance->IsCheckedPrivate);
 		}
 		ShowLobbyWidget();
@@ -72,7 +79,12 @@ void ALobbyPlayerController::Server_InitSetup_Implementation(bool bAdvertise)
 			ALobbyGameSession* LobbyGameSession = Cast<ALobbyGameSession>(LobbyGameMode->GameSession);
 			if (LobbyGameSession)
 			{
-				UE_LOG(LogTemp, Log, TEXT("Change advertise state..."));
+				if (bAdvertise)
+				{
+					UE_LOG(LogTemp, Log, TEXT("Change advertise state : on"));
+				}
+				else UE_LOG(LogTemp, Log, TEXT("Change advertise state : off"));
+
 				LobbyGameSession->ChangeAdvertiseState(bAdvertise);
 			}
 		}
