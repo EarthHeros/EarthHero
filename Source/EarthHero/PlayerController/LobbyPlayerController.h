@@ -22,7 +22,7 @@ class EARTHHERO_API ALobbyPlayerController : public APlayerController
 
 	virtual void BeginPlay();
 
-	//ALobbyPlayerController(const FObjectInitializer& ObjectInitializer);
+	ALobbyPlayerController();
 
 
 protected:
