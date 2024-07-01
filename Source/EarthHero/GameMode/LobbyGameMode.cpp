@@ -38,26 +38,18 @@ void ALobbyGameMode::AddPlayerReadyState(APlayerController* NewPlayer)
 		PlayerReadyStateArray.RemoveAt(PlayerIndex);
 	}
 
+
+
 	FString NewPlayerName;
 
-	IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
-	if (Subsystem)
-	{
-		IOnlineIdentityPtr Identity = Subsystem->GetIdentityInterface();
-		if (Identity)
-		{
-			TSharedPtr<const FUniqueNetId> PlayerId = LobbyNewPlayerController->PlayerState->GetUniqueId().GetUniqueNetId();
-			if (PlayerId)
-			{
-				NewPlayerName = Identity->GetPlayerNickname(0); //*PlayerId
-				UE_LOG(LogTemp, Log, TEXT("Player Steam Nickname: %s %s"), *NewPlayerName, *(PlayerId->ToString()));
-			}
-		}
-	}
+	NewPlayerName = LobbyNewPlayerController->PlayerState->GetPlayerName();
+	UE_LOG(LogTemp, Log, TEXT("Player Steam Nickname: %s"), *NewPlayerName);
 
 	LobbyPlayerControllerArray.Add(LobbyNewPlayerController);
 	PlayerNameArray.Add(NewPlayerName);
 	PlayerReadyStateArray.Add(false);
+
+	UpdatePlayerNameyListAndReadyState();
 }
 
 void ALobbyGameMode::TogglePlayerReady(APlayerController* Player)

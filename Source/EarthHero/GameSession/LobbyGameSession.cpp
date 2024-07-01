@@ -172,12 +172,13 @@ void ALobbyGameSession::HandleRegisterPlayerCompleted(FName EOSSessionName, cons
                     HostAssignment(NewPlayerPlayerController);
                 }
 
+                /*
                 // playerreadystate에 새로운 플레이어 레디 상태 false 추가
                 ALobbyGameMode* LobbyGameMode = Cast<ALobbyGameMode>(GetWorld()->GetAuthGameMode());
                 if (LobbyGameMode)
                 {
                     LobbyGameMode->AddPlayerReadyState(NewPlayerPlayerController);
-                }
+                }*/
             }
             else UE_LOG(LogTemp, Warning, TEXT("Failed to register player! (From Callback)"));
 

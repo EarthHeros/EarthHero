@@ -93,7 +93,7 @@ void ALobbyPlayerController::Server_InitSetup_Implementation(bool bAdvertise)
 	ALobbyGameMode* LobbyGameMode = Cast<ALobbyGameMode>(GetWorld()->GetAuthGameMode());
 	if (LobbyGameMode)
 	{
-		LobbyGameMode->UpdatePlayerNameyListAndReadyState();
+		LobbyGameMode->AddPlayerReadyState(this);
 	}
 }
 
