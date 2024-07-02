@@ -4,9 +4,7 @@
 #include "LobbyWidget.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
-#include "Engine/Font.h"
 #include <EarthHero/PlayerController/LobbyPlayerController.h>
-#include <Components/RichTextBlock.h>
 
 
 bool ULobbyWidget::Initialize()
@@ -108,14 +106,13 @@ void ULobbyWidget::ChatTextCommitted(const FText& Text, ETextCommit::Type Commit
 				}
 				Chat_Etb->SetText(FText::GetEmpty());
 			}
-			//포커스 다시 edittext
 			break;
 
 		case ETextCommit::OnUserMovedFocus:
 		case ETextCommit::OnCleared:
-			//포커스 다시 edittext
 			break;
 	}
+	FSlateApplication::Get().SetKeyboardFocus(Chat_Etb->TakeWidget());
 }
 
 
@@ -143,12 +140,6 @@ void ULobbyWidget::UpdateReadyState(const TArray<bool>& PlayerReadyStateArray)
 
 	for(int i = 0; i < NumberOfPlayers; i++)
 	{
-		if (PlayerReadyStateArray[i])
-		{
-			UE_LOG(LogTemp, Log, TEXT("Player %d ready : true"), i);
-		}
-		else UE_LOG(LogTemp, Log, TEXT("Player %d ready : false"), i)
-
 		if(PlayerReadyStateArray[i]) PlayerTexts[i]->SetColorAndOpacity(FLinearColor::Red);
 		else PlayerTexts[i]->SetColorAndOpacity(FLinearColor::Black);
 	}
@@ -161,8 +152,6 @@ void ULobbyWidget::AddChatMessage(const FText& Text)
 
 	if (TextBlock)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("add text block : %s"), *(Text.ToString()));
-
 		TextBlock->SetText(Text);
 		TextBlock->SetAutoWrapText(true);
 		TextBlock->SetColorAndOpacity(FSlateColor(FLinearColor::Black));
@@ -170,11 +159,6 @@ void ULobbyWidget::AddChatMessage(const FText& Text)
 		if (Chat_Scr)
 		{
 			Chat_Scr->AddChild(TextBlock);
-
-			int32 ChildCount = Chat_Scr->GetChildrenCount();
-			UE_LOG(LogTemp, Warning, TEXT("Chat_Scr Child Count: %d"), ChildCount);
-			//딜레이 조금
-
 			Chat_Scr->ScrollToEnd();
 		}
 	}
