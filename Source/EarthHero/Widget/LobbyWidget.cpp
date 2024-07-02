@@ -4,8 +4,10 @@
 #include "LobbyWidget.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
+#include "Engine/Font.h"
 #include <EarthHero/PlayerController/LobbyPlayerController.h>
 #include <Components/RichTextBlock.h>
+
 
 bool ULobbyWidget::Initialize()
 {
@@ -155,16 +157,19 @@ void ULobbyWidget::UpdateReadyState(const TArray<bool>& PlayerReadyStateArray)
 
 void ULobbyWidget::AddChatMessage(const FText& Text)
 {
-	URichTextBlock* RichTextBlock = NewObject<URichTextBlock>(this);
+	UTextBlock* TextBlock = NewObject<UTextBlock>(this, UTextBlock::StaticClass());
 
-	if (RichTextBlock)
+	if (TextBlock)
 	{
-		RichTextBlock->SetText(Text);
-		//RichTextBlock->SetDefaultColorAndOpacity(FSlateColor(FLinearColor::Black));
+		UE_LOG(LogTemp, Warning, TEXT("add text block : %s"), *(Text.ToString()));
+
+		TextBlock->SetText(Text);
+		TextBlock->SetAutoWrapText(true);
+		TextBlock->SetColorAndOpacity(FSlateColor(FLinearColor::Black));
 
 		if (Chat_Scr)
 		{
-			Chat_Scr->AddChild(RichTextBlock);
+			Chat_Scr->AddChild(TextBlock);
 
 			int32 ChildCount = Chat_Scr->GetChildrenCount();
 			UE_LOG(LogTemp, Warning, TEXT("Chat_Scr Child Count: %d"), ChildCount);
